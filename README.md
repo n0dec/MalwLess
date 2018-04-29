@@ -1,7 +1,10 @@
 # MalwLess Simulation Tool
 
+## Releases
+You can download the latest releases on https://github.com/n0dec/MalwLess/releases
+
 ## Requirements
-It is necessary to have `sysmon` installed. https://docs.microsoft.com/en-us/sysinternals/downloads/sysmon
+It is necessary to have `sysmon` installed in your system. https://docs.microsoft.com/en-us/sysinternals/downloads/sysmon
 
 ###### Rule example
 ```
