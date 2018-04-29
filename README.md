@@ -19,3 +19,6 @@ It is necessary to have `sysmon` installed in your system. https://docs.microsof
     }
   }
 ````
+| key | values |
+| --- | --- |
+| `enabled` | If the value is set to `true` the event will be written. If it's set to `false` just ignore the rule. |
