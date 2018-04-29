@@ -1,0 +1,27 @@
+{
+  "name": "MalwLess default",
+  "version": "0.1",
+  "author": "n0dec",
+  "description": "MalwLess default test pack",
+  "rules": {
+    "rule1": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Process Create",
+      "description": "Description for rule1",
+      "payload": {
+      }
+    },
+    "rule2": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Network connection detected",
+      "description": "Description for rule2",
+      "payload": {
+		"Image": "nslookup.exe",
+		"DestinationIp": "8.8.8.8",
+		"DestinationPort": 53
+      }
+    }
+  }
+}
