@@ -13,14 +13,15 @@ It is necessary to have `sysmon` installed in your system. https://docs.microsof
 #### Commands
 When you have downloaded the latest `release` version you can run it directly from an elevated command prompt.
 
-To test the default `rule pack` which is on `rule_test.json` just run:
+To test the default `rule set` which is on `rule_test.json` just run:
 ```commandline
 > malwless.exe
 ```
-If you want to test a different `rule pack` file use the `-r` parameter:
+If you want to test a different `rule set` file, use the `-r` parameter:
 ```commandline
 > malwless.exe -r your_pack.json
 ```
+To write a custom `rule set` check the [Writing test set] (https://github.com/n0dec/MalwLess/blob/master/Writing.md) section.
 #### Output
 ```
 MalwLess Simulation Tool v1.0
