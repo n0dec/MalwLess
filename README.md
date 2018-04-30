@@ -1,5 +1,5 @@
 # MalwLess Simulation Tool (MST)
-**`MalwLess`** is a open source tool developed in C# for blue teams that allows you to test your SIEM and security systems. Basically you can simulate the behaviour of a malicious attack or system compromise without the need to run processes or exploit the network. It provides a framework based on rules that anyone can write, so when a new technique or attack comes out you can write your own `rules` and share it a with the community.
+**`MalwLess`** is a open source tool developed in C# for blue teams that allows you to test your SIEM and security systems. Basically you can simulate the behaviour of a malicious attack or system compromise **without the need to run processes or exploits in the network**. It provides a framework based on rules that anyone can write, so when a new technique or attack comes out you can write your own `rules` and share it a with the community.
 
 These rules are parsed and written directly to the Windows EventLog.
 
