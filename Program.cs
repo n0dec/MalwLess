@@ -1,6 +1,6 @@
 ﻿/*
- * Author: 	@n0dec
- * License: GNU General Public License v3.0
+ * Author:	@n0dec
+ * License:	GNU General Public License v3.0
  * 
  */
  
@@ -15,6 +15,8 @@ namespace MalwLess
 	{
 		public static void Main(string[] args)
 		{
+			string file_name = "";
+			string json_file = "";
 			
 			Utils.printHeader();
 			
@@ -24,8 +26,6 @@ namespace MalwLess
 			}
 			
 			try{
-				
-				string file_name = "";
 				if (args.Length == 0){
 					file_name = "rule_test.json";
 				}else{
@@ -33,7 +33,13 @@ namespace MalwLess
 						file_name = args[1];
 					}
 				}
-				string json_file = File.ReadAllText(file_name);
+				if(File.Exists(file_name)){
+					json_file = File.ReadAllText(file_name);
+				}else{
+					Console.WriteLine("File not found!");
+					Console.WriteLine("Check the MST default rule set on: https://github.com/n0dec/MalwLess/blob/master/rule_test.json");
+					Environment.Exit(-1);
+				}
 				
 				JObject rule_test = JObject.Parse(json_file);
 				JToken config = getDefaultConfig();
@@ -84,10 +90,8 @@ namespace MalwLess
 		
 		public static JToken getDefaultConfig(){
 			
-			string json_config = File.ReadAllText("conf\\config.json");
-				
-			JToken config = JToken.Parse(json_config);
-			
+			string json_config = File.ReadAllText("conf\\config.json");				
+			JToken config = JToken.Parse(json_config);			
 			return config;
 		}
 	}
