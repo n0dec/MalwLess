@@ -1,4 +1,4 @@
-# Writing format
+# Writing sets
 Writing a custom `rule set` is very easy. These are based on `json` format and you only need to put your rules into the `rules` child.
 
 Also you can add extra info like:
