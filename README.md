@@ -21,7 +21,7 @@ If you want to test a different `rule set` file, use the `-r` parameter:
 ```commandline
 > malwless.exe -r your_pack.json
 ```
-To write a custom `rule set` check the [Writing test set](https://github.com/n0dec/MalwLess/blob/master/Writing.md) section.
+To write a custom `rule set` check the [writing test set](https://github.com/n0dec/MalwLess/blob/master/WRITING.md) section.
 #### Output
 ```
 MalwLess Simulation Tool v1.0
