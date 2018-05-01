@@ -1,26 +1,28 @@
 {
   "name": "MalwLess default",
-  "version": "0.1",
+  "version": "0.2",
   "author": "n0dec",
-  "description": "MalwLess default test pack",
+  "description": "MalwLess default test pack.",
   "rules": {
-    "rule1": {
+    "vssadmin_delete_shadows": {
       "enabled": true,
       "source": "Sysmon",
       "category": "Process Create",
-      "description": "Description for rule1",
+      "description": "Deleted shadows copies via vssadmin.",
       "payload": {
+		"Image": "C:\\Windows\\System32\\vssadmin.exe",
+		"CommandLine": "vssadmin.exe delete shadows /all /quiet"
       }
     },
-    "rule2": {
+    "certutil_network_activity": {
       "enabled": true,
       "source": "Sysmon",
       "category": "Network connection detected",
-      "description": "Description for rule2",
+      "description": "Network activity from certutil tool.",
       "payload": {
-		"Image": "nslookup.exe",
-		"DestinationIp": "8.8.8.8",
-		"DestinationPort": 53
+		"Image": "C:\\Windows\\System32\\certutil.exe",
+		"DestinationIp": "151.101.132.133",
+		"DestinationPort": 443
       }
     }
   }
