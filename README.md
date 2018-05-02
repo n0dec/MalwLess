@@ -4,7 +4,7 @@
 These rules are parsed and written directly to the Windows EventLog.
 
 ## Releases
-You can download the latest releases on https://github.com/n0dec/MalwLess/releases
+You can download the latest release on https://github.com/n0dec/MalwLess/releases
 
 ## Usage
 #### Requirements
@@ -63,4 +63,6 @@ Anyone can create a rule. These are written in `json` with an easy format.
       "CommandLine": "process.exe --help"
     }
   }
-````
+```
+## Sets
+* Windows oneliners [`windows-oneliners.json`](https://github.com/n0dec/MalwLess/blob/master/sets/windows-oneliners.json) Ref: https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/
