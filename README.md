@@ -13,7 +13,7 @@ It is necessary to have `sysmon` installed in your system. https://docs.microsof
 #### Commands
 When you have downloaded the latest `release` version you can run it directly from an elevated command prompt.
 
-To test the default `rule set` which is on `rule_test.json` just run:
+To test the default `rule set` which is on [`rule_test.json`](https://github.com/n0dec/MalwLess/blob/master/rule_test.json) just download it and run:
 ```commandline
 > malwless.exe
 ```
