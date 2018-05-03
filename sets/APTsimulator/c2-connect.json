@@ -1,0 +1,33 @@
+{
+	"name": "APTsimulator c2-connect",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "APTsimulator c2-connect events.",
+	"rules": {
+		"connection_1": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Network connection detected",
+			"description": "C2: msupdater.com",
+			"payload": {
+				"Image": "C:\\Users\\Administrator\\Downloads\\APTSimulator_pw_apt\\APTSimulator\\helpers\\curl.exe",
+				"DestinationIp": "54.174.212.152",
+				"DestinationHostname": "ec2-54-174-212-152.compute-1.amazonaws.com",
+				"DestinationPort": 80,
+				"DestinationPortName": "http"
+			}
+		},
+		"connection_2": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Network connection detected",
+			"description": "C2: freenow.chickenkiller.com",
+			"payload": {
+				"Image": "C:\\Users\\Administrator\\Downloads\\APTSimulator_pw_apt\\APTSimulator\\helpers\\curl.exe",
+				"DestinationIp": "207.154.236.59",
+				"DestinationPort": 80,
+				"DestinationPortName": "http"
+			}
+		}
+	}
+}
