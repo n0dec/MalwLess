@@ -1,0 +1,48 @@
+{
+	"name": "APTsimulator active-guest-account-admin",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "APTsimulator active-guest-account-admin events.",
+	"rules": {
+		"net_active_guest": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Activating guest user account.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\net.exe",
+				"CommandLine": "net  user guest /active:yes"
+			}
+		},
+		"net1_active_guest": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Activating guest user account.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\net1.exe",
+				"CommandLine": "C:\\Windows\\system32\\net1  user guest /active:yes"
+			}
+		},
+		"net_add_admin": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Adding the guest user to the local administrators group.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\net.exe",
+				"CommandLine": "net  localgroup administrators guest /ADD"
+			}
+		},
+		"net1_add_admin": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Adding the guest user to the local administrators group.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\net1.exe",
+				"CommandLine": "C:\\Windows\\system32\\net1  localgroup administrators guest /ADD"
+			}
+		}
+	}
+}
