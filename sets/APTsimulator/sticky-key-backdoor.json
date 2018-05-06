@@ -1,0 +1,61 @@
+{
+	"name": "APTsimulator sticky-key-backdoor",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "APTsimulator sticky-key-backdoor events.",
+	"rules": {
+		"backup": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "File created",
+			"description": "Backing up old sethc.exe.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\cmd.exe",
+				"TargetFilename": "C:\\Windows\\System32\\sethc.exe.bck"
+			}
+		},
+		"reg": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Registering cmd.exe as debugger for sethc.exe.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\reg.exe",
+				"CommandLine": "reg  add \"HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\sethc.exe\" /v Debugger /t REG_SZ /d \"C:\\Windows\\System32\\cmd.exe\" /f"
+			}
+		},
+		"reg_key": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry object added or deleted",
+			"description": "Registering cmd.exe as debugger for sethc.exe.",
+			"payload": {
+				"EventType": "CreateKey",
+				"Image": "C:\\Windows\\System32\\reg.exe",
+				"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\sethc.exe"
+			}
+		},
+		"reg_value": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "Registering cmd.exe as debugger for sethc.exe.",
+			"payload": {
+				"EventType": "SetValue",
+				"Image": "C:\\Windows\\System32\\reg.exe",
+				"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\sethc.exe\\Debugger",
+				"Details": "C:\\Windows\\System32\\cmd.exe"
+			}
+		},
+		"task_file": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "File created",
+			"description": "Place a temporary and manipulated sethc.exe in the TEMP folder.",
+			"payload": {
+				"Image": "C:\\Users\\Administrator\\Downloads\\APTSimulator_pw_apt\\APTSimulator\\helpers\\7z.exe",
+				"TargetFilename": "C:\\Users\\ADMINI~1\\AppData\\Local\\Temp\\2\\sethc.exe"
+			}
+		}
+	}
+}

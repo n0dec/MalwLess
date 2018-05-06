@@ -1,0 +1,38 @@
+{
+	"name": "APTsimulator web-shells",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "APTsimulator web-shells events.",
+	"rules": {
+		"shell_1": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "File created",
+			"description": "Dropping web shell in www directory.",
+			"payload": {
+				"Image": "C:\\Users\\Administrator\\Downloads\\APTSimulator_pw_apt\\APTSimulator\\helpers\\7z.exe",
+				"TargetFilename": "C:\\inetpub\\wwwroot\\b.jsp"
+			}
+		},
+		"shell_2": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "File created",
+			"description": "Dropping web shell in www directory.",
+			"payload": {
+				"Image": "C:\\Users\\Administrator\\Downloads\\APTSimulator_pw_apt\\APTSimulator\\helpers\\7z.exe",
+				"TargetFilename": "C:\\inetpub\\wwwroot\\tests.jsp"
+			}
+		},
+		"shell_3": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "File created",
+			"description": "Dropping web shell in www directory.",
+			"payload": {
+				"Image": "C:\\Users\\Administrator\\Downloads\\APTSimulator_pw_apt\\APTSimulator\\helpers\\7z.exe",
+				"TargetFilename": "C:\\inetpub\\wwwroot\\shell.gif"
+			}
+		}
+	}
+}

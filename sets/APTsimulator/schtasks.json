@@ -1,0 +1,29 @@
+{
+	"name": "APTsimulator schtasks",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "APTsimulator schtasks events.",
+	"rules": {
+		"schtasks": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Executing schtasks command.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\schtasks.exe",
+				"Description": "Task Scheduler Configuration Tool",
+				"CommandLine": "schtasks  /create /f /sc minute /mo 5 /tn GameOver /tr \"C:\\TMP\\mim.exe sekurlsa::LogonPasswords > C:\\TMP\\o.txt\""
+			}
+		},
+		"task_file": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "File created",
+			"description": "Writing task file.",
+			"payload": {
+				"Image": "C:\\Windows\\system32\\svchost.exe",
+				"TargetFilename": "C:\\Windows\\System32\\Tasks\\GameOver"
+			}
+		}
+	}
+}

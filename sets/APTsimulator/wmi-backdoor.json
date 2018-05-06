@@ -1,0 +1,63 @@
+{
+	"name": "APTsimulator wmi-backdoor",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "APTsimulator wmi-backdoor events.",
+	"rules": {
+		"drop_file": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "File created",
+			"description": "Writing powershell script.",
+			"payload": {
+				"Image": "C:\\Users\\Administrator\\Downloads\\APTSimulator_pw_apt\\APTSimulator\\helpers\\7z.exe",
+				"TargetFilename": "C:\\TMP\\WMIBackdoor.ps1"
+			}
+		},
+		"powershell_file": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Executing powershell script.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+				"CommandLine": "powershell.exe  -Exec ByPasS \". C:\\TMP\\WMIBackdoor.ps1;$Trigger1=New-WMIBackdoorTrigger -ProcessName 'procexp64.exe';$Action1=New-WMIBackdoorAction -KillProcess; $Registration1=Register-WMIBackdoor -Trigger $Trigger1 -Action $Action1\""
+			}
+		},
+		"wmi_filter": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "WmiEventFilter activity detected",
+			"description": "Creating WMI filter.",
+			"payload": {
+				"Operation": "Created",
+				"EventNamespace":  "\"ROOT\\\\cimv2\"",
+				"Name":  "\"ProcessStartTrigger\"",
+				"Query":  "\"SELECT * FROM Win32_ProcessStartTrace WHERE ProcessName = 'procexp64.exe'\""
+			}
+		},
+		"wmi_consumer": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "WmiEventConsumer activity detected",
+			"description": "Creating WMI consumer.",
+			"payload": {
+				"Operation": "Created",
+				"Name":  "\"KillProcess\"",
+				"Type": "Script",
+				"Destination":  "\"                Dim oLocation, oServices, oProcessList, oProcess\n\n\t            Set oLocation = CreateObject(\"WbemScripting.SWbemLocator\")\n\t            Set oServices = oLocation.ConnectServer(, \"root\\cimv2\")\n\t            Set oProcessList = oServices.ExecQuery(\"SELECT * FROM Win32_Process WHERE ProcessID = \" & TargetEvent.ProcessID)\n\t            For Each oProcess in oProcessList\n\t\t            oProcess.Terminate()\n\t            Next\""
+			}
+		},
+		"wmi_binding": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "WmiEventConsumerToFilter activity detected",
+			"description": "Creating WMI binding.",
+			"payload": {
+				"Operation": "Created",
+				"Consumer":  "\"ActiveScriptEventConsumer.Name=\\\"KillProcess\\\"\"",
+				"Filter":  "\"__EventFilter.Name=\\\"ProcessStartTrigger\\\"\""
+			}
+		}
+	}
+}
