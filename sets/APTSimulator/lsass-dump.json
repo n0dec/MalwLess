@@ -1,0 +1,52 @@
+{
+	"name": "APTsimulator lsass-dump",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "APTsimulator lsass-dump events.",
+	"rules": {
+		"exe_drop": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "File created",
+			"description": "Dropping executable in Users diretory.",
+			"payload": {
+				"Image": "C:\\Users\\Administrator\\Downloads\\APTSimulator_pw_apt\\APTSimulator\\helpers\\7z.exe",
+				"TargetFilename": "C:\\Users\\Public\\procdump64.exe"
+			}
+		},
+		"execute_dropped_file": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Executing dropped file.",
+			"payload": {
+				"Image": "C:\\Users\\Public\\procdump64.exe",
+				"Description": "Sysinternals process dump utility",
+				"Product": "ProcDump",
+				"CommandLine": "\"C:\\Users\\Public\\procdump64.exe\"  -accepteula -ma lsass.exe \"C:\\TMP\\somethingwindows.dmp\""
+			}
+		},
+		"lsass_accessed": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process accessed",
+			"description": "Process access to lsass.exe from dropped file.",
+			"payload": {
+				"SourceImage": "C:\\Users\\Public\\procdump64.exe",
+				"TargetImage": "C:\\Windows\\system32\\lsass.exe",
+				"GrantedAccess": 0x1FFFFF,
+				"CallTrace": "C:\\Windows\\SYSTEM32\\ntdll.dll+a6594|C:\\Windows\\System32\\KERNELBASE.dll+2940d|C:\\Users\\Public\\procdump64.exe+82b4|C:\\Windows\\System32\\KERNEL32.DLL+8364|C:\\Windows\\SYSTEM32\\ntdll.dll+670d1"
+			}
+		},
+		"exfil_file": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "File created",
+			"description": "File created from dropped file.",
+			"payload": {
+				"Image": "C:\\Users\\Public\\procdump64.exe",
+				"TargetFilename": "C:\\TMP\\somethingwindows.dmp"
+			}
+		}
+	}
+}

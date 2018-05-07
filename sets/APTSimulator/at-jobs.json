@@ -1,0 +1,19 @@
+{
+	"name": "APTsimulator at-jobs",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "APTsimulator at-jobs events.",
+	"rules": {
+		"at": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Executing at command.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\at.exe",
+				"Description": "Schedule service command line interface",
+				"CommandLine": "at  13:00 \"C:\\TMP\\mim.exe sekurlsa::LogonPasswords > C:\\TMP\\o.txt\""
+			}
+		}
+	}
+}

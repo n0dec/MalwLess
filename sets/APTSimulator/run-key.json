@@ -1,0 +1,40 @@
+{
+	"name": "APTsimulator run-key",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "APTsimulator run-key events.",
+	"rules": {
+		"process": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Executing persistence command.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\reg.exe",
+				"CommandLine": "reg  add \"HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\" /v UpdateSvc /t REG_SZ /d \"C:\\TMP\\p.exe -s \\\\10.34.2.3 'net user' > C:\\TMP\\o2.txt\" /f"
+			}
+		},
+		"reg_key": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry object added or deleted",
+			"description": "Registering a malicious RUN key.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\reg.exe",
+				"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run"
+			}
+		},
+		"reg_value": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "Registering a malicious RUN key.",
+			"payload": {
+				"EventType": "SetValue",
+				"Image": "C:\\Windows\\System32\\reg.exe",
+				"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\\UpdateSvc",
+				"Details": "C:\\TMP\\p.exe -s \\\\10.34.2.3 'net user' > C:\\TMP\\o2.txt"
+			}
+		}
+	}
+}

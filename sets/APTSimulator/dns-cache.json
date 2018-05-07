@@ -1,0 +1,20 @@
+{
+	"name": "APTsimulator dns-cache",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "APTsimulator dns-cache events.",
+	"rules": {
+		"nslookup_network": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Network connection detected",
+			"description": "Creating DNS Cache entries for well-known malicious C2 servers.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\nslookup.exe",
+				"DestinationIp": "8.8.8.8",
+				"DestinationPort": 53,
+				"DestinationPortName": "domain"
+			}
+		}
+	}
+}

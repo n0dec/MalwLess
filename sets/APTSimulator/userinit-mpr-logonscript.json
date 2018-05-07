@@ -1,0 +1,41 @@
+{
+	"name": "APTsimulator userinit-mpr-logonscript",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "APTsimulator userinit-mpr-logonscript events.",
+	"rules": {
+		"reg": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Using the UserInitMprLogonScript key to get persistence.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\reg.exe",
+				"CommandLine": "REG  ADD HKCU\\Environment /v UserInitMprLogonScript /t REG_MULTI_SZ /d \"C:\\TMP\\mim.exe sekurlsa::LogonPasswords > C:\\TMP\\o.txt\""
+			}
+		},
+		"reg_key": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry object added or deleted",
+			"description": "Using the UserInitMprLogonScript key to get persistence.",
+			"payload": {
+				"EventType": "CreateKey",
+				"Image": "C:\\Windows\\System32\\reg.exe",
+				"TargetObject": "HKU\\S-1-5-21-3162150815-438046626-91849468-500\\Environment"
+			}
+		},
+		"reg_value": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "Using the UserInitMprLogonScript key to get persistence.",
+			"payload": {
+				"EventType": "SetValue",
+				"Image": "C:\\Windows\\System32\\reg.exe",
+				"TargetObject": "HKU\\S-1-5-21-3162150815-438046626-91849468-500\\Environment\\UserInitMprLogonScript",
+				"Details": "Binary Data"
+			}
+		}
+	}
+}
