@@ -66,4 +66,4 @@ Anyone can create a rule. These are written in `json` with an easy format.
 ```
 ## Sets
 * Windows oneliners [`windows-oneliners.json`](https://github.com/n0dec/MalwLess/blob/master/sets/windows-oneliners.json) Ref: https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/
-* [`APTSimulator set`](https://github.com/n0dec/MalwLess/tree/master/sets/APTsimulator) Ref: https://github.com/NextronSystems/APTSimulator
+* [`APTSimulator set`](https://github.com/n0dec/MalwLess/tree/master/sets/APTSimulator) Ref: https://github.com/NextronSystems/APTSimulator
