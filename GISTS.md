@@ -1,5 +1,5 @@
 ## Awesome gist sets
-You can find some of the most interesting `rule sets` posted on [gists](https://gist.github.com/n0dec/).
+You can find some of the most interesting `rule sets` posted on [Github Gist](https://gist.github.com/n0dec/).
 
 | Name | Reference |
 | --- | --- |
