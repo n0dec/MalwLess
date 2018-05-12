@@ -1,6 +1,6 @@
 {
   "name": "MalwLess default",
-  "version": "0.2",
+  "version": "0.3",
   "author": "n0dec",
   "description": "MalwLess default test pack.",
   "rules": {
@@ -23,6 +23,16 @@
 		"Image": "C:\\Windows\\System32\\certutil.exe",
 		"DestinationIp": "151.101.132.133",
 		"DestinationPort": 443
+      }
+    },
+	"powershell_scriptblock": {
+      "enabled": true,
+      "source": "PowerShell",
+      "category": "4104",
+      "description": "Powershell 4104 event for Invoke-Mimikatz.",
+      "payload": {
+		"ScriptBlockText": "function Invoke-Mimikatz\n{\n<#\n.SYNOPSIS\n\nThis script leverages Mimikatz 2.0 and Invoke-ReflectivePEInjection to reflectively load Mimikatz...\nblablabla...",
+		"Path": ""
       }
     }
   }

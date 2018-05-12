@@ -1,0 +1,10 @@
+{
+	"ContextInfo": "\tGravedad = Informational\n\tNombre de host = ConsoleHost\n\tVersión de host = 5.1.16299.431\n\tId. de host = ...\n\t...",
+	"UserData": "",
+	"Payload": "CommandInvocation(Get-ExecutionPolicy): \"Get-ExecutionPolicy\"",
+	"MessageNumber": 1,
+	"MessageTotal": 1,
+	"ScriptBlockText": "Write-Host \"Hello, World!\"",
+	"ScriptBlockId": "eee22606-aaaa-bbbb-cccc-ad5ae03adba7",
+	"Path": "C:\\Windows\\hello.ps1",
+}

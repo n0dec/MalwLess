@@ -1,9 +1,9 @@
 ﻿/*
- * Author:	@n0dec
- * License:	GNU General Public License v3.0
+ * Author:  @n0dec
+ * License: GNU General Public License v3.0
  * 
  */
- 
+
 using System;
 using System.IO;
 using Newtonsoft.Json;
@@ -42,7 +42,8 @@ namespace MalwLess
 				}
 				
 				JObject rule_test = JObject.Parse(json_file);
-				JToken config = getDefaultConfig();
+				JToken sysmon_config = getDefaultConfig("conf\\Sysmon.json");
+				JToken powershell_config = getDefaultConfig("conf\\PowerShell.json");
 				
 				Console.WriteLine("[Rule test file]: " + file_name);
 				Console.WriteLine("[Rule test name]: " + rule_test["name"]);
@@ -66,7 +67,10 @@ namespace MalwLess
 							switch (properties["source"].ToString())
 							{
 								case "Sysmon":
-									SysmonClass.WriteSysmonEvent(properties["category"].ToString(), properties["payload"], config);
+									SysmonClass.WriteSysmonEvent(properties["category"].ToString(), properties["payload"], sysmon_config);
+									break;
+								case "PowerShell":
+									PowerShellClass.WritePowerShellEvent(properties["category"].ToString(), properties["payload"], powershell_config);
 									break;
 								default:
 									Console.WriteLine("... Source not supported");
@@ -88,11 +92,10 @@ namespace MalwLess
 			}
 		}
 		
-		public static JToken getDefaultConfig(){
+		public static JToken getDefaultConfig(string filename){
 			
-			string json_config = File.ReadAllText("conf\\config.json");				
-			JToken config = JToken.Parse(json_config);			
-			return config;
+			return JToken.Parse(File.ReadAllText(filename));
 		}
+		
 	}
 }

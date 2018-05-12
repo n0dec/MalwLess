@@ -1,6 +1,6 @@
 ﻿/*
- * Author:	@n0dec
- * License:	GNU General Public License v3.0
+ * Author:  @n0dec
+ * License: GNU General Public License v3.0
  * 
  */
 

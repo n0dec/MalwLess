@@ -1,6 +1,6 @@
 ﻿/*
- * Author:	@n0dec
- * License:	GNU General Public License v3.0
+ * Author:  @n0dec
+ * License: GNU General Public License v3.0
  * 
  */
 
@@ -89,6 +89,7 @@ namespace MalwLess
 		}
 		
 		static void writeErrorReport(JToken payload, JToken config){
+			
 			string UtcTime = payload.Value<string>("UtcTime") ?? Utils.getUtcTime(0);
 			string ID = payload.Value<string>("ID") ?? "SysmonError";
 			string Description = payload.Value<string>("Description") ?? "Failed";

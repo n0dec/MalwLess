@@ -46,10 +46,10 @@ Anyone can create a rule. These are written in `json` with an easy format.
 | key | values |
 | --- | --- |
 | `enabled` | If the value is set to `true` the event will be written. If it's set to `false` just ignore the rule. |
-| `source` | The source of the events. (Currently only Sysmon is supported)<br>`Sysmon` |
+| `source` | The source of the events. (Working on more supported sources...)<br>`Sysmon`<br>`PowerShell` |
 | `category` | For each source there are a list of different categories that can be specified. |
 | `description` | A simple rule description. |
-| `payload` | These are the values that will be added to the event. If you don't indicate a specific payload the event will contain the values of the default configuration file located on `conf/config.json`. |
+| `payload` | These are the values that will be added to the event. If you don't indicate a specific payload the event will contain the values of the default configuration files located on `conf`. |
 
 ###### Rule example
 ```
