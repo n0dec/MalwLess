@@ -1,5 +1,5 @@
 {
-	"ContextInfo": "\tGravedad = Informational\n\tNombre de host = ConsoleHost\n\tVersión de host = 5.1.16299.431\n\tId. de host = ...\n\t...",
+	"ContextInfo": "\tSeverity = Informational\n\tHost Name = ConsoleHost\n\tHost Version = 5.1.16299.431\n\tHost ID = ...\n\t...",
 	"UserData": "",
 	"Payload": "CommandInvocation(Get-ExecutionPolicy): \"Get-ExecutionPolicy\"",
 	"MessageNumber": 1,
