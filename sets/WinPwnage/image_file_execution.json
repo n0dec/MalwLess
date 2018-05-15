@@ -4,27 +4,27 @@
   "author": "n0dec",
   "description": "Persistence via Image File Execution Options key.",
   "rules": {
-	"reg_key": {
+  "reg_key": {
       "enabled": true,
       "source": "Sysmon",
       "category": "Registry object added or deleted",
       "description": "Writing registry key.",
       "payload": {
-		"EventType": "CreateKey",
-		"Image": "c:\\Python27\\python.exe",
-		"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\notepad.exe"
+        "EventType": "CreateKey",
+        "Image": "c:\\Python27\\python.exe",
+        "TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\notepad.exe"
       }
     },
-	"reg_value": {
+  "reg_value": {
       "enabled": true,
       "source": "Sysmon",
       "category": "Registry value set",
       "description": "Writing registry value.",
       "payload": {
-		"EventType": "SetValue",
-		"Image": "c:\\Python27\\python.exe",
-		"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\notepad.exe\\Debugger",
-		"Details": "c:\\windows\\system32\\cmd.exe"
+        "EventType": "SetValue",
+        "Image": "c:\\Python27\\python.exe",
+        "TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\notepad.exe\\Debugger",
+        "Details": "c:\\windows\\system32\\cmd.exe"
       }
     }
   }

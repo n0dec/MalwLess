@@ -1,0 +1,53 @@
+{
+  "name": "WinPwnage admin_to_system",
+  "version": "0.1",
+  "author": "n0dec",
+  "description": "Use the built-in feature schtasks to elevate our process and gain persistence on the system with the /SC ONLOGON switch.",
+  "rules": {
+  "schtasks_create": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Process Create",
+      "description": "Creating scheduled task.",
+      "payload": {
+        "Image": "C:\\Windows\\System32\\schtasks.exe",
+        "Description": "Task Scheduler Configuration Tool",
+        "CommandLine": "schtasks  /Create /TR c:\\windows\\system32\\cmd.exe /RU SYSTEM /TN GoogleUpdate /SC ONLOGON"
+      }
+    },
+  "schtasks_file": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "File created",
+      "description": "Writing scheduled task file.",
+      "payload": {
+        "Image": "C:\\Windows\\system32\\svchost.exe",
+        "TargetFilename": "C:\\Windows\\System32\\Tasks\\GoogleUpdate"
+      }
+    },
+  "schtasks_run": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Process Create",
+      "description": "runnign scheduled task.",
+      "payload": {
+        "Image": "C:\\Windows\\System32\\schtasks.exe",
+        "Description": "Task Scheduler Configuration Tool",
+        "CommandLine": "schtasks  /Run /TN GoogleUpdate"
+      }
+    },
+  "system_cmd": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Process Create",
+      "description": "Opening cmd as SYSTEM.",
+      "payload": {
+        "ParentImage": "C:\\Windows\\system32\\svchost.exe",
+        "ParentCommandLine": "C:\\Windows\\system32\\svchost.exe -k netsvcs",
+        "Image": " C:\\Windows\\System32\\cmd.exe",
+        "CommandLine": "c:\\windows\\system32\\cmd.exe",
+        "User": "NT AUTHORITY\\SYSTEM"
+      }
+    }
+  }
+}

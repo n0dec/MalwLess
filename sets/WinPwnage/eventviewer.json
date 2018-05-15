@@ -4,64 +4,64 @@
   "author": "n0dec",
   "description": "UAC bypass using eventvwr.",
   "rules": {
-	"reg_key": {
+  "reg_key": {
       "enabled": true,
       "source": "Sysmon",
       "category": "Registry object added or deleted",
       "description": "Writing registry key.",
       "payload": {
-		"EventType": "CreateKey",
-		"Image": "c:\\Python27\\python.exe",
-		"TargetObject": "HKU\\S-1-5-21-3162150815-438046626-91849468-500_Classes\\MSCFile\\shell\\open\\command"
+        "EventType": "CreateKey",
+        "Image": "c:\\Python27\\python.exe",
+        "TargetObject": "HKU\\S-1-5-21-3162150815-438046626-91849468-500_Classes\\MSCFile\\shell\\open\\command"
       }
     },
-	"reg_value": {
+  "reg_value": {
       "enabled": true,
       "source": "Sysmon",
       "category": "Registry value set",
       "description": "Writing registry value.",
       "payload": {
-		"EventType": "SetValue",
-		"Image": "c:\\Python27\\python.exe",
-		"TargetObject": "HKU\\S-1-5-21-3162150815-438046626-91849468-500_Classes\\MSCFile\\shell\\open\\command\\(Default)",
-		"Details": "c:\\windows\\system32\\cmd.exe"
+        "EventType": "SetValue",
+        "Image": "c:\\Python27\\python.exe",
+        "TargetObject": "HKU\\S-1-5-21-3162150815-438046626-91849468-500_Classes\\MSCFile\\shell\\open\\command\\(Default)",
+        "Details": "c:\\windows\\system32\\cmd.exe"
       }
     },
-	"eventvwr_call": {
+  "eventvwr_call": {
       "enabled": true,
       "source": "Sysmon",
       "category": "Process Create",
       "description": "Executing cmd via WMI service.",
       "payload": {
-		"ParentImage": "C:\\Windows\\System32\\wbem\\WmiPrvSE.exe",
-		"ParentCommandLine": "C:\\Windows\\system32\\wbem\\wmiprvse.exe -secured -Embedding",
-		"Image": " C:\\Windows\\System32\\cmd.exe",
-		"CommandLine": "cmd.exe /c start eventvwr.exe"
+        "ParentImage": "C:\\Windows\\System32\\wbem\\WmiPrvSE.exe",
+        "ParentCommandLine": "C:\\Windows\\system32\\wbem\\wmiprvse.exe -secured -Embedding",
+        "Image": " C:\\Windows\\System32\\cmd.exe",
+        "CommandLine": "cmd.exe /c start eventvwr.exe"
       }
-    },	
-	"eventvwr_open": {
+    },
+  "eventvwr_open": {
       "enabled": true,
       "source": "Sysmon",
       "category": "Process Create",
       "description": "Executing eventvwr.",
       "payload": {
-		"ParentImage": "C:\\Windows\\System32\\cmd.exe",
-		"ParentCommandLine": "cmd.exe /c start eventvwr.exe",
-		"Image": " C:\\Windows\\System32\\eventvwr.exe",
-		"CommandLine": "eventvwr.exe",
-		"Description": "Event Viewer Snapin Launcher"
+        "ParentImage": "C:\\Windows\\System32\\cmd.exe",
+        "ParentCommandLine": "cmd.exe /c start eventvwr.exe",
+        "Image": " C:\\Windows\\System32\\eventvwr.exe",
+        "CommandLine": "eventvwr.exe",
+        "Description": "Event Viewer Snapin Launcher"
       }
     },
-	"eventvwr_child": {
+  "eventvwr_child": {
       "enabled": true,
       "source": "Sysmon",
       "category": "Process Create",
       "description": "Executing process from eventvwr.",
       "payload": {
-		"Image": "C:\\Windows\\System32\\cmd.exe",
-		"CommandLine": "\"C:\\Windows\\System32\\cmd.exe\"",
-		"ParentImage": "C:\\Windows\\System32\\eventvwr.exe",
-		"ParentCommandLine": "eventvwr.exe"
+        "Image": "C:\\Windows\\System32\\cmd.exe",
+        "CommandLine": "\"C:\\Windows\\System32\\cmd.exe\"",
+        "ParentImage": "C:\\Windows\\System32\\eventvwr.exe",
+        "ParentCommandLine": "eventvwr.exe"
       }
     }
   }
