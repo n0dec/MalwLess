@@ -35,7 +35,7 @@
 	"PipeName": "\\LSM_API_service",
 	"ProcessId": 4750,
 	"Product": "Microsoft® Windows® Operating System",
-	"Protocol": "TCP",
+	"Protocol": "tcp",
 	"Query": "\"SELECT * from Win32_ComputerSystem\"",
 	"SchemaVersion": "4.00",
 	"Signature": "Microsoft Windows",
