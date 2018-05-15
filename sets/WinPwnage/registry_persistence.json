@@ -1,0 +1,77 @@
+{
+  "name": "WinPwnage registry_persistence",
+  "version": "0.1",
+  "author": "n0dec",
+  "description": "Common persistence registry keys.",
+  "rules": {
+	"reg_key_HKCU_run": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Registry object added or deleted",
+      "description": "Writing HKCU Run registry key.",
+      "payload": {
+		"EventType": "CreateKey",
+		"Image": "c:\\Python27\\python.exe",
+		"TargetObject": "HKU\\S-1-5-21-3162150815-438046626-91849468-500\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run"
+      }
+    },
+	"reg_value_HKCU_run": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Registry value set",
+      "description": "Writing HKCU Run registry value.",
+      "payload": {
+		"EventType": "SetValue",
+		"Image": "c:\\Python27\\python.exe",
+		"TargetObject": "HKU\\S-1-5-21-3162150815-438046626-91849468-500\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\\OneDrive Update",
+		"Details": "C:\\Users\\Administrator\\malware.exe"
+      }
+    },
+	"reg_key_HKLM_run": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Registry object added or deleted",
+      "description": "Writing HKLM Run registry key.",
+      "payload": {
+		"EventType": "CreateKey",
+		"Image": "c:\\Python27\\python.exe",
+		"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run"
+      }
+    },
+	"reg_value_HKLM_run": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Registry value set",
+      "description": "Writing HKLM Run registry value.",
+      "payload": {
+		"EventType": "SetValue",
+		"Image": "c:\\Python27\\python.exe",
+		"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\\OneDrive Update",
+		"Details": "C:\\Users\\Administrator\\malware.exe"
+      }
+    },
+	"reg_key_userinit": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Registry object added or deleted",
+      "description": "Writing userinit registry key.",
+      "payload": {
+		"EventType": "CreateKey",
+		"Image": "c:\\Python27\\python.exe",
+		"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon"
+      }
+    },
+	"reg_value_userinit": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Registry value set",
+      "description": "Writing userinit registry value.",
+      "payload": {
+		"EventType": "SetValue",
+		"Image": "c:\\Python27\\python.exe",
+		"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\Userinit",
+		"Details": "c:\\windows\\system32\\userinit.exe,C:\\Users\\Administrator\\malware.exe"
+      }
+    }
+  }
+}
