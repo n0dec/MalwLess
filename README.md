@@ -3,6 +3,30 @@
 
 These rules can simulate [Sysmon](https://docs.microsoft.com/en-us/sysinternals/downloads/sysmon) or [PowerShell](https://docs.microsoft.com/en-us/powershell/scripting/getting-started/getting-started-with-windows-powershell) events. `MalwLess` can parse the rules and write them directly to the Windows EventLog, then you can foward it to your event collector.
 
+```
+MalwLess Simulation Tool v1.1
+Author: @n0dec
+Site: https://github.com/n0dec/MalwLess
+
+[Rule test file]: rule_test.json
+[Rule test name]: MalwLess default
+[Rule test version]: 0.3
+[Rule test author]: n0dec
+[Rule test description]: MalwLess default test pack.
+
+[>] Detected rule: rules.vssadmin_delete_shadows
+... Source: Sysmon
+... Category: Process Create
+... Description: Deleted shadows copies via vssadmin.
+[>] Detected rule: rules.certutil_network_activity
+... Source: Sysmon
+... Category: Network connection detected
+... Description: Network activity from certutil tool.
+[>] Detected rule: rules.powershell_scriptblock
+... Source: PowerShell
+... Category: 4104
+... Description: Powershell 4104 event for Invoke-Mimikatz.
+```
 
 ## Releases
 You can download the latest release on https://github.com/n0dec/MalwLess/releases
@@ -23,23 +47,6 @@ If you want to test a different `rule set` file, use the `-r` parameter:
 > malwless.exe -r your_pack.json
 ```
 To write a custom `rule set` check the [writing sets](https://github.com/n0dec/MalwLess/blob/master/WRITING.md) section.
-#### Output
-```
-MalwLess Simulation Tool v1.0
-Author: @n0dec
-Site: https://github.com/n0dec/MalwLess
-
-[Rule test file]: rule_test.json
-[Rule test name]: MalwLess default
-[Rule test version]: 0.1
-[Rule test author]: n0dec
-[Rule test description]: MalwLess default test pack
-
-[>] Detected rule: rules.rule1
-... Source: Sysmon
-... Category: Process Create
-... Description: Description for rule1
-```
 
 ## Creating rules
 Anyone can create a rule. These are written in `json` with an easy format.
@@ -69,6 +76,7 @@ Anyone can create a rule. These are written in `json` with an easy format.
 * [`Awesome gists sets`](https://github.com/n0dec/MalwLess/blob/master/GISTS.md)
 * Windows oneliners [`windows-oneliners.json`](https://github.com/n0dec/MalwLess/blob/master/sets/windows-oneliners.json) Ref: https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/
 * [`APTSimulator set`](https://github.com/n0dec/MalwLess/tree/master/sets/APTSimulator) Ref: https://github.com/NextronSystems/APTSimulator
+* [`WinPwnage set`](https://github.com/n0dec/MalwLess/tree/master/sets/WinPwnage) Ref: https://github.com/rootm0s/WinPwnage
 
 ## Contact
 For any issue or suggestions contact me on twitter [@n0dec](https://twitter.com/n0dec). Also if you need help :)
