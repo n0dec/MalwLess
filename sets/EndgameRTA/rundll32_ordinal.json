@@ -1,0 +1,40 @@
+{
+  "name": "RTA rundll32_ordinal",
+  "version": "0.1",
+  "author": "n0dec",
+  "description": "Executes \"dsquery.dll\" as mock malware through ordinal loading.",
+  "rules": {
+  	"rundll32_dll": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Process Create",
+      "description": "RunDLL32 with Ordinals.",
+      "payload": {
+		"Image": "C:\\Windows\\System32\\rundll32.exe",
+		"Description": "Windows host process (Rundll32)",
+		"CommandLine": "rundll32.exe dsquery.dll #258"
+      }
+    },
+	"copy_file": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "File created",
+      "description": "Copy dll to temp file.",
+      "payload": {
+		"Image": "C:\\Python27\\python.exe",
+		"TargetFilename": "C:\\Users\\Administrator\\Downloads\\RTA-master\\dsquery.dat"
+      }
+    },
+	"rundll32_file": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Process Create",
+      "description": "RunDLL32 with Ordinals.",
+      "payload": {
+		"Image": "C:\\Windows\\System32\\rundll32.exe",
+		"Description": "Windows host process (Rundll32)",
+		"CommandLine": "rundll32.exe C:\\Users\\Administrator\\Downloads\\RTA-master\\dsquery.dat #258"
+      }
+    }
+  }
+}

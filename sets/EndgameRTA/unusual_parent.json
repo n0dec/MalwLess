@@ -1,0 +1,88 @@
+{
+  "name": "RTA unusual_parent",
+  "version": "0.1",
+  "author": "n0dec",
+  "description": "Runs several Windows core processes directly, instead of from the proper parent in Windows.",
+  "rules": {
+	"process_winlogon": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Process Create",
+      "description": "Executing winlogon process from unusual parent.",
+      "payload": {
+		"Image": "C:\\Windows\\System32\\winlogon.exe",
+		"ParentImage": "C:\\Python27\\python.exe"
+      }
+    },
+	"process_lsass": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Process Create",
+      "description": "Executing lsass process from unusual parent.",
+      "payload": {
+		"Image": "C:\\Windows\\System32\\lsass.exe",
+		"ParentImage": "C:\\Python27\\python.exe"
+      }
+    },
+	"process_taskhost": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Process Create",
+      "description": "Executing taskhost process from unusual parent.",
+      "payload": {
+		"Image": "C:\\Windows\\System32\\taskhost.exe",
+		"ParentImage": "C:\\Python27\\python.exe"
+      }
+    },
+	"process_svchost": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Process Create",
+      "description": "Executing svchost process from unusual parent.",
+      "payload": {
+		"Image": "C:\\Windows\\System32\\svchost.exe",
+		"ParentImage": "C:\\Python27\\python.exe"
+      }
+    },
+	"process_smss": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Process Create",
+      "description": "Executing smss process from unusual parent.",
+      "payload": {
+		"Image": "C:\\Windows\\System32\\smss.exe",
+		"ParentImage": "C:\\Python27\\python.exe"
+      }
+    },
+	"process_csrss": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Process Create",
+      "description": "Executing csrss process from unusual parent.",
+      "payload": {
+		"Image": "C:\\Windows\\System32\\csrss.exe",
+		"ParentImage": "C:\\Python27\\python.exe"
+      }
+    },
+	"process_wininit": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Process Create",
+      "description": "Executing wininit process from unusual parent.",
+      "payload": {
+		"Image": "C:\\Windows\\System32\\wininit.exe",
+		"ParentImage": "C:\\Python27\\python.exe"
+      }
+    },
+	"process_services": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Process Create",
+      "description": "Executing services process from unusual parent.",
+      "payload": {
+		"Image": "C:\\Windows\\System32\\services.exe",
+		"ParentImage": "C:\\Python27\\python.exe"
+      }
+    }
+  }
+}

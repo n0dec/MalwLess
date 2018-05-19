@@ -1,0 +1,19 @@
+{
+  "name": "RTA smb_connection",
+  "version": "0.1",
+  "author": "n0dec",
+  "description": "Initiates an SMB connection to a target machine, without going through the normal Windows APIs.",
+  "rules": {
+	"network_activity": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Network connection detected",
+      "description": "SMB network activity.",
+      "payload": {
+		"Image": "C:\\Python27\\python.exe",
+		"DestinationPort": 445,
+		"DestinationPortName": "microsoft-ds"
+      }
+    }
+  }
+}

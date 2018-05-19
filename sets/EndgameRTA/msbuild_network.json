@@ -1,0 +1,40 @@
+{
+	"name": "RTA msbuild_network",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "Generates network traffic from msbuild.exe.",
+	"rules": {
+		"drop_file": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "File created",
+			"description": "Dropping csproj file.",
+			"payload": {
+				"Image": "C:\\Python27\\python.exe",
+				"TargetFilename": "C:\\Users\\Administrator\\Downloads\\RTA-master\\tmp-file.csproj"
+			}
+		},
+		"msbuild": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Executing MSBuild with dropped file.",
+			"payload": {
+				"Image": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\MSBuild.exe",
+				"Description": "MSBuild.exe",
+				"CommandLine": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\msbuild.exe tmp-file.csproj"
+			}
+		},
+		"msbuild_network": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Network connection detected",
+			"description": "Network activity from msbuild.",
+			"payload": {
+				"Image": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\MSBuild.exe",
+				"DestinationIp": "10.70.5.87",
+				"DestinationPort": 8000
+			}
+		}
+	}
+}

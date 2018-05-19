@@ -1,0 +1,48 @@
+{
+	"name": "RTA process_name_masquerade",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "Creates several processes which mimic core Windows process names but that are not those executables.",
+	"rules": {
+		"svchost": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Executing svchost process.",
+			"payload": {
+				"Image": "C:\\Users\\Administrator\\Downloads\\RTA-master\\svchost.exe",
+				"CommandLine": "C:\\Users\\Administrator\\Downloads\\RTA-master\\svchost.exe"
+			}
+		},
+		"lsass": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Executing lsass process.",
+			"payload": {
+				"Image": "C:\\Users\\Administrator\\Downloads\\RTA-master\\lsass.exe",
+				"CommandLine": "C:\\Users\\Administrator\\Downloads\\RTA-master\\lsass.exe"
+			}
+		},
+		"services": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Executing services process.",
+			"payload": {
+				"Image": "C:\\Users\\Administrator\\Downloads\\RTA-master\\services.exe",
+				"CommandLine": "C:\\Users\\Administrator\\Downloads\\RTA-master\\services.exe"
+			}
+		},
+		"csrss": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Executing csrss process.",
+			"payload": {
+				"Image": "C:\\Users\\Administrator\\Downloads\\RTA-master\\csrss.exe",
+				"CommandLine": "C:\\Users\\Administrator\\Downloads\\RTA-master\\csrss.exe"
+			}
+		}
+	}
+}

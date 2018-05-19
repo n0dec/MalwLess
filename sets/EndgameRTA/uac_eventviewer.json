@@ -1,0 +1,54 @@
+{
+  "name": "RTA uac_eventviewer",
+  "version": "0.1",
+  "author": "n0dec",
+  "description": "Modifies the Registry value to change the handler for MSC files, bypassing UAC.",
+  "rules": {
+	"reg_key": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Registry object added or deleted",
+      "description": "Writing registry key.",
+      "payload": {
+		"EventType": "CreateKey",
+		"Image": "c:\\Python27\\python.exe",
+		"TargetObject": "HKU\\S-1-5-21-3162150815-438046626-91849468-500_Classes\\MSCFile\\shell\\open\\command"
+      }
+    },
+	"reg_value": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Registry value set",
+      "description": "Writing registry value.",
+      "payload": {
+		"EventType": "SetValue",
+		"Image": "c:\\Python27\\python.exe",
+		"TargetObject": "HKU\\S-1-5-21-3162150815-438046626-91849468-500_Classes\\MSCFile\\shell\\open\\command\\(Default)",
+		"Details": "C:\\Users\\Administrator\\Downloads\\RTA-master\\bin\\myapp.exe"
+      }
+    },
+	"eventvwr_open": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Process Create",
+      "description": "Executing eventvwr.",
+      "payload": {
+		"Image": " C:\\Windows\\System32\\eventvwr.exe",
+		"CommandLine": "c:\\windows\\system32\\eventvwr.exe",
+		"Description": "Event Viewer Snapin Launcher"
+      }
+    },
+	"eventvwr_child": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Process Create",
+      "description": "Executing process from eventvwr.",
+      "payload": {
+		"Image": "C:\\Users\\Administrator\\Downloads\\RTA-master\\bin\\myapp.exe",
+		"CommandLine": "\"C:\\Users\\Administrator\\Downloads\\RTA-master\\bin\\myapp.exe\"",
+		"ParentImage": "C:\\Windows\\System32\\eventvwr.exe",
+		"ParentCommandLine": "c:\\windows\\system32\\eventvwr.exe"
+      }
+    }
+  }
+}

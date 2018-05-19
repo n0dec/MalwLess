@@ -1,0 +1,55 @@
+{
+	"name": "RTA disable_windows_fw",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "Uses netsh.exe to disable firewall.",
+	"rules": {
+		"netsh": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Disabling windows firewall.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\netsh.exe",
+				"Description": "Network Command Shell",
+				"CommandLine": "netsh.exe advfirewall set allprofiles state off"
+			}
+		},
+		"reg_domainprofile": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "DomainProfile registry value set to 0.",
+			"payload": {
+				"EventType": "SetValue",
+				"Image": "C:\\Windows\\system32\\svchost.exe",
+				"TargetObject": "HKLM\\System\\CurrentControlSet\\services\\SharedAccess\\Parameters\\FirewallPolicy\\DomainProfile\\EnableFirewall",
+				"Details": "DWORD (0x00000000)"
+			}
+		},
+		"reg_publicprofile": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "PublicProfile registry value set to 0.",
+			"payload": {
+				"EventType": "SetValue",
+				"Image": "C:\\Windows\\system32\\svchost.exe",
+				"TargetObject": "HKLM\\System\\CurrentControlSet\\services\\SharedAccess\\Parameters\\FirewallPolicy\\PublicProfile\\EnableFirewall",
+				"Details": "DWORD (0x00000000)"
+			}
+		},
+		"reg_standardprofile": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "StandardProfile registry value set to 0.",
+			"payload": {
+				"EventType": "SetValue",
+				"Image": "C:\\Windows\\system32\\svchost.exe",
+				"TargetObject": "HKLM\\System\\CurrentControlSet\\services\\SharedAccess\\Parameters\\FirewallPolicy\\StandardProfile\\EnableFirewall",
+				"Details": "DWORD (0x00000000)"
+			}
+		}
+	}
+}

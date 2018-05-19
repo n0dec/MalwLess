@@ -1,0 +1,134 @@
+{
+	"name": "RTA registry_hive_export",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "Exports the SAM, SECURITY and SYSTEM hives - useful in credential harvesting and discovery attacks.",
+	"rules": {
+		"sam_export": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Saving hkey_local_machine\\sam with reg.exe.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\reg.exe",
+				"Description": "Registry Console Tool",
+				"CommandLine": "reg.exe save hkey_local_machine\\sam C:\\Users\\Administrator\\Downloads\\RTA-master\\sam.reg"
+			}
+		},
+		"sam_export_file": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "File created",
+			"description": "Writing sam reg file.",
+			"payload": {
+				"Image": "C:\\Windows\\system32\\reg.exe",
+				"TargetFilename": "C:\\Users\\Administrator\\Downloads\\RTA-master\\sam.reg"
+			}
+		},
+		"hklm_sam_export": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Saving hklm\\sam with reg.exe.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\reg.exe",
+				"Description": "Registry Console Tool",
+				"CommandLine": "reg.exe save hklm\\sam C:\\Users\\Administrator\\Downloads\\RTA-master\\sam.reg"
+			}
+		},
+		"hklm_sam_export_file": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "File created",
+			"description": "Writing sam reg file.",
+			"payload": {
+				"Image": "C:\\Windows\\system32\\reg.exe",
+				"TargetFilename": "C:\\Users\\Administrator\\Downloads\\RTA-master\\sam.reg"
+			}
+		},
+		"security_export": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Saving hkey_local_machine\\security with reg.exe.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\reg.exe",
+				"Description": "Registry Console Tool",
+				"CommandLine": "reg.exe save hkey_local_machine\\security C:\\Users\\Administrator\\Downloads\\RTA-master\\security.reg"
+			}
+		},
+		"security_export_file": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "File created",
+			"description": "Writing security reg file.",
+			"payload": {
+				"Image": "C:\\Windows\\system32\\reg.exe",
+				"TargetFilename": "C:\\Users\\Administrator\\Downloads\\RTA-master\\security.reg"
+			}
+		},
+		"hklm_security_export": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Saving hklm\\security with reg.exe.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\reg.exe",
+				"Description": "Registry Console Tool",
+				"CommandLine": "reg.exe save hklm\\security C:\\Users\\Administrator\\Downloads\\RTA-master\\security.reg"
+			}
+		},
+		"hklm_security_export_file": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "File created",
+			"description": "Writing security reg file.",
+			"payload": {
+				"Image": "C:\\Windows\\system32\\reg.exe",
+				"TargetFilename": "C:\\Users\\Administrator\\Downloads\\RTA-master\\security.reg"
+			}
+		},
+		"system_export": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Saving hkey_local_machine\\system with reg.exe.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\reg.exe",
+				"Description": "Registry Console Tool",
+				"CommandLine": "reg.exe save hkey_local_machine\\system C:\\Users\\Administrator\\Downloads\\RTA-master\\system.reg"
+			}
+		},
+		"system_export_file": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "File created",
+			"description": "Writing system reg file.",
+			"payload": {
+				"Image": "C:\\Windows\\system32\\reg.exe",
+				"TargetFilename": "C:\\Users\\Administrator\\Downloads\\RTA-master\\system.reg"
+			}
+		},
+		"hklm_system_export": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Saving hklm\\system with reg.exe.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\reg.exe",
+				"Description": "Registry Console Tool",
+				"CommandLine": "reg.exe save hklm\\system C:\\Users\\Administrator\\Downloads\\RTA-master\\system.reg"
+			}
+		},
+		"hklm_system_export_file": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "File created",
+			"description": "Writing system reg file.",
+			"payload": {
+				"Image": "C:\\Windows\\system32\\reg.exe",
+				"TargetFilename": "C:\\Users\\Administrator\\Downloads\\RTA-master\\system.reg"
+			}
+		}
+	}
+}

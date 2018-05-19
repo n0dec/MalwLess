@@ -1,0 +1,40 @@
+{
+	"name": "RTA msxsl_network",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "Generates network traffic from msxsl.exe.",
+	"rules": {
+		"drop_file": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "File created",
+			"description": "Dropping xsl file.",
+			"payload": {
+				"Image": "C:\\Python27\\python.exe",
+				"TargetFilename": "C:\\Users\\Administrator\\Downloads\\RTA-master\\bin\\cscript.xsl"
+			}
+		},
+		"msxsl": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Executing msxsl with dropped file.",
+			"payload": {
+				"Image": "C:\\Users\\Administrator\\Downloads\\RTA-master\\bin\\msxsl.exe",
+				"Description": "msxsl",
+				"Product": "Command Line XSLT",
+				"CommandLine": "C:\\Users\\Administrator\\Downloads\\RTA-master\\bin\\msxsl.exe C:\\Users\\Administrator\\Downloads\\RTA-master\\bin\\customers.xml C:\\Users\\Administrator\\Downloads\\RTA-master\\bin\\cscript.xsl"
+			}
+		},
+		"ie_cache": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "File created",
+			"description": "Writing to Temporary Internet Files.",
+			"payload": {
+				"Image": "C:\\Users\\Administrator\\Downloads\\RTA-master\\bin\\msxsl.exe",
+				"TargetFilename": "C:\\Users\\Administrator\\AppData\\Local\\Microsoft\\Windows\\Temporary Internet Files\\Content.IE5\\7HK3UY7Q\\10_70_5_87[1].txt"
+			}
+		}
+	}
+}

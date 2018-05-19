@@ -1,0 +1,44 @@
+{
+  "name": "RTA unusual_ms_tol_network",
+  "version": "0.1",
+  "author": "n0dec",
+  "description": "Creates network traffic from a process which is named to match common administration and developer tools that do not typically make network traffic unless being used maliciously.",
+  "rules": {
+	"bginfo_network": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Network connection detected",
+      "description": "Network activity from bginfo.",
+      "payload": {
+		"Image": "C:\\Users\\Administrator\\Downloads\\RTA-master\\bginfo.exe"
+      }
+    },
+	"rcsi_network": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Network connection detected",
+      "description": "Network activity from rcsi.",
+      "payload": {
+		"Image": "C:\\Users\\Administrator\\Downloads\\RTA-master\\rcsi.exe"
+      }
+    },
+	"control_network": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Network connection detected",
+      "description": "Network activity from bginfo.",
+      "payload": {
+		"Image": "C:\\Users\\Administrator\\Downloads\\RTA-master\\control.exe"
+      }
+    },
+	"odbcconf_network": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Network connection detected",
+      "description": "Network activity from odbcconf.",
+      "payload": {
+		"Image": "C:\\Users\\Administrator\\Downloads\\RTA-master\\odbcconf.exe"
+      }
+    }
+  }
+}

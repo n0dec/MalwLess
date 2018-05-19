@@ -1,0 +1,17 @@
+{
+  "name": "RTA unusual_process_path",
+  "version": "0.1",
+  "author": "n0dec",
+  "description": "Executes processes from the WBEM directory.",
+  "rules": {
+	"unusual_path": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Process Create",
+      "description": "Executing unusual process in known path.",
+      "payload": {
+		"Image": "C:\\Windows\\System32\\wbem\\temp-app.exe"
+      }
+    }
+  }
+}

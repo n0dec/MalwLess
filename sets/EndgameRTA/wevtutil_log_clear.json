@@ -1,0 +1,38 @@
+{
+  "name": "RTA wevtutil_log_clear",
+  "version": "0.1",
+  "author": "n0dec",
+  "description": "Uses the native Windows Event utility to clear the Security, Application and System event logs.",
+  "rules": {
+	"wevutil_security": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Process Create",
+      "description": "Clearing security eventlog.",
+      "payload": {
+		"Image": "C:\\Windows\\System32\\wevtutil.exe",
+		"CommandLine": "wevtutil.exe cl security"
+      }
+    },
+	"wevutil_application": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Process Create",
+      "description": "Clearing application eventlog.",
+      "payload": {
+		"Image": "C:\\Windows\\System32\\wevtutil.exe",
+		"CommandLine": "wevtutil.exe cl application"
+      }
+    },
+	"wevutil_system": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Process Create",
+      "description": "Clearing system eventlog.",
+      "payload": {
+		"Image": "C:\\Windows\\System32\\wevtutil.exe",
+		"CommandLine": "wevtutil.exe cl system"
+      }
+    }
+  }
+}

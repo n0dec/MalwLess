@@ -1,0 +1,141 @@
+{
+	"name": "RTA net_user_add",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "Adds an account to the local host using the net.exe command.",
+	"rules": {
+		"net_add": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Creating local user account.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\net.exe",
+				"Description": "Net Command",
+				"CommandLine": "net.exe user macgyver $w!$$@rmy11 /add /fullname:\"Angus Macgyver\""
+			}
+		},
+		"net1_add": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Creating local user account.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\net1.exe",
+				"Description": "Net Command",
+				"CommandLine": "C:\\Windows\\system32\\net1 user macgyver $w!$$@rmy11 /add /fullname:\"Angus Macgyver\""
+			}
+		},
+		"reg_key": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry object added or deleted",
+			"description": "Creating local user account.",
+			"payload": {
+				"EventType": "CreateKey",
+				"Image": "C:\\Windows\\system32\\lsass.exe",
+				"CommandLine": "HKLM\\SAM\\SAM\\Domains\\Account\\Users\\Names\\macgyver"
+			}
+		},
+		"reg_value": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "Creating local user account.",
+			"payload": {
+				"EventType": "SetValue",
+				"Image": "C:\\Windows\\system32\\lsass.exe",
+				"CommandLine": "HKLM\\SAM\\SAM\\Domains\\Account\\Users\\Names\\macgyver\\(Default)",
+				"Details": "Binary Data"
+			}
+		},
+		"net_add_domain": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Creating domain user account.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\net.exe",
+				"Description": "Net Command",
+				"CommandLine": "net.exe user macgyver $w!$$@rmy11 /add /fullname:\"Angus Macgyver\" /domain"
+			}
+		},
+		"net1_add_domain": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Creating domain user account.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\net1.exe",
+				"Description": "Net Command",
+				"CommandLine": "C:\\Windows\\system32\\net1 user macgyver $w!$$@rmy11 /add /fullname:\"Angus Macgyver\" /domain"
+			}
+		},
+		"net_add_administrators": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Adding user account to Administrators.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\net.exe",
+				"Description": "Net Command",
+				"CommandLine": "net.exe group  Administrators macgyver /add"
+			}
+		},
+		"net1_add_administrators": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Adding user account to Administrators.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\net1.exe",
+				"Description": "Net Command",
+				"CommandLine": "C:\\Windows\\system32\\net1 group  Administrators macgyver /add"
+			}
+		},
+		"net_add_domainadmins": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Adding user account to Domain Admins.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\net.exe",
+				"Description": "Net Command",
+				"CommandLine": "net.exe group  \"Domain Admins\"  macgyver  /add  /domain"
+			}
+		},
+		"net1_add_administrators": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Adding user account to Domain Admins.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\net1.exe",
+				"Description": "Net Command",
+				"CommandLine": "C:\\Windows\\system32\\net1 \"Domain Admins\"  macgyver  /add  /domain"
+			}
+		},
+		"net_add_localgroup": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Adding user account to localgroup Administrators.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\net.exe",
+				"Description": "Net Command",
+				"CommandLine": "net.exe localgroup Administrators macgyver /add"
+			}
+		},
+		"net1_add_localgroup": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Adding user account to localgroup Administrators.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\net1.exe",
+				"Description": "Net Command",
+				"CommandLine": "C:\\Windows\\system32\\net1 localgroup Administrators macgyver /add"
+			}
+		}
+	}
+}

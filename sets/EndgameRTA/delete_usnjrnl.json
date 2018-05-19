@@ -1,0 +1,19 @@
+{
+	"name": "RTA delete_usnjrnl",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "Uses fsutil to delete the USN journal.",
+	"rules": {
+		"fsutil": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Deleting USN journal.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\fsutil.exe",
+				"Description": "fsutil.exe",
+				"CommandLine": "fsutil  usn deletejournal /d C:"
+			}
+		}
+	}
+}

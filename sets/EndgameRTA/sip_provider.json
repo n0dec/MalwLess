@@ -1,0 +1,78 @@
+{
+  "name": "RTA sip_provider",
+  "version": "0.1",
+  "author": "n0dec",
+  "description": "Registers a mock SIP provider to bypass code integrity checks and execute mock malware.",
+  "rules": {
+	"reg_verify_key": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Registry object added or deleted",
+      "description": "Writing registry key.",
+      "payload": {
+		"EventType": "CreateKey",
+		"Image": "c:\\Python27\\python.exe",
+		"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Cryptography\\OID\\EncodingType 0\\CryptSIPDllVerifyIndirectData\\{C689AAB8-8E78-11D0-8C47-00C04FC295EE}"
+      }
+    },
+	"reg_value_verify_dll": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Registry value set",
+      "description": "Writing registry value.",
+      "payload": {
+		"EventType": "SetValue",
+		"Image": "c:\\Python27\\python.exe",
+		"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Cryptography\\OID\\EncodingType 0\\CryptSIPDllVerifyIndirectData\\{C689AAB8-8E78-11D0-8C47-00C04FC295EE}\\Dll",
+		"Details": "C:\\Users\\Administrator\\Downloads\\RTA-master\\bin\\TrustProvider64.dll"
+      }
+    },
+	"reg_value_verify_function": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Registry value set",
+      "description": "Writing registry value.",
+      "payload": {
+		"EventType": "SetValue",
+		"Image": "c:\\Python27\\python.exe",
+		"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Cryptography\\OID\\EncodingType 0\\CryptSIPDllVerifyIndirectData\\{C689AAB8-8E78-11D0-8C47-00C04FC295EE}\\FuncName",
+		"Details": "VerifyFunction"
+      }
+    },
+	"reg_getsig_key": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Registry object added or deleted",
+      "description": "Writing registry key.",
+      "payload": {
+		"EventType": "CreateKey",
+		"Image": "c:\\Python27\\python.exe",
+		"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Cryptography\\OID\\EncodingType 0\\CryptSIPDllGetSignedDataMsg\\{C689AAB8-8E78-11D0-8C47-00C04FC295EE}"
+      }
+    },
+	"reg_value_getsig_dll": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Registry value set",
+      "description": "Writing registry value.",
+      "payload": {
+		"EventType": "SetValue",
+		"Image": "c:\\Python27\\python.exe",
+		"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Cryptography\\OID\\EncodingType 0\\CryptSIPDllGetSignedDataMsg\\{C689AAB8-8E78-11D0-8C47-00C04FC295EE}\\Dll",
+		"Details": "C:\\Users\\Administrator\\Downloads\\RTA-master\\bin\\TrustProvider64.dll"
+      }
+    },
+	"reg_value_getsig_function": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Registry value set",
+      "description": "Writing registry value.",
+      "payload": {
+		"EventType": "SetValue",
+		"Image": "c:\\Python27\\python.exe",
+		"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Cryptography\\OID\\EncodingType 0\\CryptSIPDllGetSignedDataMsg\\{C689AAB8-8E78-11D0-8C47-00C04FC295EE}\\FuncName",
+		"Details": "GetSignature"
+      }
+    }
+  }
+}

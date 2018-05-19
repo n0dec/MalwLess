@@ -1,0 +1,31 @@
+{
+  "name": "RTA scrobj_com_hijack",
+  "version": "0.1",
+  "author": "n0dec",
+  "description": "Modifies the Registry to create a new user-defined COM broker, \"scrobj.dll\".",
+  "rules": {
+	"reg_key": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Registry object added or deleted",
+      "description": "Writing registry key.",
+      "payload": {
+		"EventType": "CreateKey",
+		"Image": "c:\\Python27\\python.exe",
+		"TargetObject": "HKU\\S-1-5-21-3162150815-438046626-91849468-500_Classes\\CLSID\\{00000000-0000-0000-0000-0000DEADBEEF}\\InprocServer32"
+      }
+    },
+	"reg_value_dll": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Registry value set",
+      "description": "Writing registry value.",
+      "payload": {
+		"EventType": "SetValue",
+		"Image": "c:\\Python27\\python.exe",
+		"TargetObject": "HKU\\S-1-5-21-3162150815-438046626-91849468-500_Classes\\CLSID\\{00000000-0000-0000-0000-0000DEADBEEF}\\InprocServer32\\(Default)",
+		"Details": "C:\\WINDOWS\\system32\\scrobj.dll"
+      }
+    }
+  }
+}

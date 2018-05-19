@@ -1,0 +1,28 @@
+{
+  "name": "RTA user_dir_escalation",
+  "version": "0.1",
+  "author": "n0dec",
+  "description": "Spawns mock malware written to a regular user directory and executes as System.",
+  "rules": {
+	"drop_file": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "File created",
+      "description": "Dropping executable in users directory.",
+      "payload": {
+		"Image": "c:\\Python27\\python.exe",
+		"TargetFilename": "C:\\Users\\fake_user_rta-300\\user_file.exe"
+      }
+    },
+	"system_process": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Process Create",
+      "description": "Executing temp file as SYSTEM.",
+      "payload": {
+		"Image": "C:\\Users\\fake_user_rta-300\\user_file.exe",
+		"User": "NT AUTHORITY\\SYSTEM"
+      }
+    }
+  }
+}

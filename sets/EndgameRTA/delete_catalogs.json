@@ -1,0 +1,29 @@
+{
+	"name": "RTA delete_catalog",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "Uses wbadmin to delete the backup catalog.",
+	"rules": {
+		"wbadmin": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Deleting backup catalog.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\wbadmin.exe",
+				"Description": "Command Line Interface for Microsoft® BLB Backup",
+				"CommandLine": "wbadmin  delete catalog -quiet"
+			}
+		},
+		"file": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "File created",
+			"description": "Writing etl file.",
+			"payload": {
+				"Image": "C:\\Windows\\system32\\wbadmin.exe",
+				"TargetFilename": "C:\\Windows\\Logs\\WindowsBackup\\Wbadmin.0.etl"
+			}
+		}
+	}
+}

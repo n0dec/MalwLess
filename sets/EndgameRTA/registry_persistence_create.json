@@ -1,0 +1,379 @@
+{
+	"name": "RTA registry_persistence_create",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "Creates registry persistence for mock malware in Run and RunOnce keys, Services and debuggers.",
+	"rules": {
+		"reg_runonce": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry object added or deleted",
+			"description": "RunOnce persistence.",
+			"payload": {
+				"EventType": "CreateKey",
+				"Image": "C:\\Python27\\python.exe",
+				"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\RunOnce"
+			}
+		},
+		"reg_runonce_value": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "RunOnce persistence.",
+			"payload": {
+				"EventType": "SetValue",
+				"Image": "C:\\Python27\\python.exe",
+				"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\RunOnce\\RunOnceTest",
+				"Details": "C:\\Users\\Administrator\\Downloads\\RTA-master\\bin\\myapp.exe"
+			}
+		},
+		"reg_run": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry object added or deleted",
+			"description": "Run persistence.",
+			"payload": {
+				"EventType": "CreateKey",
+				"Image": "C:\\Python27\\python.exe",
+				"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run"
+			}
+		},
+		"reg_run_value": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "Run persistence.",
+			"payload": {
+				"EventType": "SetValue",
+				"Image": "C:\\Python27\\python.exe",
+				"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\\RunTest",
+				"Details": "C:\\Users\\Administrator\\Downloads\\RTA-master\\bin\\myapp.exe"
+			}
+		},
+		"reg_user_runonce": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry object added or deleted",
+			"description": "User RunOnce persistence.",
+			"payload": {
+				"EventType": "CreateKey",
+				"Image": "C:\\Python27\\python.exe",
+				"TargetObject": "HKU\\S-1-5-21-1296728716-3491513851-3231796226-1000\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnce"
+			}
+		},
+		"reg_user_runonce_value": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "User RunOnce persistence.",
+			"payload": {
+				"EventType": "SetValue",
+				"Image": "C:\\Python27\\python.exe",
+				"TargetObject": "HKU\\S-1-5-21-1296728716-3491513851-3231796226-1000\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnce\\RunOnceTest",
+				"Details": "C:\\Users\\Administrator\\Downloads\\RTA-master\\bin\\myapp.exe"
+			}
+		},
+		"reg_user_run": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry object added or deleted",
+			"description": "User Run persistence.",
+			"payload": {
+				"EventType": "CreateKey",
+				"Image": "C:\\Python27\\python.exe",
+				"TargetObject": "HKU\\S-1-5-21-1296728716-3491513851-3231796226-1000\\Software\\Microsoft\\Windows\\CurrentVersion\\Run"
+			}
+		},
+		"reg_user_run_value": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "User Run persistence.",
+			"payload": {
+				"EventType": "SetValue",
+				"Image": "C:\\Python27\\python.exe",
+				"TargetObject": "HKU\\S-1-5-21-1296728716-3491513851-3231796226-1000\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\\RunTest",
+				"Details": "C:\\Users\\Administrator\\Downloads\\RTA-master\\bin\\myapp.exe"
+			}
+		},
+		"reg_service": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry object added or deleted",
+			"description": "Service persistence.",
+			"payload": {
+				"EventType": "CreateKey",
+				"Image": "C:\\Python27\\python.exe",
+				"TargetObject": "HKLM\\System\\CurrentControlSet\\services\\ServiceTest"
+			}
+		},
+		"reg_service_description": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "Service persistence.",
+			"payload": {
+				"EventType": "SetValue",
+				"Image": "C:\\Python27\\python.exe",
+				"TargetObject": "HKLM\\System\\CurrentControlSet\\services\\ServiceTest\\Description",
+				"Details": "A fake service"
+			}
+		},
+		"reg_service_displayname": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "Service persistence.",
+			"payload": {
+				"EventType": "SetValue",
+				"Image": "C:\\Python27\\python.exe",
+				"TargetObject": "HKLM\\System\\CurrentControlSet\\services\\ServiceTest\\DisplayName",
+				"Details": "ServiceTest Service"
+			}
+		},
+		"reg_service_imagepath": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "Service persistence.",
+			"payload": {
+				"EventType": "SetValue",
+				"Image": "C:\\Python27\\python.exe",
+				"TargetObject": "HKLM\\System\\CurrentControlSet\\services\\ServiceTest\\ImagePath",
+				"Details": "c:\\ServiceTest.exe"
+			}
+		},
+		"reg_service_servicedll": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "Service persistence.",
+			"payload": {
+				"EventType": "SetValue",
+				"Image": "C:\\Python27\\python.exe",
+				"TargetObject": "HKLM\\System\\CurrentControlSet\\services\\ServiceTest\\ServiceDLL",
+				"Details": "C:\\ServiceTest.dll"
+			}
+		},
+		"reg_service_imagepath_mod": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "Service modification.",
+			"payload": {
+				"EventType": "SetValue",
+				"Image": "C:\\Python27\\python.exe",
+				"TargetObject": "HKLM\\System\\CurrentControlSet\\services\\ServiceTest\\ImagePath",
+				"Details": "c:\\ServiceTestMod.exe"
+			}
+		},
+		"reg_service_servicedll_mod": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "Service modification.",
+			"payload": {
+				"EventType": "SetValue",
+				"Image": "C:\\Python27\\python.exe",
+				"TargetObject": "HKLM\\System\\CurrentControlSet\\services\\ServiceTest\\ServiceDLL",
+				"Details": "C:\\ServiceTestMod.dll"
+			}
+		},
+		"reg_appinit": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "AppInit_Dlls persistence.",
+			"payload": {
+				"EventType": "SetValue",
+				"Image": "C:\\Python27\\python.exe",
+				"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Windows\\AppInit_Dlls",
+				"Details": "evil.dll"
+			}
+		},
+		"reg_normalprogram": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry object added or deleted",
+			"description": "Image File Execution Options with normalprogram.",
+			"payload": {
+				"EventType": "CreateKey",
+				"Image": "C:\\Python27\\python.exe",
+				"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\normalprogram.exe"
+			}
+		},
+		"reg_normalprogram_value": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "Image File Execution Options with normalprogram.",
+			"payload": {
+				"EventType": "SetValue",
+				"Image": "C:\\Python27\\python.exe",
+				"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\normalprogram.exe\\Debugger",
+				"Details": "C:\\Users\\Administrator\\Downloads\\RTA-master\\bin\\myapp.exe"
+			}
+		},
+		"reg_sethc": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry object added or deleted",
+			"description": "Image File Execution Options with sethc.",
+			"payload": {
+				"EventType": "CreateKey",
+				"Image": "C:\\Python27\\python.exe",
+				"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\sethc.exe"
+			}
+		},
+		"reg_sethc_value": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "Image File Execution Options with sethc.",
+			"payload": {
+				"EventType": "SetValue",
+				"Image": "C:\\Python27\\python.exe",
+				"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\sethc.exe\\Debugger",
+				"Details": "C:\\Users\\Administrator\\Downloads\\RTA-master\\bin\\myapp.exe"
+			}
+		},
+		"reg_utilman": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry object added or deleted",
+			"description": "Image File Execution Options with utilman.",
+			"payload": {
+				"EventType": "CreateKey",
+				"Image": "C:\\Python27\\python.exe",
+				"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\utilman.exe"
+			}
+		},
+		"reg_utilman_value": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "Image File Execution Options with utilman.",
+			"payload": {
+				"EventType": "SetValue",
+				"Image": "C:\\Python27\\python.exe",
+				"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\utilman.exe\\Debugger",
+				"Details": "C:\\Users\\Administrator\\Downloads\\RTA-master\\bin\\myapp.exe"
+			}
+		},
+		"reg_magnify": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry object added or deleted",
+			"description": "Image File Execution Options with magnify.",
+			"payload": {
+				"EventType": "CreateKey",
+				"Image": "C:\\Python27\\python.exe",
+				"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\magnify.exe"
+			}
+		},
+		"reg_magnify_value": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "Image File Execution Options with magnify.",
+			"payload": {
+				"EventType": "SetValue",
+				"Image": "C:\\Python27\\python.exe",
+				"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\magnify.exe\\Debugger",
+				"Details": "C:\\Users\\Administrator\\Downloads\\RTA-master\\bin\\myapp.exe"
+			}
+		},
+		"reg_narrator": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry object added or deleted",
+			"description": "Image File Execution Options with narrator.",
+			"payload": {
+				"EventType": "CreateKey",
+				"Image": "C:\\Python27\\python.exe",
+				"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\narrator.exe"
+			}
+		},
+		"reg_narrator_value": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "Image File Execution Options with narrator.",
+			"payload": {
+				"EventType": "SetValue",
+				"Image": "C:\\Python27\\python.exe",
+				"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\narrator.exe\\Debugger",
+				"Details": "C:\\Users\\Administrator\\Downloads\\RTA-master\\bin\\myapp.exe"
+			}
+		},
+		"reg_osk": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry object added or deleted",
+			"description": "Image File Execution Options with osk.",
+			"payload": {
+				"EventType": "CreateKey",
+				"Image": "C:\\Python27\\python.exe",
+				"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\osk.exe"
+			}
+		},
+		"reg_osk_value": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "Image File Execution Options with osk.",
+			"payload": {
+				"EventType": "SetValue",
+				"Image": "C:\\Python27\\python.exe",
+				"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\osk.exe\\Debugger",
+				"Details": "C:\\Users\\Administrator\\Downloads\\RTA-master\\bin\\myapp.exe"
+			}
+		},
+		"reg_displayswitch": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry object added or deleted",
+			"description": "Image File Execution Options with displayswitch.",
+			"payload": {
+				"EventType": "CreateKey",
+				"Image": "C:\\Python27\\python.exe",
+				"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\displayswitch.exe"
+			}
+		},
+		"reg_displayswitch_value": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "Image File Execution Options with displayswitch.",
+			"payload": {
+				"EventType": "SetValue",
+				"Image": "C:\\Python27\\python.exe",
+				"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\displayswitch.exe\\Debugger",
+				"Details": "C:\\Users\\Administrator\\Downloads\\RTA-master\\bin\\myapp.exe"
+			}
+		},
+		"reg_atbroker": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry object added or deleted",
+			"description": "Image File Execution Options with atbroker.",
+			"payload": {
+				"EventType": "CreateKey",
+				"Image": "C:\\Python27\\python.exe",
+				"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\atbroker.exe"
+			}
+		},
+		"reg_atbroker_value": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "Image File Execution Options with atbroker.",
+			"payload": {
+				"EventType": "SetValue",
+				"Image": "C:\\Python27\\python.exe",
+				"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\atbroker.exe\\Debugger",
+				"Details": "C:\\Users\\Administrator\\Downloads\\RTA-master\\bin\\myapp.exe"
+			}
+		}
+	}
+}

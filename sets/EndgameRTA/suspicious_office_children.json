@@ -1,0 +1,74 @@
+{
+  "name": "RTA suspicious_office_children",
+  "version": "0.1",
+  "author": "n0dec",
+  "description": "Generates various children processes from emulated Office processes.",
+  "rules": {
+	"winword_msiexec": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Process Create",
+      "description": "Executing msiexec as child of WINWORD process.",
+      "payload": {
+		"Image": "C:\\Windows\\System32\\msiexec.exe",
+		"CommandLine": "msiexec.exe  /i blah /quiet",
+		"ParentImage": "C:\\Program Files (x86)\\Microsoft Office\\root\\Office16\\WINWORD.EXE"
+      }
+    },
+	"winword_powershell": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Process Create",
+      "description": "Executing powershell as child of WINWORD process.",
+      "payload": {
+		"Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+		"CommandLine": "powershell.exe  exit",
+		"ParentImage": "C:\\Program Files (x86)\\Microsoft Office\\root\\Office16\\WINWORD.EXE"
+      }
+    },
+	"winword_wscript": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Process Create",
+      "description": "Executing wscript as child of WINWORD process.",
+      "payload": {
+		"Image": "C:\\Windows\\System32\\wscript.exe",
+		"CommandLine": "wscript.exe  //b",
+		"ParentImage": "C:\\Program Files (x86)\\Microsoft Office\\root\\Office16\\WINWORD.EXE"
+      }
+    },
+	"excel_msiexec": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Process Create",
+      "description": "Executing msiexec as child of EXCEL process.",
+      "payload": {
+		"Image": "C:\\Windows\\System32\\msiexec.exe",
+		"CommandLine": "msiexec.exe  /i blah /quiet",
+		"ParentImage": "C:\\Program Files (x86)\\Microsoft Office\\root\\Office16\\EXCEL.EXE"
+      }
+    },
+	"excel_powershell": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Process Create",
+      "description": "Executing powershell as child of EXCEL process.",
+      "payload": {
+		"Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+		"CommandLine": "powershell.exe  exit",
+		"ParentImage": "C:\\Program Files (x86)\\Microsoft Office\\root\\Office16\\EXCEL.EXE"
+      }
+    },
+	"excel_wscript": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Process Create",
+      "description": "Executing wscript as child of EXCEL process.",
+      "payload": {
+		"Image": "C:\\Windows\\System32\\wscript.exe",
+		"CommandLine": "wscript.exe  //b",
+		"ParentImage": "C:\\Program Files (x86)\\Microsoft Office\\root\\Office16\\EXCEL.EXE"
+      }
+    }
+  }
+}

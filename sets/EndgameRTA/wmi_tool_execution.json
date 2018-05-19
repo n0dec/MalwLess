@@ -1,0 +1,96 @@
+{
+  "name": "RTA wmi_tool_execution",
+  "version": "0.1",
+  "author": "n0dec",
+  "description": "Uses the WMI command-line utility to execute built-in Windows commands which are unusual or unexpected.",
+  "rules": {
+	"wmic_cscript": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Process Create",
+      "description": "Process create using wmic.",
+      "payload": {
+		"Image": "C:\\Windows\\System32\\wbem\\WMIC.exe",
+		"CommandLine": "wmic.exe process call create cscript.exe",
+		"Description": "WMI Commandline Utility"
+      }
+    },
+	"wmiservice_cscript": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Process Create",
+      "description": "Process create using wmi service.",
+      "payload": {
+		"ParentImage": "C:\\Windows\\System32\\wbem\\WmiPrvSE.exe",
+		"Image": "C:\\Windows\\System32\\cscript.exe",
+		"CommandLine": "cscript.exe"
+      }
+    },
+	"wmic_mshta": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Process Create",
+      "description": "Process create using wmic.",
+      "payload": {
+		"Image": "C:\\Windows\\System32\\wbem\\WMIC.exe",
+		"CommandLine": "wmic.exe process call create \"mshta.exe /?\"",
+		"Description": "WMI Commandline Utility"
+      }
+    },
+	"wmiservice_mshta": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Process Create",
+      "description": "Process create using wmi service..",
+      "payload": {
+		"ParentImage": "C:\\Windows\\System32\\wbem\\WmiPrvSE.exe",
+		"Image": "C:\\Windows\\System32\\mshta.exe",
+		"CommandLine": "mshta.exe /?"
+      }
+    },
+	"wmic_odbcconf": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Process Create",
+      "description": "Process create using wmic.",
+      "payload": {
+		"Image": "C:\\Windows\\System32\\wbem\\WMIC.exe",
+		"CommandLine": "wmic.exe process call create odbcconf.exe",
+		"Description": "WMI Commandline Utility"
+      }
+    },
+	"wmiservice_odbcconf": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Process Create",
+      "description": "Process create using wmi service.",
+      "payload": {
+		"ParentImage": "C:\\Windows\\System32\\wbem\\WmiPrvSE.exe",
+		"Image": "C:\\Windows\\System32\\odbcconf.exe",
+		"CommandLine": "odbcconf.exe"
+      }
+    },
+	"wmic_powershell": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Process Create",
+      "description": "Process create using wmic.",
+      "payload": {
+		"Image": "C:\\Windows\\System32\\wbem\\WMIC.exe",
+		"CommandLine": "wmic.exe process call create \"powershell.exe exit'\"",
+		"Description": "WMI Commandline Utility"
+      }
+    },
+	"wmiservice_powershell": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Process Create",
+      "description": "Process create using wmi service.",
+      "payload": {
+		"ParentImage": "C:\\Windows\\System32\\wbem\\WmiPrvSE.exe",
+		"Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+		"CommandLine": "powershell.exe exit'"
+      }
+    }
+  }
+}

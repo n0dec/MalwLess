@@ -1,0 +1,30 @@
+{
+	"name": "RTA delete_volume_shadows",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "Uses both vssadmin.exe and wmic.exe to delete volumne shadow copies.",
+	"rules": {
+		"vssadmin": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Deleting volume shadow copies with vssadmin.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\vssadmin.exe",
+				"Description": "Command Line Interface for Microsoft® Volume Shadow Copy Service",
+				"CommandLine": "vssadmin.exe  delete shadows /for=C: /oldest /quiet"
+			}
+		},
+		"wmic": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Deleting volume shadow copies with wmic.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\wbem\\WMIC.exe",
+				"Description": "WMI Commandline Utility",
+				"CommandLine": "wmic.exe shadowcopy delete /nointeractive"
+			}
+		}
+	}
+}

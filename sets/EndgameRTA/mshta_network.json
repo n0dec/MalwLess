@@ -1,0 +1,50 @@
+{
+	"name": "RTA mshta_network",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "Generates network traffic from mshta.exe.",
+	"rules": {
+		"drop_file": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "File created",
+			"description": "Dropping hta file.",
+			"payload": {
+				"Image": "C:\\Python27\\python.exe",
+				"TargetFilename": "C:\\Users\\Administrator\\Downloads\\RTA-master\\bin\\beacon.hta"
+			}
+		},
+		"mshta": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Executing mshta with dropped file.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\mshta.exe",
+				"Description": "Microsoft (R) HTML Application host",
+				"CommandLine": "mshta.exe C:\\Users\\Administrator\\Downloads\\RTA-master\\bin\\beacon.hta"
+			}
+		},
+		"ie_cache": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "File created",
+			"description": "Writing to Temporary Internet Files.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\mshta.exe",
+				"TargetFilename": "C:\\Users\\Administrator\\AppData\\Local\\Microsoft\\Windows\\Temporary Internet Files\\Content.IE5\\D3PWZXCV\\10_70_5_87[1].txt"
+			}
+		},
+		"mshta_network": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Network connection detected",
+			"description": "Network activity from mshta.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\mshta.exe",
+				"DestinationIp": "10.70.5.87",
+				"DestinationPort": 8000
+			}
+		}
+	}
+}

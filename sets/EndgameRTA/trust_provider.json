@@ -1,0 +1,43 @@
+{
+  "name": "RTA trust_provider",
+  "version": "0.1",
+  "author": "n0dec",
+  "description": "Substitutes an invalid code authentication policy, enabling trust policy bypass.",
+  "rules": {
+	"reg_key": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Registry object added or deleted",
+      "description": "Writing registry key.",
+      "payload": {
+		"EventType": "CreateKey",
+		"Image": "c:\\Python27\\python.exe",
+		"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Cryptography\\Providers\\Trust\\FinalPolicy\\{00AAC56B-CD44-11D0-8CC2-00C04FC295EE}"
+      }
+    },
+	"reg_value_dll": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Registry value set",
+      "description": "Writing registry value.",
+      "payload": {
+		"EventType": "SetValue",
+		"Image": "c:\\Python27\\python.exe",
+		"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Cryptography\\Providers\\Trust\\FinalPolicy\\{00AAC56B-CD44-11D0-8CC2-00C04FC295EE}\\$DLL",
+		"Details": "C:\\Users\\Administrator\\Downloads\\RTA-master\\bin\\TrustProvider64.dll"
+      }
+    },
+	"reg_value_function": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Registry value set",
+      "description": "Writing registry value.",
+      "payload": {
+		"EventType": "SetValue",
+		"Image": "c:\\Python27\\python.exe",
+		"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Cryptography\\Providers\\Trust\\FinalPolicy\\{00AAC56B-CD44-11D0-8CC2-00C04FC295EE}\\$Function",
+		"Details": "FinalPolicy"
+      }
+    }
+  }
+}

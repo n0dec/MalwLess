@@ -1,0 +1,72 @@
+{
+	"name": "RTA at_command",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "Schedules an at job for one hour in the future.",
+	"rules": {
+		"at_process": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Creating scheduled task.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\at.exe",
+				"Description": "Schedule service command line interface",
+				"CommandLine": "at \\127.0.0.1 22:10 \"cmd /c echo hello world\""
+			}
+		},
+		"at_task_job": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "File created",
+			"description": "Writing scheduled task file.",
+			"payload": {
+				"Image": "C:\\Windows\\system32\\svchost.exe",
+				"TargetFilename": "C:\\Windows\\Tasks\\At1.job"
+			}
+		},
+		"at_task": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "File created",
+			"description": "Writing scheduled task file.",
+			"payload": {
+				"Image": "C:\\Windows\\system32\\svchost.exe",
+				"TargetFilename": "C:\\Windows\\System32\\Tasks\\At1"
+			}
+		},
+		"at_reg_index": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "Writing scheduled task parameters to registry.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\schtasks.exe",
+				"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Schedule\\TaskCache\\Tree\\At1\\Index",
+				"Details": "DWORD (0x00000003)"
+			}
+		},
+		"at_reg_id": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "Writing scheduled task parameters to registry.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\schtasks.exe",
+				"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Schedule\\TaskCache\\Tree\\At1\\Id",
+				"Details": "{2018E2C8-016E-42F8-96C3-F081BC3ED24E}"
+			}
+		},
+		"at_reg_path": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "Writing scheduled task parameters to registry.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\schtasks.exe",
+				"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Schedule\\TaskCache\\Tasks\\{2018E2C8-016E-42F8-96C3-F081BC3ED24E}\\Path",
+				"Details": "\\At1"
+			}
+		}
+	}
+}

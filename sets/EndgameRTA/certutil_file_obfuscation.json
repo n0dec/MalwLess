@@ -1,0 +1,50 @@
+{
+	"name": "RTA certutil_file_obfuscation",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "Uses certutil to create an encoded copy of cmd.exe. Then uses certutil to decode that copy.",
+	"rules": {
+		"certutil_encode": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Encoding file.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\certutil.exe",
+				"Description": "CertUtil.exe",
+				"CommandLine": "c:\\Windows\\System32\\certutil.exe -encode c:\\windows\\system32\\cmd.exe C:\\Users\\Administrator\\Downloads\\RTA-master\\encoded.txt"
+			}
+		},
+		"encoded_file": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "File created",
+			"description": "Writing encoded file.",
+			"payload": {
+				"Image": "C:\\Windows\\system32\\certutil.exe",
+				"TargetFilename": "C:\\Users\\Administrator\\Downloads\\RTA-master\\encoded.txt"
+			}
+		},
+		"certutil_decode": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Decoding file.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\certutil.exe",
+				"Description": "CertUtil.exe",
+				"CommandLine": "c:\\Windows\\System32\\certutil.exe -decode C:\\Users\\Administrator\\Downloads\\RTA-master\\encoded.txt C:\\Users\\Administrator\\Downloads\\RTA-master\\decoded.exe"
+			}
+		},
+		"decoded_file": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "File created",
+			"description": "Writing encoded file.",
+			"payload": {
+				"Image": "C:\\Windows\\system32\\certutil.exe",
+				"TargetFilename": "C:\\Users\\Administrator\\Downloads\\RTA-master\\decoded.exe"
+			}
+		}
+	}
+}

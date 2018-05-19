@@ -1,0 +1,48 @@
+{
+	"name": "RTA recycle_bin_process",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "Executes mock malware from the \"C:\\Recycler\\\" and \"C:\\$RECYCLE.BIN\\\" subdirectories.",
+	"rules": {
+		"drop_file_recyclebin": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "File created",
+			"description": "Dropping exe in $Recycle.bin dir.",
+			"payload": {
+				"Image": "C:\\Python27\\python.exe",
+				"TargetFilename": "C:\\$Recycle.Bin\\S-1-5-21-3162150815-438046626-91849468-500\\recycled_process.exe"
+			}
+		},
+		"recyclebin_process": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Executing from $Recycle.bin dir.",
+			"payload": {
+				"Image": "C:\\$Recycle.Bin\\S-1-5-21-3162150815-438046626-91849468-500\\recycled_process.exe",
+				"CommandLine": "C:\\$Recycle.Bin\\S-1-5-21-3162150815-438046626-91849468-500\\recycled_process.exe"
+			}
+		},
+		"drop_file_recycler": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "File created",
+			"description": "Dropping exe in Recycler dir.",
+			"payload": {
+				"Image": "C:\\Python27\\python.exe",
+				"TargetFilename": "C:\\Recycler\\S-1-5-21-3162150815-438046626-91849468-500\\recycled_process.exe"
+			}
+		},
+		"recycler_process": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Executing from Recycler dir.",
+			"payload": {
+				"Image": "C:\\Recycler\\S-1-5-21-3162150815-438046626-91849468-500\\recycled_process.exe",
+				"CommandLine": "C:\\Recycler\\S-1-5-21-3162150815-438046626-91849468-500\\recycled_process.exe"
+			}
+		}
+	}
+}

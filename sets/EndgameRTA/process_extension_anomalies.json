@@ -1,0 +1,88 @@
+{
+	"name": "RTA process_name_masquerade",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "Creates several processes which mimic core Windows process names but that are not those executables.",
+	"rules": {
+		"drop_com": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "File created",
+			"description": "Dropping com file.",
+			"payload": {
+				"Image": "C:\\Python27\\python.exe",
+				"TargetFilename": "C:\\Users\\Administrator\\Downloads\\RTA-master\\evil.com"
+			}
+		},
+		"com_process": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Executing com file.",
+			"payload": {
+				"Image": "C:\\Users\\Administrator\\Downloads\\RTA-master\\evil.com",
+				"CommandLine": "evil.com"
+			}
+		},
+		"drop_pif": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "File created",
+			"description": "Dropping pif file.",
+			"payload": {
+				"Image": "C:\\Python27\\python.exe",
+				"TargetFilename": "C:\\Users\\Administrator\\Downloads\\RTA-master\\bad.pif"
+			}
+		},
+		"pif_process": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Executing pif file.",
+			"payload": {
+				"Image": "C:\\Users\\Administrator\\Downloads\\RTA-master\\bad.pif",
+				"CommandLine": "bad.pif"
+			}
+		},
+		"drop_cmd": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "File created",
+			"description": "Dropping cmd file.",
+			"payload": {
+				"Image": "C:\\Python27\\python.exe",
+				"TargetFilename": "C:\\Users\\Administrator\\Downloads\\RTA-master\\evil.cmd"
+			}
+		},
+		"cmd_process": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Executing cmd file.",
+			"payload": {
+				"Image": "C:\\Users\\Administrator\\Downloads\\RTA-master\\evil.cmd",
+				"CommandLine": "evil.cmd"
+			}
+		},
+		"drop_scr": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "File created",
+			"description": "Dropping scr file.",
+			"payload": {
+				"Image": "C:\\Python27\\python.exe",
+				"TargetFilename": "C:\\Users\\Administrator\\Downloads\\RTA-master\\weird.scr"
+			}
+		},
+		"scr_process": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Executing scr file.",
+			"payload": {
+				"Image": "C:\\Users\\Administrator\\Downloads\\RTA-master\\weird.scr",
+				"CommandLine": "weird.scr"
+			}
+		}
+	}
+}
