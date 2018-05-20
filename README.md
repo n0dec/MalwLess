@@ -74,9 +74,10 @@ Anyone can create a rule. These are written in `json` with an easy format.
 ```
 ## Sets
 * [`Awesome gists sets`](https://github.com/n0dec/MalwLess/blob/master/GISTS.md)
-* Windows oneliners [`windows-oneliners.json`](https://github.com/n0dec/MalwLess/blob/master/sets/windows-oneliners.json) Ref: https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/
-* [`APTSimulator set`](https://github.com/n0dec/MalwLess/tree/master/sets/APTSimulator) Ref: https://github.com/NextronSystems/APTSimulator
-* [`WinPwnage set`](https://github.com/n0dec/MalwLess/tree/master/sets/WinPwnage) Ref: https://github.com/rootm0s/WinPwnage
+* Windows oneliners [`windows-oneliners.json`](https://github.com/n0dec/MalwLess/blob/master/sets/windows-oneliners.json) ref: https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/
+* [`APTSimulator set`](https://github.com/n0dec/MalwLess/tree/master/sets/APTSimulator) ref: https://github.com/NextronSystems/APTSimulator
+* [`Endgame RTA set`](https://github.com/n0dec/MalwLess/tree/master/sets/EndgameRTA) ref: https://github.com/endgameinc/RTA
+* [`WinPwnage set`](https://github.com/n0dec/MalwLess/tree/master/sets/WinPwnage) ref: https://github.com/rootm0s/WinPwnage
 
 ## Contact
 For any issue or suggestions contact me on twitter [@n0dec](https://twitter.com/n0dec). Also if you need help :)
