@@ -1,0 +1,27 @@
+{
+	"name": "T1002 - Data Compressed",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "An adversary may compress data (e.g., sensitive documents) that is collected prior to exfiltration in order to make it portable and minimize the amount of data sent over the network.",
+	"rules": {
+		"exfil_file": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "File created",
+			"description": "Writing file for exfiltration.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+				"TargetFilename": "C:\\temp.zip"
+			}
+		},
+		"powershell_compression": {
+			"enabled": true,
+			"source": "PowerShell",
+			"category": "4103",
+			"description": "PowerShell using Compression library.",
+			"payload": {
+				"Payload": "CommandInvocation(Add-Type): \"Add-Type\"\r\nParameterBinding(Add-Type): name=\"AssemblyName\"; value=\"System.IO.Compression\""
+			}
+		}
+	}
+}
