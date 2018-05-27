@@ -1,0 +1,86 @@
+{
+	"name": "T1007 - System Service Discovery",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "Adversaries may try to get information about registered services.",
+	"rules": {
+		"tasklist": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Executing tasklist.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\tasklist.exe",
+				"Description": "Lists the current running tasks",
+				"CommandLine": "tasklist"
+			}
+		},
+		"sc_query": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Executing sc query.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\sc.exe",
+				"Description": "Service Control Manager Configuration Tool",
+				"CommandLine": "sc  query"
+			}
+		},
+		"sc_query_all": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Executing sc query.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\sc.exe",
+				"Description": "Service Control Manager Configuration Tool",
+				"CommandLine": "sc  query state= all"
+			}
+		},
+		"sc_start": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Executing sc start.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\sc.exe",
+				"Description": "Service Control Manager Configuration Tool",
+				"CommandLine": "sc  start Sysmon"
+			}
+		},
+		"start_service": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Executing sc start.",
+			"payload": {
+				"ParentImage": "C:\\Windows\\System32\\services.exe",
+				"ParentCommandLine": "C:\\Windows\\System32\\services.exe",
+				"Image": "C:\\Windows\\Sysmon.exe",
+				"CommandLine": "C:\\Windows\\Sysmon.exe"
+			}
+		},
+		"sc_stop": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Executing sc stop.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\sc.exe",
+				"Description": "Service Control Manager Configuration Tool",
+				"CommandLine": "sc  stop Sysmon"
+			}
+		},
+		"wmic": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Executing wmic get name.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\wbem\\WMIC.exe",
+				"Description": "WMI Commandline Utility",
+				"CommandLine": "wmic  service where (displayname like \"Sysmon\") get name"
+			}
+		}
+	}
+}

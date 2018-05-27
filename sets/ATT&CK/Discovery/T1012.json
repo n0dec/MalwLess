@@ -1,0 +1,217 @@
+{
+	"name": "T1012 - Query Registry",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "Adversaries may interact with the Windows Registry to gather information about the system, configuration, and installed software.",
+	"rules": {
+		"query_1": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Getting \"HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Windows\" key.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\reg.exe",
+				"Description": "Registry Console Tool",
+				"CommandLine": "reg  query \"HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Windows\""
+			}
+		},
+		"query_2": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Getting \"HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\RunServicesOnce\" key.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\reg.exe",
+				"Description": "Registry Console Tool",
+				"CommandLine": "reg  query \"HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\RunServicesOnce\""
+			}
+		},
+		"query_3": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Getting \"HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\RunServicesOnce\" key.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\reg.exe",
+				"Description": "Registry Console Tool",
+				"CommandLine": "reg  query \"HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\RunServicesOnce\""
+			}
+		},
+		"query_4": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Getting \"HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\RunServices\" key.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\reg.exe",
+				"Description": "Registry Console Tool",
+				"CommandLine": "reg  query \"HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\RunServices\""
+			}
+		},
+		"query_5": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Getting \"HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\RunServices\" key.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\reg.exe",
+				"Description": "Registry Console Tool",
+				"CommandLine": "reg  query \"HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\RunServices\""
+			}
+		},
+		"query_6": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Getting \"HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\Notify\" key.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\reg.exe",
+				"Description": "Registry Console Tool",
+				"CommandLine": "reg  query \"HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\Notify\""
+			}
+		},
+		"query_7": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Getting \"HKLM\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\Userinit\" key.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\reg.exe",
+				"Description": "Registry Console Tool",
+				"CommandLine": "reg  query \"HKLM\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\Userinit\""
+			}
+		},
+		"query_8": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Getting \"HKCU\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\Shell\" key.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\reg.exe",
+				"Description": "Registry Console Tool",
+				"CommandLine": "reg  query \"HKCU\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\Shell\""
+			}
+		},
+		"query_9": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Getting \"HKLM\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\Shell\" key.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\reg.exe",
+				"Description": "Registry Console Tool",
+				"CommandLine": "reg  query \"HKLM\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\Shell\""
+			}
+		},
+		"query_10": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Getting \"HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\ShellServiceObjectDelayLoad\" key.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\reg.exe",
+				"Description": "Registry Console Tool",
+				"CommandLine": "reg  query \"HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\ShellServiceObjectDelayLoad\""
+			}
+		},
+		"query_11": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Getting \"HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\" key.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\reg.exe",
+				"Description": "Registry Console Tool",
+				"CommandLine": "reg  query \"HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\""
+			}
+		},
+		"query_12": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Getting \"HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnce\" key.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\reg.exe",
+				"Description": "Registry Console Tool",
+				"CommandLine": "reg  query \"HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnce\""
+			}
+		},
+		"query_13": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Getting \"HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnceEx\" key.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\reg.exe",
+				"Description": "Registry Console Tool",
+				"CommandLine": "reg  query \"HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnceEx\""
+			}
+		},
+		"query_14": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Getting \"HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\" key.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\reg.exe",
+				"Description": "Registry Console Tool",
+				"CommandLine": "reg  query \"HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Run\""
+			}
+		},
+		"query_15": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Getting \"HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnce\" key.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\reg.exe",
+				"Description": "Registry Console Tool",
+				"CommandLine": "reg  query \"HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnce\""
+			}
+		},
+		"query_16": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Getting \"HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnceEx\" key.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\reg.exe",
+				"Description": "Registry Console Tool",
+				"CommandLine": "reg  query \"HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\RunOnceEx\""
+			}
+		},
+		"query_17": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Getting \"HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run\" key.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\reg.exe",
+				"Description": "Registry Console Tool",
+				"CommandLine": "reg  query \"HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run\""
+			}
+		},
+		"query_18": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Getting \"HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run\" key.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\reg.exe",
+				"Description": "Registry Console Tool",
+				"CommandLine": "reg  query \"HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run\""
+			}
+		},
+		"query_19": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Getting \"HKLM\\System\\CurrentControlSet\\Services\" key.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\reg.exe",
+				"Description": "Registry Console Tool",
+				"CommandLine": "reg  query \"HKLM\\System\\CurrentControlSet\\Services\""
+			}
+		}
+	}
+}
