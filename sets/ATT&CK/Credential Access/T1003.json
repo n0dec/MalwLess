@@ -1,0 +1,256 @@
+{
+	"name": "T1003 - Credential Dumping",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "Credential dumping is the process of obtaining account login and password information, normally in the form of a hash or a clear text password, from the operating system and software. Credentials can then be used to perform Lateral Movement and access restricted information.",
+	"rules": {
+		"ps_network": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Network connection detected",
+			"description": "Network activity from powershell.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+				"DestinationIp": "151.101.132.133",
+				"DestinationPort": 443,
+				"DestinationPortName": "https"
+			}
+		},
+		"ps_lsass_access": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process accessed",
+			"description": "Lsass access from powershell.",
+			"payload": {
+				"SourceImage": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+				"TargetImage": "C:\\Windows\\system32\\lsass.exe"
+			}
+		},
+		"ps_scriptblock": {
+			"enabled": true,
+			"source": "PowerShell",
+			"category": "4104",
+			"description": "Powershell 4104 event for Invoke-Mimikatz.",
+			"payload": {
+				"ScriptBlockText": "function Invoke-Mimikatz\n{\n<#\n.SYNOPSIS\n\nThis script leverages Mimikatz 2.0 and Invoke-ReflectivePEInjection to reflectively load Mimikatz...\nblablabla...",
+				"Path": ""
+			}
+		},
+		"gsecdump": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Executing gsecdump tool.",
+			"payload": {
+				"Image": "C:\\Users\\Administrator\\Downloads\\gsecdump-0.7-win32\\gsecdump.exe",
+				"CommandLine": "gsecdump.exe  -a"
+			}
+		},
+		"gsecdump_lsass_access": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process accessed",
+			"description": "Lsass access from gsecdump.",
+			"payload": {
+				"SourceImage": "C:\\Users\\Administrator\\Downloads\\gsecdump-0.7-win32\\gsecdump.exe",
+				"TargetImage": "C:\\Windows\\system32\\lsass.exe"
+			}
+		},
+		"wce": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Executing wce tool.",
+			"payload": {
+				"Image": "C:\\Users\\Administrator\\Downloads\\wce_v1_42beta_x64\\wce.exe",
+				"CommandLine": "wce  -o output.txt"
+			}
+		},
+		"wce_service": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry object added or deleted",
+			"description": "Writing wce service parameters.",
+			"payload": {
+				"EventType": "CreateKey",
+				"Image": "C:\\Windows\\system32\\services.exe",
+				"TargetObject": "HKLM\\System\\CurrentControlSet\\Services\\WCESERVICE"
+			}
+		},
+		"wce_service_type": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry object added or deleted",
+			"description": "Writing wce service parameters.",
+			"payload": {
+				"EventType": "SetValue",
+				"Image": "C:\\Windows\\system32\\services.exe",
+				"TargetObject": "HKLM\\System\\CurrentControlSet\\Services\\WCESERVICE\\Type",
+				"Details": "DWORD (0x00000010)"
+			}
+		},
+		"wce_service_start": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry object added or deleted",
+			"description": "Writing wce service parameters.",
+			"payload": {
+				"EventType": "SetValue",
+				"Image": "C:\\Windows\\system32\\services.exe",
+				"TargetObject": "HKLM\\System\\CurrentControlSet\\Services\\WCESERVICE\\Start",
+				"Details": "DWORD (0x00000003)"
+			}
+		},
+		"wce_service_imagepath": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry object added or deleted",
+			"description": "Writing wce service parameters.",
+			"payload": {
+				"EventType": "SetValue",
+				"Image": "C:\\Windows\\system32\\services.exe",
+				"TargetObject": "HKLM\\System\\CurrentControlSet\\Services\\WCESERVICE\\ImagePath",
+				"Details": "C:\\Users\\Administrator\\Downloads\\wce_v1_42beta_x64\\wce.exe -S"
+			}
+		},
+		"wce_service_displayname": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry object added or deleted",
+			"description": "Writing wce service parameters.",
+			"payload": {
+				"EventType": "SetValue",
+				"Image": "C:\\Windows\\system32\\services.exe",
+				"TargetObject": "HKLM\\System\\CurrentControlSet\\Services\\WCESERVICE\\DisplayName",
+				"Details": "WCESERVICE"
+			}
+		},
+		"wce_service_objectname": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry object added or deleted",
+			"description": "Writing wce service parameters.",
+			"payload": {
+				"EventType": "SetValue",
+				"Image": "C:\\Windows\\system32\\services.exe",
+				"TargetObject": "HKLM\\System\\CurrentControlSet\\Services\\WCESERVICE\\ObjectName",
+				"Details": "LocalSystem"
+			}
+		},
+		"start_wce_service": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Executing wce tool.",
+			"payload": {
+				"ParentImage": "C:\\Windows\\System32\\services.exe",
+				"ParentCommandLine": "C:\\Windows\\System32\\services.exe",
+				"Image": "C:\\Users\\Administrator\\Downloads\\wce_v1_42beta_x64\\wce.exe",
+				"CommandLine": "C:\\Users\\Administrator\\Downloads\\wce_v1_42beta_x64\\wce.exe -S"
+			}
+		},
+		"wce_pipe": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Pipe Created",
+			"description": "Created pipe from wce tool.",
+			"payload": {
+				"Image": "C:\\Users\\Administrator\\Downloads\\wce_v1_42beta_x64\\wce.exe",
+				"PipeName": "\\WCEServicePipe"
+			}
+		},
+		"wce_dll": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "File created",
+			"description": "Writing wce library.",
+			"payload": {
+				"Image": "C:\\Users\\Administrator\\Downloads\\wce_v1_42beta_x64\\wce.exe",
+				"TargetFilename": "C:\\Windows\\Temp\\wceaux.dll"
+			}
+		},
+		"wce_lsass_access": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process accessed",
+			"description": "Lsass access from wce.",
+			"payload": {
+				"SourceImage": "C:\\Users\\Administrator\\Downloads\\wce_v1_42beta_x64\\wce.exe",
+				"TargetImage": "C:\\Windows\\system32\\lsass.exe"
+			}
+		},
+		"lsass_wce_dll": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Image loaded",
+			"description": "Lsass loading wce library.",
+			"payload": {
+				"Image": "C:\\Windows\\system32\\lsass.exe",
+				"ImageLoaded": "C:\\Windows\\Temp\\wceaux.dll"
+			}
+		},
+		"hklm_sam_export": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Saving HKLM\\sam with reg.exe.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\reg.exe",
+				"Description": "Registry Console Tool",
+				"CommandLine": "reg save HKLM\\sam sam"
+			}
+		},
+		"hklm_sam_export_file": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "File created",
+			"description": "Writing sam reg file.",
+			"payload": {
+				"Image": "C:\\Windows\\system32\\reg.exe",
+				"TargetFilename": "C:\\Users\\Administrator\\sam"
+			}
+		},
+		"hklm_system_export": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Saving HKLM\\system with reg.exe.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\reg.exe",
+				"Description": "Registry Console Tool",
+				"CommandLine": "reg save HKLM\\system system"
+			}
+		},
+		"hklm_system_export_file": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "File created",
+			"description": "Writing system reg file.",
+			"payload": {
+				"Image": "C:\\Windows\\system32\\reg.exe",
+				"TargetFilename": "C:\\Users\\Administrator\\system"
+			}
+		},
+		"hklm_security_export": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Saving HKLM\\security with reg.exe.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\reg.exe",
+				"Description": "Registry Console Tool",
+				"CommandLine": "reg save HKLM\\security security"
+			}
+		},
+		"hklm_system_export_file": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "File created",
+			"description": "Writing security reg file.",
+			"payload": {
+				"Image": "C:\\Windows\\system32\\reg.exe",
+				"TargetFilename": "C:\\Users\\Administrator\\security"
+			}
+		}
+	}
+}
