@@ -1,0 +1,85 @@
+{
+	"name": "T1018 - Remote System Discovery",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "Adversaries will likely attempt to get a listing of other systems by IP address, hostname, or other logical identifier on a network that may be used for Lateral Movement from the current system.",
+	"rules": {
+		"net_domain": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Executing net view /domain.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\net.exe",
+				"Description": "Net Command",
+				"CommandLine": "net  view /domain"
+			}
+		},
+		"net": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Executing net view.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\net.exe",
+				"Description": "Net Command",
+				"CommandLine": "net  view"
+			}
+		},
+		"ping_1": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Executing ping in local network.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\PING.EXE",
+				"Description": "TCP/IP Ping Command",
+				"CommandLine": "ping  -n 1 -w 100 192.168.1.1"
+			}
+		},
+		"ping_2": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Executing ping in local network.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\PING.EXE",
+				"Description": "TCP/IP Ping Command",
+				"CommandLine": "ping  -n 1 -w 100 192.168.1.2"
+			}
+		},
+		"ping_3": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Executing ping in local network.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\PING.EXE",
+				"Description": "TCP/IP Ping Command",
+				"CommandLine": "ping  -n 1 -w 100 192.168.1.3"
+			}
+		},
+		"ping_4": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Executing ping in local network.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\PING.EXE",
+				"Description": "TCP/IP Ping Command",
+				"CommandLine": "ping  -n 1 -w 100 192.168.1.4"
+			}
+		},
+		"ping_5": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Executing ping in local network.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\PING.EXE",
+				"Description": "TCP/IP Ping Command",
+				"CommandLine": "ping  -n 1 -w 100 192.168.1.5"
+			}
+		}
+	}
+}

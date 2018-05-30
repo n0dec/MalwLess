@@ -69,6 +69,6 @@
 				"Description": "Net Command",
 				"CommandLine": "C:\\Windows\\system32\\net1"
 			}
-		},
+		}
 	}
 }
