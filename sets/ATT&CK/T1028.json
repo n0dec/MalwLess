@@ -1,0 +1,148 @@
+{
+	"name": "T1028 - Windows Remote Management",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "Windows Remote Management (WinRM) is the name of both a Windows service and a protocol that allows a user to interact with a remote system (e.g., run an executable, modify the Registry, modify services).",
+	"rules": {
+		"enable_psremoting": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Enabling WinRM with PowerShell.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+				"Description": "Windows PowerShell",
+				"CommandLine": "\"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" Enable-PSRemoting -Force"
+			}
+		},
+		"service_start": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "Enabling WinRM with PowerShell.",
+			"payload": {
+				"EventType": "SetValue",
+				"Image": "C:\\Windows\\System32\\services.exe",
+				"Description": "HKLM\\System\\CurrentControlSet\\Services\\WinRM\\Start",
+				"Details": "DWORD (0x00000002)"
+			}
+		},
+		"service_urlaclinfo": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "Enabling WinRM with PowerShell.",
+			"payload": {
+				"EventType": "SetValue",
+				"Image": "C:\\Windows\\System32\\svchost.exe",
+				"Description": "HKLM\\System\\CurrentControlSet\\Services\\HTTP\\Parameters\\UrlAclInfo\\http://+:5985/wsman/",
+				"Details": "Binary Data"
+			}
+		},
+		"firewall_winrm_1": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "Enabling WinRM with PowerShell.",
+			"payload": {
+				"EventType": "SetValue",
+				"Image": "C:\\Windows\\System32\\svchost.exe",
+				"Description": " HKLM\\System\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\FirewallRules\\{7614183C-5BDD-46C1-A7E0-7EF436E0ADDB}",
+				"Details": "v2.26|Action=Allow|Active=TRUE|Dir=In|Protocol=6|Profile=Private|LPort=5985|App=System|Name=Windows Remote Management (HTTP-In)|Desc=@FirewallAPI.dll,-30256|EmbedCtxt=@FirewallAPI.dll,-30267|"
+			}
+		},
+		"firewall_winrm_2": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "Enabling WinRM with PowerShell.",
+			"payload": {
+				"EventType": "SetValue",
+				"Image": "C:\\Windows\\System32\\svchost.exe",
+				"Description": " HKLM\\System\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\FirewallRules\\WINRM-HTTP-In-TCP-PUBLIC",
+				"Details": "v2.26|Action=Allow|Active=TRUE|Dir=In|Protocol=6|Profile=Public|LPort=5985|RA4=LocalSubnet|RA6=LocalSubnet|App=System|Name=Windows Remote Management (HTTP-In)|Desc=@FirewallAPI.dll,-30256|EmbedCtxt=@FirewallAPI.dll,-30267|"
+			}
+		},
+		"firewall_winrm_3": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "Enabling WinRM with PowerShell.",
+			"payload": {
+				"EventType": "SetValue",
+				"Image": "C:\\Windows\\System32\\svchost.exe",
+				"Description": " HKLM\\System\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\FirewallRules\\WINRM-HTTP-In-TCP",
+				"Details": "v2.26|Action=Allow|Active=TRUE|Dir=In|Protocol=6|Profile=Domain|LPort=5985|App=System|Name=Windows Remote Management (HTTP-In)|Desc=@FirewallAPI.dll,-30256|EmbedCtxt=@FirewallAPI.dll,-30267|"
+			}
+		},
+		"lateral_mmc20": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Powershell lateral movement using the mmc20 application com object",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+				"Description": "Windows PowerShell",
+				"CommandLine": "powershell.exe  [activator]::CreateInstance([type]::GetTypeFromProgID(\\\"MMC20.application\\\",\\\"localhost\\\")).Document.ActiveView.ExecuteShellCommand(\\\"c:\\windows\\system32\\calc.exe\\\", $null, $null, \\\"7\\\")"
+			}
+		},
+		"lateral_mmc20_child": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Powershell lateral movement using the mmc20 application com object",
+			"payload": {
+				"ParentImage": "C:\\Windows\\System32\\mmc.exe",
+				"ParentCommandLine": "C:\\Windows\\system32\\mmc.exe -Embedding",
+				"Image": "C:\\Windows\\System32\\calc.exe",
+				"CommandLine": "\"C:\\Windows\\System32\\calc.exe\""
+			}
+		},
+		"lateral_wmic": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Lateral movement using WMIC.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\wbem\\WMIC.exe",
+				"Description": "WMI Commandline Utility",
+				"CommandLine": "wmic  /user:Administrator /password:P4ssw$dd_ /node:ServerT process call create \"calc.exe\""
+			}
+		},
+		"lateral_wmic_child": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Lateral movement using WMIC.",
+			"payload": {
+				"ParentImage": "C:\\Windows\\System32\\wbem\\WmiPrvSE.exe",
+				"ParentCommandLine": "C:\\Windows\\system32\\wbem\\WmiPrvSE.exe -secured -Embedding",
+				"Image": "C:\\Windows\\System32\\calc.exe",
+				"CommandLine": "\"C:\\Windows\\System32\\calc.exe\""
+			}
+		},
+		"lateral_psexec": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Lateral movement using Sysinternals PsExec.",
+			"payload": {
+				"Image": "C:\\Windows\\PsExec.exe",
+				"Description": "Execute processes remotely",
+				"Product": "Sysinternals PsExec",
+				"CommandLine": "psexec \\\\ServerT -u NET\\Administrator -p P4ssw$dd_ -s cmd.exe"
+			}
+		},
+		"lateral_psexec_child": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Lateral movement using Sysinternals PsExec.",
+			"payload": {
+				"ParentImage": "C:\\Windows\\PSEXESVC.EXE",
+				"Image": "C:\\Windows\\System32\\cmd.exe",
+				"CommandLine": "cmd.exe"
+			}
+		}
+	}
+}
