@@ -1,0 +1,31 @@
+{
+	"name": "T1037 - Logon Scripts",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "Windows allows logon scripts to be run whenever a specific user or group of users log into a system.",
+	"rules": {
+		"reg_add": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Add logon script via reg.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\reg.exe",
+				"Description": "Registry Console Tool",
+				"CommandLine": "reg  add HKCU\\Environment /v UserInitMprLogonScript /t REG_MULTI_SZ /d \"test.exe\""
+			}
+		},
+		"reg_value": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "Add logon script via reg.",
+			"payload": {
+				"EventType": "SetValue",
+				"Image": "C:\\Windows\\System32\\reg.exe",
+				"TargetObject": "HKU\\S-1-5-21-3162150815-438046626-91849468-500\\Environment\\UserInitMprLogonScript",
+				"Details": "Binary Data"
+			}
+		}
+	}
+}
