@@ -1,0 +1,148 @@
+{
+	"name": "T1050 - New Service",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "Adversaries may install a new service that can be configured to execute at startup by using utilities to interact with services or by directly modifying the Registry.",
+	"rules": {
+		"sc_create": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Creating service with sc.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\sc.exe",
+				"Description": "Service Control Manager Configuration Tool",
+				"CommandLine": "sc  create TestService binPath=\"C:\\Path\\file.exe\""
+			}
+		},
+		"sc_service": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry object added or deleted",
+			"description": "Writing service parameters.",
+			"payload": {
+				"EventType": "CreateKey",
+				"Image": "C:\\Windows\\system32\\services.exe",
+				"TargetObject": "HKLM\\System\\CurrentControlSet\\Services\\TestService"
+			}
+		},
+		"sc_service_type": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "Writing service parameters.",
+			"payload": {
+				"EventType": "SetValue",
+				"Image": "C:\\Windows\\system32\\services.exe",
+				"TargetObject": "HKLM\\System\\CurrentControlSet\\Services\\TestService\\Type",
+				"Details": "DWORD (0x00000010)"
+			}
+		},
+		"sc_service_start": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "Writing service parameters.",
+			"payload": {
+				"EventType": "SetValue",
+				"Image": "C:\\Windows\\system32\\services.exe",
+				"TargetObject": "HKLM\\System\\CurrentControlSet\\Services\\TestService\\Start",
+				"Details": "DWORD (0x00000003)"
+			}
+		},
+		"sc_service_imagepath": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "Writing service parameters.",
+			"payload": {
+				"EventType": "SetValue",
+				"Image": "C:\\Windows\\system32\\services.exe",
+				"TargetObject": "HKLM\\System\\CurrentControlSet\\Services\\TestService\\ImagePath",
+				"Details": "C:\\Path\\file.exe"
+			}
+		},
+		"sc_service_objectname": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "Writing service parameters.",
+			"payload": {
+				"EventType": "SetValue",
+				"Image": "C:\\Windows\\system32\\services.exe",
+				"TargetObject": "HKLM\\System\\CurrentControlSet\\Services\\TestService\\ObjectName",
+				"Details": "LocalSystem"
+			}
+		},
+		"powershell_create": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Creating service with powershell.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+				"Description": "Windows PowerShell",
+				"CommandLine": "\"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" New-Service -Name TestService -BinaryPathName C:\\Path\\file.exe"
+			}
+		},
+		"powershell_service": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry object added or deleted",
+			"description": "Writing service parameters.",
+			"payload": {
+				"EventType": "CreateKey",
+				"Image": "C:\\Windows\\system32\\services.exe",
+				"TargetObject": "HKLM\\System\\CurrentControlSet\\Services\\TestService"
+			}
+		},
+		"powershell_service_type": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "Writing service parameters.",
+			"payload": {
+				"EventType": "SetValue",
+				"Image": "C:\\Windows\\system32\\services.exe",
+				"TargetObject": "HKLM\\System\\CurrentControlSet\\Services\\TestService\\Type",
+				"Details": "DWORD (0x00000010)"
+			}
+		},
+		"powershell_service_start": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "Writing service parameters.",
+			"payload": {
+				"EventType": "SetValue",
+				"Image": "C:\\Windows\\system32\\services.exe",
+				"TargetObject": "HKLM\\System\\CurrentControlSet\\Services\\TestService\\Start",
+				"Details": "DWORD (0x00000003)"
+			}
+		},
+		"powershell_service_imagepath": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "Writing service parameters.",
+			"payload": {
+				"EventType": "SetValue",
+				"Image": "C:\\Windows\\system32\\services.exe",
+				"TargetObject": "HKLM\\System\\CurrentControlSet\\Services\\TestService\\ImagePath",
+				"Details": "C:\\Path\\file.exe"
+			}
+		},
+		"powershell_service_objectname": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "Writing service parameters.",
+			"payload": {
+				"EventType": "SetValue",
+				"Image": "C:\\Windows\\system32\\services.exe",
+				"TargetObject": "HKLM\\System\\CurrentControlSet\\Services\\TestService\\ObjectName",
+				"Details": "LocalSystem"
+			}
+		}
+	}
+}

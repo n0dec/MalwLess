@@ -1,0 +1,26 @@
+{
+	"name": "T1056 - Input Capture",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "Adversaries can use methods of capturing user input for obtaining credentials for Valid Accounts and information Collection that include keylogging and user input field interception.",
+	"rules": {
+		"powershell_keystrokes": {
+			"enabled": true,
+			"source": "PowerShell",
+			"category": "4104",
+			"description": "Capturing keystrokes with powershell module.",
+			"payload": {
+				"ScriptBlockText": "Get-Keystrokes.ps1 -LogPath output.txt"
+			}
+		},
+		"powershell_keystrokes_function": {
+			"enabled": true,
+			"source": "PowerShell",
+			"category": "4104",
+			"description": "Injecting dll with Invoke-DllInjection.",
+			"payload": {
+				"ScriptBlockText": "function Get-Keystrokes {\r\n<#\r\n.SYNOPSIS\r\n\r\nLogs keys pressed, time and the active window.\r\n\r\nPowerSploit Function: Get-Keystrokes\r\n..."
+			}
+		}
+	}
+}

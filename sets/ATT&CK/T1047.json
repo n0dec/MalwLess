@@ -1,0 +1,52 @@
+{
+	"name": "T1047 - Windows Management Instrumentation",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "Windows Management Instrumentation (WMI) is a Windows administration feature that provides a uniform environment for local and remote access to Windows system components.",
+	"rules": {
+		"useraccount": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Get all user accounts.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\wbem\\WMIC.exe",
+				"Description": "WMI Commandline Utility",
+				"CommandLine": "wmic  useraccount get /ALL"
+			}
+		},
+		"process": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Get process info.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\wbem\\WMIC.exe",
+				"Description": "WMI Commandline Utility",
+				"CommandLine": "wmic  process get caption,executablepath,commandline"
+			}
+		},
+		"qfe": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Get qfe info.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\wbem\\WMIC.exe",
+				"Description": "WMI Commandline Utility",
+				"CommandLine": "wmic  qfe get description,installedOn /format:csv"
+			}
+		},
+		"service": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Get service from remote host.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\wbem\\WMIC.exe",
+				"Description": "WMI Commandline Utility",
+				"CommandLine": "wmic  /node:\"Server52\" service where (caption like \"%%sql server (%%\")"
+			}
+		}
+	}
+}

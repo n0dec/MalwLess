@@ -1,0 +1,48 @@
+{
+	"name": "T1055 - Process Injection",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "Process injection is a method of executing arbitrary code in the address space of a separate live process.",
+	"rules": {
+		"mavinject": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Injecting dll with mavinject.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\mavinject.exe",
+				"Description": "Microsoft Application Virtualization Injector",
+				"CommandLine": "mavinject  3396 /INJECTRUNNING T1055.dll"
+			}
+		},
+		"mavinject_access": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Injecting dll with mavinject.",
+			"payload": {
+				"SourceImage": "C:\\Windows\\System32\\mavinject.exe",
+				"TargetProcessId": 3396,
+				"TargetImage": "C:\\Windows\\System32\\calc.exe"
+			}
+		},
+		"powershell_inject": {
+			"enabled": true,
+			"source": "PowerShell",
+			"category": "4104",
+			"description": "Injecting dll with Invoke-DllInjection.",
+			"payload": {
+				"ScriptBlockText": "Invoke-DllInjection.ps1 -ProcessID 3396 -Dll T1055.dll"
+			}
+		},
+		"powershell_inject_function": {
+			"enabled": true,
+			"source": "PowerShell",
+			"category": "4104",
+			"description": "Injecting dll with Invoke-DllInjection.",
+			"payload": {
+				"ScriptBlockText": "function Invoke-DllInjection\r\n{\r\n<#\r\n.SYNOPSIS\r\n\r\nInjects a Dll into the process ID of your choosing.\r\n\r\nPowerSploit Function: Invoke-DllInjection\r\n..."
+			}
+		}
+	}
+}

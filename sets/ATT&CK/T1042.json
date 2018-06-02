@@ -1,0 +1,31 @@
+{
+	"name": "T1042 - Change Default File Association",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "Applications can modify the file association for a given file extension to call an arbitrary program when a file with the given extension is opened.",
+	"rules": {
+		"reg_key": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry object added or deleted",
+			"description": "Assoc file extension.",
+			"payload": {
+				"EventType": "CreateKey",
+				"Image": "C:\\Windows\\System32\\cmd.exe",
+				"TargetObject": "HKCR\\.wav"
+			}
+		},
+		"reg_value": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "Assoc file extension.",
+			"payload": {
+				"EventType": "SetValue",
+				"Image": "C:\\Windows\\System32\\cmd.exe",
+				"TargetObject": "HKCR\\.wav\\(Default)",
+				"Details": "C:\\Program Files\\Windows Media Player\\wmplayer.exe"
+			}
+		}
+	}
+}

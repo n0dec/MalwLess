@@ -6,5 +6,5 @@
 	"MessageTotal": 1,
 	"ScriptBlockText": "Write-Host \"Hello, World!\"",
 	"ScriptBlockId": "eee22606-aaaa-bbbb-cccc-ad5ae03adba7",
-	"Path": "C:\\Windows\\hello.ps1",
+	"Path": "",
 }

@@ -1,0 +1,135 @@
+{
+	"name": "T1053 - Scheduled Task",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "An adversary may use task scheduling to execute programs at system startup or on a scheduled basis for persistence, to conduct remote Execution as part of Lateral Movement, to gain SYSTEM privileges, or to run a process under the context of a specified account.",
+	"rules": {
+		"schtasks_create": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Creating service with schtasks.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\schtasks.exe",
+				"Description": "Task Scheduler Configuration Tool",
+				"CommandLine": "schtasks  /Create /SC ONCE /TN spawn /TR cmd.exe /ST 14:00"
+			}
+		},
+		"schtasks_file": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "File created",
+			"description": "Writing sheduled task file.",
+			"payload": {
+				"Image": "C:\\Windows\\system32\\svchost.exe",
+				"TargetFilename": "C:\\Windows\\System32\\Tasks\\spawn"
+			}
+		},
+		"schtasks_reg": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry object added or deleted",
+			"description": "Writing scheduled task registry key.",
+			"payload": {
+				"EventType": "CreateKey",
+				"Image": "C:\\Windows\\system32\\svchost.exe",
+				"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Schedule\\TaskCache\\Tree\\spawn"
+			}
+		},
+		"reg_value_sd": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "Writing scheduled task key parameters.",
+			"payload": {
+				"EventType": "SetValue",
+				"Image": "C:\\Windows\\system32\\svchost.exe",
+				"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Schedule\\TaskCache\\Tree\\spawn\\SD",
+				"Details": "Binary Data"
+			}
+		},
+		"reg_value_id": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "Writing scheduled task key parameters.",
+			"payload": {
+				"EventType": "SetValue",
+				"Image": "C:\\Windows\\system32\\svchost.exe",
+				"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Schedule\\TaskCache\\Tree\\spawn\\Id",
+				"Details": "{581BC52C-7DE3-4422-860E-470B0F3F068E}"
+			}
+		},
+		"reg_value_index": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "Writing scheduled task key parameters.",
+			"payload": {
+				"EventType": "SetValue",
+				"Image": "C:\\Windows\\system32\\svchost.exe",
+				"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Schedule\\TaskCache\\Tree\\spawn\\Index",
+				"Details": "DWORD (0x00000003)"
+			}
+		},
+		"taskcache_reg": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry object added or deleted",
+			"description": "Writing scheduled task registry key.",
+			"payload": {
+				"EventType": "CreateKey",
+				"Image": "C:\\Windows\\system32\\svchost.exe",
+				"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Schedule\\TaskCache\\Tasks\\{581BC52C-7DE3-4422-860E-470B0F3F068E}"
+			}
+		},
+		"taskcache_value_path": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "Writing scheduled task parameters key.",
+			"payload": {
+				"EventType": "SetValue",
+				"Image": "C:\\Windows\\system32\\svchost.exe",
+				"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Schedule\\TaskCache\\Tasks\\{581BC52C-7DE3-4422-860E-470B0F3F068E}\\Path",
+				"Details": "\\spawn"
+			}
+		},
+		"taskcache_value_hash": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "Writing scheduled task parameters key.",
+			"payload": {
+				"EventType": "SetValue",
+				"Image": "C:\\Windows\\system32\\svchost.exe",
+				"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Schedule\\TaskCache\\Tasks\\{581BC52C-7DE3-4422-860E-470B0F3F068E}\\Hash",
+				"Details": "Binary Data"
+			}
+		},
+		"taskcache_value_schema": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "Writing scheduled task parameters key.",
+			"payload": {
+				"EventType": "SetValue",
+				"Image": "C:\\Windows\\system32\\svchost.exe",
+				"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Schedule\\TaskCache\\Tasks\\{581BC52C-7DE3-4422-860E-470B0F3F068E}\\Schema",
+				"Details": "DWORD (0x00010002)"
+			}
+		},
+		"taskcache_value_uri": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "Writing scheduled task parameters key.",
+			"payload": {
+				"EventType": "SetValue",
+				"Image": "C:\\Windows\\system32\\svchost.exe",
+				"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Schedule\\TaskCache\\Tasks\\{581BC52C-7DE3-4422-860E-470B0F3F068E}\\URI",
+				"Details": "\\spaw"
+			}
+		}
+	}
+}
