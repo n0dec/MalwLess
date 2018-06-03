@@ -1,0 +1,30 @@
+{
+	"name": "T1070 - Indicator Removal on Host",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "Adversaries may delete or alter generated event files on a host system, including potentially captured files such as quarantined malware.",
+	"rules": {
+		"wevtutil_cl": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Clear event log.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\wevtutil.exe",
+				"Description": "Eventing Command Line Utility",
+				"CommandLine": "wevtutil  cl system"
+			}
+		},
+		"fsutil_deletejournal": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Delete USN journal.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\fsutil.exe",
+				"Description": "fsutil.exe",
+				"CommandLine": "fsutil  usn deletejournal /D C:"
+			}
+		}
+	}
+}

@@ -18,7 +18,7 @@
 		"mavinject_access": {
 			"enabled": true,
 			"source": "Sysmon",
-			"category": "Process Create",
+			"category": "Process accessed",
 			"description": "Injecting dll with mavinject.",
 			"payload": {
 				"SourceImage": "C:\\Windows\\System32\\mavinject.exe",

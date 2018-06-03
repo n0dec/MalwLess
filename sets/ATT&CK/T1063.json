@@ -1,0 +1,101 @@
+{
+	"name": "T1063 - Security Software Discovery",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "Adversaries may attempt to get a listing of security software, configurations, defensive tools, and sensors that are installed on the system.",
+	"rules": {
+		"run_add": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Firewall security discovery.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\netsh.exe",
+				"Description": "Network Command Shell",
+				"CommandLine": "netsh.exe  advfirewall firewall show all profiles"
+			}
+		},
+		"tasklist": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Listing security software.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\netsh.exe",
+				"Description": "Lists the current running tasks",
+				"CommandLine": "tasklist"
+			}
+		},
+		"findstr_virus": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Listing security software.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\findstr.exe",
+				"Description": "Find String (QGREP) Utility",
+				"CommandLine": "findstr  virus"
+			}
+		},
+		"findstr_cb": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Listing security software.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\findstr.exe",
+				"Description": "Find String (QGREP) Utility",
+				"CommandLine": "findstr  cb"
+			}
+		},
+		"findstr_defender": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Listing security software.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\findstr.exe",
+				"Description": "Find String (QGREP) Utility",
+				"CommandLine": "findstr  defender"
+			}
+		},
+		"powershell_getprocess": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Listing security software.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+				"Description": "Windows PowerShell",
+				"CommandLine": "\"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" get-process"
+			}
+		},
+		"powershell_virus": {
+			"enabled": true,
+			"source": "PowerShell",
+			"category": "4104",
+			"description": "Listing security software.",
+			"payload": {
+				"ScriptBlockText": "powershell.exe get-process | ?{$_.Description -like \"*virus*\"}"
+			}
+		},
+		"powershell_cb": {
+			"enabled": true,
+			"source": "PowerShell",
+			"category": "4104",
+			"description": "Listing security software.",
+			"payload": {
+				"ScriptBlockText": "powershell.exe get-process | ?{$_.Description -like \"*carbonblack*\"}"
+			}
+		},
+		"powershell_defender": {
+			"enabled": true,
+			"source": "PowerShell",
+			"category": "4104",
+			"description": "Listing security software.",
+			"payload": {
+				"ScriptBlockText": "powershell.exe get-process | ?{$_.Description -like \"*defender*\"}"
+			}
+		}
+	}
+}

