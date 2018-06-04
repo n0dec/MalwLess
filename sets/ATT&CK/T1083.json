@@ -1,0 +1,19 @@
+{
+	"name": "T1083 - File and Directory Discovery",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "Adversaries may enumerate files and directories or may search in specific locations of a host or network share for certain information within a file system.",
+	"rules": {
+		"tree": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Discovery files and folders on the file system.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\tree.com",
+				"Description": "Tree Walk Utility",
+				"CommandLine": "tree  /F"
+			}
+		}
+	}
+}

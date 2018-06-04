@@ -1,0 +1,32 @@
+{
+	"name": "T1075 - Pass the Hash",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "Pass the hash (PtH) is a method of authenticating as a user without having access to the user's cleartext password. This method bypasses standard authentication steps that require a cleartext password, moving directly into the portion of the authentication that uses the password hash.",
+	"rules": {
+		"mimikatz_pth": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Pass the Hash using mimikatz.",
+			"payload": {
+				"Image": "C:\\Users\\Administrator\\Downloads\\mimikatz_trunk\\x64\\mimikatz.exe",
+				"Description": "mimikatz for Windows",
+				"Product": "mimikatz",
+				"CommandLine": "mimikatz  sekurlsa::pth /user:Administrator /domain:DOMAIN /ntlm:aabbccddeeff11223344"
+			}
+		},
+		"mimikatz_kerberos": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Pass the Hash using mimikatz.",
+			"payload": {
+				"Image": "C:\\Users\\Administrator\\Downloads\\mimikatz_trunk\\x64\\mimikatz.exe",
+				"Description": "mimikatz for Windows",
+				"Product": "mimikatz",
+				"CommandLine": "mimikatz  kerberos::ptt Administrator@DOMAIN"
+			}
+		}
+	}
+}

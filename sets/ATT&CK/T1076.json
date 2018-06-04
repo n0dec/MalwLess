@@ -1,0 +1,20 @@
+{
+	"name": "T1076 - Remote Desktop Protocol",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "Adversaries may also perform RDP session hijacking which involves stealing a legitimate user's remote session. Typically, a user is notified when someone else is trying to steal their session and prompted with a question.",
+	"rules": {
+		"tscon": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "RDP session hijacking using tscon as SYSTEM.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\tscon.exe",
+				"Description": "Session Connection Utility",
+				"CommandLine": "tscon  1337 /dest:rdp-tcp#55",
+				"User": "NT AUTHORITY\\SYSTEM"
+			}
+		}
+	}
+}

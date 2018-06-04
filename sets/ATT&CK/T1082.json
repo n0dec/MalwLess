@@ -1,0 +1,30 @@
+{
+	"name": "T1082 - System Information Discovery",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "An adversary may attempt to get detailed information about the operating system and hardware, including version, patches, hotfixes, service packs, and architecture.",
+	"rules": {
+		"systeminfo": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Identify system information.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\systeminfo.exe",
+				"Description": "Displays system information",
+				"CommandLine": "systeminfo"
+			}
+		},
+		"reg_disk": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Identify system information.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\reg.exe",
+				"Description": "Registry Console Tool",
+				"CommandLine": "reg  query HKLM\\SYSTEM\\CurrentControlSet\\Services\\Disk\\Enum"
+			}
+		}
+	}
+}
