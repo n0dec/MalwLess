@@ -1,0 +1,18 @@
+{
+	"name": "T1096 - NTFS File Attributes",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "Adversaries may store malicious data or binaries in file attribute metadata instead of directly in files. This may be done to evade some defenses, such as static indicator scanning tools and anti-virus.",
+	"rules": {
+		"ads_file": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "File created",
+			"description": "Writing ADS file.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\cmd.exe",
+				"TargetFilename": "C:\\file.txt:evil.exe"
+			}
+		}
+	}
+}

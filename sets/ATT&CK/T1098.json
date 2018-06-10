@@ -1,0 +1,30 @@
+{
+	"name": "T1098 - Account Manipulation",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "Account manipulation may aid adversaries in maintaining access to credentials and certain permission levels within an environment.",
+	"rules": {
+		"user_sam_delete": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry object added or deleted",
+			"description": "Renaming Administrator account.",
+			"payload": {
+				"EventType": "DeleteKey",
+				"Image": "C:\\Windows\\System32\\lsass.exe",
+				"TargetObject": "HKLM\\SAM\\SAM\\Domains\\Account\\Users\\Names\\Administrator"
+			}
+		},
+		"user_sam_add": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry object added or deleted",
+			"description": "Renaming Administrator account.",
+			"payload": {
+				"EventType": "CreateKey",
+				"Image": "C:\\Windows\\System32\\lsass.exe",
+				"TargetObject": "HKLM\\SAM\\SAM\\Domains\\Account\\Users\\Names\\HaHaHa"
+			}
+		},
+	}
+}
