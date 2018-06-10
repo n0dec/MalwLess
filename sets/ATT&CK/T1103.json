@@ -1,0 +1,44 @@
+{
+	"name": "T1103 - AppInit DLLs",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "Dynamic-link libraries (DLLs) that are specified in the AppInit_DLLs value in the Registry keys are loaded by user32.dll into every process that loads user32.dll.",
+	"rules": {
+		"appinitdll": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "Writing AppInit_Dlls persistence resgistry key.",
+			"payload": {
+				"EventType": "SetValue",
+				"Image": "C:\\Windows\\system32\\reg.exe",
+				"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Windows\\AppInit_DLLs",
+				"Details": "C:\\Tools\\MessageBox64.dll,C:\\Tools\\MessageBox32.dll"
+			}
+		},
+		"load_appinitdll": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "Enabling AppInit_Dlls load.",
+			"payload": {
+				"EventType": "SetValue",
+				"Image": "C:\\Windows\\system32\\reg.exe",
+				"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Windows\\LoadAppInit_DLLs",
+				"Details": "DWORD (0x00000001)"
+			}
+		},
+		"signed_appinitdll": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "Disabling AppInit_DLLs signed check.",
+			"payload": {
+				"EventType": "SetValue",
+				"Image": "C:\\Windows\\system32\\reg.exe",
+				"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Windows\\RequireSignedAppInit_DLLs",
+				"Details": "DWORD (0x00000000)"
+			}
+		}
+	}
+}
