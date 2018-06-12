@@ -1,0 +1,19 @@
+{
+	"name": "T1107 - File Deletion",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "Adversaries may remove these files over the course of an intrusion to keep their footprint low or remove them at the end as part of the post-intrusion cleanup process.",
+	"rules": {
+		"vssadmin_delete": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Delete volume shadow copy.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\vssadmin.exe",
+				"Description": "Command Line Interface for Microsoft® Volume Shadow Copy Service ",
+				"CommandLine": "vssadmin.exe Delete Shadows /All /Quiet"
+			}
+		}
+	}
+}
