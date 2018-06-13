@@ -1,0 +1,63 @@
+{
+    "name": "T1110 - Brute Force",
+    "version": "0.1",
+    "author": "n0dec",
+    "description": "Adversaries may use brute force techniques to attempt access to accounts when passwords are unknown or when password hashes are obtained.",
+    "rules": {
+        "net_password1": {
+            "enabled": true,
+            "source": "Sysmon",
+            "category": "Process Create",
+            "description": "Brute force authentication.",
+            "payload": {
+                "Image": "C:\\Windows\\System32\\net.exe",
+                "Description": "Net Command",
+                "CommandLine": "net  use \\\\DOMAIN\\IPC$ /user:DOMAIN\\User password1"
+            }
+        },
+        "net_password2": {
+            "enabled": true,
+            "source": "Sysmon",
+            "category": "Process Create",
+            "description": "Brute force authentication.",
+            "payload": {
+                "Image": "C:\\Windows\\System32\\net.exe",
+                "Description": "Net Command",
+                "CommandLine": "net  use \\\\DOMAIN\\IPC$ /user:DOMAIN\\User password2"
+            }
+        },
+        "net_password3": {
+            "enabled": true,
+            "source": "Sysmon",
+            "category": "Process Create",
+            "description": "Brute force authentication.",
+            "payload": {
+                "Image": "C:\\Windows\\System32\\net.exe",
+                "Description": "Net Command",
+                "CommandLine": "net  use \\\\DOMAIN\\IPC$ /user:DOMAIN\\User password3"
+            }
+        },
+        "net_password4": {
+            "enabled": true,
+            "source": "Sysmon",
+            "category": "Process Create",
+            "description": "Brute force authentication.",
+            "payload": {
+                "Image": "C:\\Windows\\System32\\net.exe",
+                "Description": "Net Command",
+                "CommandLine": "net  use \\\\DOMAIN\\IPC$ /user:DOMAIN\\User password4"
+            }
+        },
+        "net_password5": {
+            "enabled": true,
+            "source": "Sysmon",
+            "category": "Process Create",
+            "description": "Brute force authentication.",
+            "payload": {
+                "Image": "C:\\Windows\\System32\\net.exe",
+                "Description": "Net Command",
+                "CommandLine": "net  use \\\\DOMAIN\\IPC$ /user:DOMAIN\\User password5"
+            }
+        }
+    }
+}
