@@ -1,0 +1,17 @@
+{
+	"name": "T1119 - Automated Collection",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "Once established within a system or network, an adversary may use automated techniques for collecting internal data.",
+	"rules": {
+		"recursive_copy": {
+			"enabled": true,
+			"source": "PowerShell",
+			"category": "4104",
+			"description": "Copy recursive files.",
+			"payload": {
+				"ScriptBlockText": "Get-ChildItem -Recurse -Include *.doc | % {Copy-Item $_.FullName -destination c:\temp}"
+			}
+		}
+	}
+}

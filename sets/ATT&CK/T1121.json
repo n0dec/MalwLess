@@ -1,0 +1,50 @@
+{
+	"name": "T1121 - Regsvcs/Regasm",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "Adversaries can use Regsvcs and Regasm to proxy execution of code through a trusted Windows utility. Both utilities may be used to bypass process whitelisting.",
+	"rules": {
+		"csc_compile": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Compiling file with csc tool.",
+			"payload": {
+				"Image": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\csc.exe",
+				"Description": "Visual C# Command Line Compiler",
+				"CommandLine": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\csc.exe  /r:System.EnterpriseServices.dll /target:library T1121.cs"
+			}
+		},
+		"csc_file": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "File created",
+			"description": "Writing compiled file.",
+			"payload": {
+				"Image": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\csc.exe",
+				"TargetFilename": "C:\\Users\\Administrator\\Downloads\\T1121.dll"
+			}
+		},
+		"regasm": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Execute RegAsm to load compiled file.",
+			"payload": {
+				"Image": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\RegAsm.exe",
+				"Description": "Microsoft .NET Assembly Registration Utility",
+				"CommandLine": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\regasm.exe  /U T1121.dll"
+			}
+		},
+		"regasm_load": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Image loaded",
+			"description": "File loaded by RegAsm",
+			"payload": {
+				"Image": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\RegAsm.exe",
+				"ImageLoaded": "C:\\Users\\Administrator\\Downloads\\T1121.dll"
+			}
+		}
+	}
+}

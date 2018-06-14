@@ -1,0 +1,50 @@
+{
+	"name": "T1118 - InstallUtil",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "Adversaries may use InstallUtil to proxy execution of code through a trusted Windows utility. InstallUtil may also be used to bypass process whitelisting.",
+	"rules": {
+		"csc_compile": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Compiling file with csc tool.",
+			"payload": {
+				"Image": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\csc.exe",
+				"Description": "Visual C# Command Line Compiler",
+				"CommandLine": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\csc.exe  /target:library T1118.cs"
+			}
+		},
+		"csc_file": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "File created",
+			"description": "Writing compiled file.",
+			"payload": {
+				"Image": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\csc.exe",
+				"TargetFilename": "C:\\Users\\Administrator\\Downloads\\T1118.dll"
+			}
+		},
+		"installutil": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Execute InstallUtill to load compiled file.",
+			"payload": {
+				"Image": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\InstallUtil.exe",
+				"Description": ".NET Framework installation utility",
+				"CommandLine": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\InstallUtil.exe  /logfile= /LogToConsole=false /U T1118.dll"
+			}
+		},
+		"installutil_load": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Image loaded",
+			"description": "File loaded by InstallUtill",
+			"payload": {
+				"Image": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\InstallUtil.exe",
+				"ImageLoaded": "C:\\Users\\Administrator\\Downloads\\T1118.dll"
+			}
+		}
+	}
+}
