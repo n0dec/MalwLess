@@ -1,0 +1,28 @@
+{
+	"name": "T1124 - System Time Discovery",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "An adversary may gather the system time and/or time zone from a local or remote system.",
+	"rules": {
+		"powershell_getdate": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Getting system time.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+				"Description": "Windows PowerShell",
+				"CommandLine": "powershell.exe  Get-Date"
+			}
+		},
+		"get_date": {
+			"enabled": true,
+			"source": "PowerShell",
+			"category": "4104",
+			"description": "Getting system time.",
+			"payload": {
+				"ScriptBlockText": "Get-Date"
+			}
+		}
+	}
+}

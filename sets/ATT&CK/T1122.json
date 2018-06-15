@@ -1,0 +1,26 @@
+{
+	"name": "T1122 - Component Object Model Hijacking",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "Adversaries can use this system to insert malicious code that can be executed in place of legitimate software through hijacking the COM references and relationships as a means for persistence.",
+	"rules": {
+		"invoke_eventvwrbypass": {
+			"enabled": true,
+			"source": "PowerShell",
+			"category": "4104",
+			"description": "PowerShell EventViewer Bypass.",
+			"payload": {
+				"ScriptBlockText": ".\\Invoke-EventVwrBypass.ps1"
+			}
+		},
+		"function": {
+			"enabled": true,
+			"source": "PowerShell",
+			"category": "4104",
+			"description": "PowerShell EventViewer Bypass.",
+			"payload": {
+				"ScriptBlockText": "function Invoke-EventVwrBypass {\r\n<#\r\n.SYNOPSIS\r\n\r\nBypasses UAC by performing an image hijack on the .msc file extension\r\n..."
+			}
+		}
+	}
+}
