@@ -74,9 +74,9 @@ Anyone can create a rule. These are written in `json` with an easy format.
 ```
 ## Sets
 * [`Mitre ATT&CK`](https://github.com/n0dec/MalwLess/tree/master/sets/ATT%26CK) ref: https://attack.mitre.org/
-* Windows oneliners [`windows-oneliners.json`](https://github.com/n0dec/MalwLess/blob/master/sets/windows-oneliners.json) ref: https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/
 * [`APTSimulator set`](https://github.com/n0dec/MalwLess/tree/master/sets/APTSimulator) ref: https://github.com/NextronSystems/APTSimulator
 * [`Endgame RTA set`](https://github.com/n0dec/MalwLess/tree/master/sets/EndgameRTA) ref: https://github.com/endgameinc/RTA
+* [`Windows oneliners`](https://github.com/n0dec/MalwLess/blob/master/sets/windows-oneliners.json) ref: https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/
 * [`WinPwnage set`](https://github.com/n0dec/MalwLess/tree/master/sets/WinPwnage) ref: https://github.com/rootm0s/WinPwnage
 * [`Awesome gists sets`](https://github.com/n0dec/MalwLess/blob/master/GISTS.md)
 
