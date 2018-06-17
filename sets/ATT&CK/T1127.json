@@ -1,0 +1,19 @@
+{
+	"name": "T1127 - Trusted Developer Utilities",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "There are many utilities used for software development related tasks that can be used to execute code in various forms to assist in development, debugging, and reverse engineering.",
+	"rules": {
+		"msbuild": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Executing code with MSBuild.",
+			"payload": {
+				"Image": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\msbuild.exe",
+				"Description": "MSBuild.exe",
+				"CommandLine": "C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\msbuild.exe  T1127.csproj"
+			}
+		}
+	}
+}

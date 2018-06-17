@@ -1,0 +1,41 @@
+{
+	"name": "T1128 - Netsh Helper DLL",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "Adversaries can use netsh.exe with helper DLLs to proxy execution of arbitrary code in a persistent manner when netsh.exe is executed automatically with another Persistence technique or if other persistent software is present on the system that executes netsh.exe as part of its normal functionality.",
+	"rules": {
+		"netsh_add_helper": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Executing netsh with dll command line.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\netsh.exe",
+				"Description": "Network Command Shell",
+				"CommandLine": "netsh.exe  add helper C:\\file.dll"
+			}
+		},
+		"netsh_reg": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "Writing dll file to registry.",
+			"payload": {
+				"EventType": "SetValue",
+				"Image": "C:\\Windows\\System32\\netsh.exe",
+				"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\NetSh\\file",
+				"Details": "C:\\file.dll"
+			}
+		},
+		"netsh_image_load": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Image loaded",
+			"description": "Dll image loaded by netsh.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\netsh.exe",
+				"ImageLoaded": "C:\\file.dll"
+			}
+		}
+	}
+}

@@ -1,0 +1,100 @@
+{
+	"name": "T1138 - Application Shimming",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "Shims can be used to Bypass User Account Control (UAC) (RedirectEXE), inject DLLs into processes (InjectDLL), disable Data Execution Prevention (DisableNX) and Structure Exception Handling (DisableSEH), and intercept memory addresses (GetProcAddress).",
+	"rules": {
+		"sdbinst": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Installing Shims database.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\sdbinst.exe",
+				"Description": "Application Compatibility Database Installer",
+				"CommandLine": "sdbinst.exe  AtomicShimx86.sdb"
+			}
+		},
+		"sdbinst_custom_key": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry object added or deleted",
+			"description": "Writing Shims database data.",
+			"payload": {
+				"EventType": "CreateKey",
+				"Image": "C:\\Windows\\system32\\sdbinst.exe",
+				"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\AppCompatFlags\\Custom\\AtomicTest.exe"
+			}
+		},
+		"sdbinst_custom_vaalue": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "Writing dll file to registry.",
+			"payload": {
+				"EventType": "SetValue",
+				"Image": "C:\\Windows\\system32\\sdbinst.exe",
+				"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\AppCompatFlags\\Custom\\AtomicTest.exe\\{084c9f6c-a911-44f5-aecf-6a9a55b93c43}.sdb",
+				"Details": "QWORD (0x01d4062b-0xa148df5f)"
+			}
+		},
+		"sdbinst_file": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "File created",
+			"description": "Writing Shims database file.",
+			"payload": {
+				"Image": "C:\\Windows\\system32\\sdbinst.exe",
+				"TargetFilename": "C:\\Windows\\AppPatch\\Custom\\{084c9f6c-a911-44f5-aecf-6a9a55b93c43}.sdb"
+			}
+		},
+		"sdbinst_databasepath": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "Writing Shims database data.",
+			"payload": {
+				"EventType": "SetValue",
+				"Image": "C:\\Windows\\system32\\sdbinst.exe",
+				"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\AppCompatFlags\\InstalledSDB\\{084c9f6c-a911-44f5-aecf-6a9a55b93c43}\\DatabasePath",
+				"Details": "C:\\Windows\\AppPatch\\Custom\\{084c9f6c-a911-44f5-aecf-6a9a55b93c43}.sdb"
+			}
+		},
+		"sdbinst_databasetype": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "Writing Shims database data.",
+			"payload": {
+				"EventType": "SetValue",
+				"Image": "C:\\Windows\\system32\\sdbinst.exe",
+				"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\AppCompatFlags\\InstalledSDB\\{084c9f6c-a911-44f5-aecf-6a9a55b93c43}\\DatabaseType",
+				"Details": "DWORD (0x00010000)"
+			}
+		},
+		"sdbinst_databasedescription": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "Writing Shims database data..",
+			"payload": {
+				"EventType": "SetValue",
+				"Image": "C:\\Windows\\system32\\sdbinst.exe",
+				"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\AppCompatFlags\\InstalledSDB\\{084c9f6c-a911-44f5-aecf-6a9a55b93c43}\\DatabaseDescription",
+				"Details": "AtomicShim"
+			}
+		},
+		"sdbinst_databaseinstalltimestamp": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "Writing Shims database data.",
+			"payload": {
+				"EventType": "SetValue",
+				"Image": "C:\\Windows\\system32\\sdbinst.exe",
+				"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\AppCompatFlags\\InstalledSDB\\{084c9f6c-a911-44f5-aecf-6a9a55b93c43}\\DatabaseInstallTimeStamp",
+				"Details": "QWORD (0x01d4062b-0xa148df5f)"
+			}
+		},
+	}
+}
