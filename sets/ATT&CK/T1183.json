@@ -1,0 +1,100 @@
+{
+	"name": "T1183 - Image File Execution Options Injection",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "Malware may also use IFEO for Defense Evasion by registering invalid debuggers that redirect and effectively disable various system and security applications.",
+	"rules": {
+		"reg_debugger": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Executing reg command.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\reg.exe",
+				"Description": "Registry Console Tool",
+				"CommandLine": "reg  add \"HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\winword.exe\" /v \"Debugger\" /t REG_SZ /d \"C:\\windows\\system32\\cmd.exe\" /f"
+			}
+		},
+		"debugger_value": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "Image File Execution Options with osk.",
+			"payload": {
+				"EventType": "SetValue",
+				"Image": "C:\\Windows\\System32\\reg.exe",
+				"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\winword.exe\\Debugger",
+				"Details": "C:\\windows\\system32\\cmd.exe"
+			}
+		},
+		"reg_globalflag": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Executing reg command.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\reg.exe",
+				"Description": "Registry Console Tool",
+				"CommandLine": "reg  add \"HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\notepad.exe\" /v GlobalFlag /t REG_DWORD /d 512"
+			}
+		},
+		"globalflag_value": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "Writing GlobalFlag registry value.",
+			"payload": {
+				"EventType": "SetValue",
+				"Image": "C:\\Windows\\System32\\reg.exe",
+				"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\notepad.exe\\GlobalFlag",
+				"Details": "DWORD (0x00000200)"
+			}
+		},
+		"reg_reportingmode": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Executing reg command.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\reg.exe",
+				"Description": "Registry Console Tool",
+				"CommandLine": "reg  add \"HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\SilentProcessExit\\notepad.exe\" /v ReportingMode /t REG_DWORD /d 1"
+			}
+		},
+		"reportingmode_value": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "Writing ReportingMode registry value.",
+			"payload": {
+				"EventType": "SetValue",
+				"Image": "C:\\Windows\\System32\\reg.exe",
+				"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\SilentProcessExit\\notepad.exe\\ReportingMode",
+				"Details": "DWORD (0x00000001)"
+			}
+		},
+		"reg_monitorprocess": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Executing reg command.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\reg.exe",
+				"Description": "Registry Console Tool",
+				"CommandLine": "reg  add \"HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\SilentProcessExit\\notepad.exe\" /v MonitorProcess /d \"c:\\Windows\\System32\\cmd.exe\""
+			}
+		},
+		"monitorprocess_value": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "Writing MonitorProcess registry value.",
+			"payload": {
+				"EventType": "SetValue",
+				"Image": "C:\\Windows\\System32\\reg.exe",
+				"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\SilentProcessExit\\notepad.exe\\MonitorProcess",
+				"Details": "c:\\Windows\\System32\\cmd.exe"
+			}
+		}
+	}
+}

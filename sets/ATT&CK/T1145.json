@@ -1,0 +1,52 @@
+{
+	"name": "T1145 - Private Keys",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "Adversaries may gather private keys from compromised systems for use in authenticating to Remote Services like SSH or for use in decrypting other collected files such as email.",
+	"rules": {
+		"findstr_key": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Find private keys.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\findstr.exe",
+				"Description": "Find String (QGREP) Utility",
+				"CommandLine": "findstr  /e .key"
+			}
+		},
+		"findstr_pgp": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Find private keys.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\findstr.exe",
+				"Description": "Find String (QGREP) Utility",
+				"CommandLine": "findstr  /e .pgp"
+			}
+		},
+		"findstr_gpg": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Find private keys.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\findstr.exe",
+				"Description": "Find String (QGREP) Utility",
+				"CommandLine": "findstr  /e .gpg"
+			}
+		},
+		"findstr_ppk": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Find private keys.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\findstr.exe",
+				"Description": "Find String (QGREP) Utility",
+				"CommandLine": "findstr  /e .ppk"
+			}
+		}
+	}
+}

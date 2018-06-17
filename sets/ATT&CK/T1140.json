@@ -1,0 +1,50 @@
+{
+	"name": "T1140 - Deobfuscate/Decode Files or Information",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "Adversaries may use Obfuscated Files or Information to hide artifacts of an intrusion from analysis.",
+	"rules": {
+		"certutil_encode": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Encoding file with certutil.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\certutil.exe",
+				"Description": "CertUtil.exe",
+				"CommandLine": "certutil.exe  -encode c:\\evil.exe file.txt"
+			}
+		},
+		"certutil_encoded": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "File created",
+			"description": "Writing encodd file.",
+			"payload": {
+				"Image": "C:\\Windows\\system32\\certutil.exe",
+				"TargetFilename": "C:\\Users\\Administrator\\Downloads\\file.txt"
+			}
+		},
+		"certutil_decode": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Decoding file with certutil.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\certutil.exe",
+				"Description": "CertUtil.exe",
+				"CommandLine": "certutil.exe  -decode file.txt evil.exe"
+			}
+		},
+		"certutil_decoded": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "File created",
+			"description": "Writing decoded file.",
+			"payload": {
+				"Image": "C:\\Windows\\system32\\certutil.exe",
+				"TargetFilename": "C:\\Users\\Administrator\\Downloads\\evil.exe"
+			}
+		}
+	}
+}

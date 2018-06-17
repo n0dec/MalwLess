@@ -1,0 +1,55 @@
+{
+	"name": "T1191 - CMSTP",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "Adversaries may supply CMSTP.exe with INF files infected with malicious commands.",
+	"rules": {
+		"cmstp_file": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Executing cmstp.exe with malicious file.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\cmstp.exe",
+				"CommandLine": "cmstp.exe  /s T1191.inf",
+				"ProcessId": 4864
+			}
+		},
+		"cmstp_network": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Network connection detected",
+			"description": "Network activity from cmstp.exe.",
+			"payload": {
+				"ProcessId": 4864,
+				"Image": "C:\\Windows\\System32\\cmstp.exe",
+				"DestinationIp": "151.101.132.133",
+				"DestinationPort": 443,
+				"DestinationPortName": "https"
+			}
+		},
+		"IE_cache": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "File created",
+			"description": "File cached on INetCache/Temporary Files.",
+			"payload": {
+				"ProcessId": 4864,
+				"Image": "C:\\Windows\\System32\\cmstp.exe",
+				"TargetFilename": "C:\\Users\\Administrator\\AppData\\Local\\Microsoft\\Windows\\INetCache\\IE\\3NIKHPE5\\T1191[1].sct"
+			}
+		},
+		"cmstp_process": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Process executed from cmstp.exe.",
+			"payload": {
+				"ParentProcessId": 4864,
+				"ParentImage": "C:\\Windows\\System32\\cmstp.exe",
+				"ParentCommandLine": "cmstp.exe  /s cmstp.blah",
+				"Image": "C:\\Windows\\System32\\calc.exe"
+			}
+		}
+	}
+}

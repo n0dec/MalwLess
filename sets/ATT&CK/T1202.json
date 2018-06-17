@@ -1,0 +1,56 @@
+{
+	"name": "T1202 - Indirect Command Execution",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "Adversaries may abuse these utilities for Defense Evasion, specifically to perform arbitrary execution while subverting detections and/or mitigation controls (such as Group Policy) that limit/prevent the usage of cmd.",
+	"rules": {
+		"pcalua_run": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Executing pcalua to run a command.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\pcalua.exe",
+				"Description": "Program Compatibility Assistant",
+				"CommandLine": "pcalua.exe  -a calc.exe"
+			}
+		},
+		"pcalua_child": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Executing pcalua child process.",
+			"payload": {
+				"ParentImage": "C:\\Windows\\System32\\pcalua.exe",
+				"ParentCommandLine": "pcalua.exe  -a calc.exe",
+				"Image": "C:\\Windows\\System32\\calc.exe",
+				"Description": "Windows Calculator",
+				"CommandLine": "\"C:\\Windows\\System32\\calc.exe\""
+			}
+		},
+		"forfiles_run": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Executing forfiles to run a command.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\forfiles.exe",
+				"Description": "ForFiles - Executes a command on selected files",
+				"CommandLine": "forfiles  /p c:\\windows\\system32 /m notepad.exe /c calc.exe"
+			}
+		},
+		"forfiles_child": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Executing forfiles child process.",
+			"payload": {
+				"ParentImage": "C:\\Windows\\System32\\forfiles.exe",
+				"ParentCommandLine": "forfiles  /p c:\\windows\\system32 /m notepad.exe /c calc.exe",
+				"Image": "C:\\Windows\\System32\\calc.exe",
+				"Description": "Windows Calculator",
+				"CommandLine": "\"C:\\Windows\\System32\\calc.exe\""
+			}
+		}
+	}
+}
