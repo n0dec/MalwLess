@@ -95,6 +95,6 @@
 				"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\AppCompatFlags\\InstalledSDB\\{084c9f6c-a911-44f5-aecf-6a9a55b93c43}\\DatabaseInstallTimeStamp",
 				"Details": "QWORD (0x01d4062b-0xa148df5f)"
 			}
-		},
+		}
 	}
 }
