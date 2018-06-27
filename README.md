@@ -28,7 +28,9 @@ Site: https://github.com/n0dec/MalwLess
 ... Description: Powershell 4104 event for Invoke-Mimikatz.
 ```
 
-## Releases
+![schema](https://camo.githubusercontent.com/5c39cb73c6f44458916f18e9f51e5af0894a3d78/68747470733a2f2f692e696d6775722e636f6d2f4832546631334d2e706e67)
+
+## Download
 You can download the latest release on https://github.com/n0dec/MalwLess/releases
 
 ## Usage
