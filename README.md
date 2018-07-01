@@ -52,6 +52,7 @@ To write a custom `rule set` check the [writing sets](https://github.com/n0dec/M
 
 ## Creating rules
 Anyone can create a rule. These are written in `json` with an easy format.
+Additionally you can parse raw events and convert it to rule using [converter](https://n0dec.github.io/#rules)
 
 | key | values |
 | --- | --- |
