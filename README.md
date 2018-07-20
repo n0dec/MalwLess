@@ -86,6 +86,7 @@ Additionally you can parse raw events and convert it to rule using [converter](h
 * [`Awesome gists sets`](https://github.com/n0dec/MalwLess/blob/master/GISTS.md)
 
 ## Contact
-For any issue or suggestions contact me on twitter [@n0dec](https://twitter.com/n0dec). Also if you need help :)
+For any issue or suggestions contact me on twitter [@n0dec](https://twitter.com/n0dec).
 
-I will try to solve bugs as soon as possible.
+Website: https://n0dec.github.io
+
