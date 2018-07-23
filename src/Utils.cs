@@ -7,6 +7,7 @@
 using System;
 using System.Net;
 using System.Net.Sockets;
+using System.Reflection;
 
 namespace MalwLess
 {
@@ -15,11 +16,14 @@ namespace MalwLess
 	{
 		
 		public static void printHeader(){
-			const string header = @"
-			MalwLess Simulation Tool v0.1
+			
+			string version = (Assembly.GetEntryAssembly().GetName().Version).ToString();
+			string header = String.Format(@"
+			MalwLess Simulation Tool v{0}
 			Author: @n0dec
 			Site: https://github.com/n0dec/MalwLess
-			";
+			", version.Substring(0,version.IndexOf('.', version.IndexOf('.') + 1)));
+			
 			Console.WriteLine(header.Replace("\t", ""));
 		}
 		
