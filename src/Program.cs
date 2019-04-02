@@ -83,6 +83,7 @@ namespace MalwLess
 											SysmonClass_v7.WriteSysmonEvent(properties["category"].ToString(), properties["payload"], sysmon_config);
 											break;
 										case "8":
+										case "9":
 											SysmonClass_v8.WriteSysmonEvent(properties["category"].ToString(), properties["payload"], sysmon_config);
 											break;
 										default:
