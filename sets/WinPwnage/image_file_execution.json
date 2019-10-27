@@ -11,7 +11,7 @@
       "description": "Writing registry key.",
       "payload": {
         "EventType": "CreateKey",
-        "Image": "c:\\Python27\\python.exe",
+				"ProcessId": "4500",
         "TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\notepad.exe"
       }
     },
@@ -22,7 +22,7 @@
       "description": "Writing registry value.",
       "payload": {
         "EventType": "SetValue",
-        "Image": "c:\\Python27\\python.exe",
+				"ProcessId": "4500",
         "TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\notepad.exe\\Debugger",
         "Details": "c:\\windows\\system32\\cmd.exe"
       }
