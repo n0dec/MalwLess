@@ -1,0 +1,68 @@
+{
+	"name": "WinPwnage uac slui",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "UAC bypass using slui.",
+	"rules": {
+		"reg_key": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry object added or deleted",
+			"description": "Writing registry key.",
+			"payload": {
+				"EventType": "CreateKey",
+				"ProcessId": "4584",
+				"TargetObject": "HKU\\S-X-X-XX-XXXXXXXXXX-XXXXXXXXX-XXXXXXXX-XXX_Classes\\exefile\\shell\\open\\command"
+			}
+		},
+		"reg_value_default": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "Writing Default key.",
+			"payload": {
+				"EventType": "SetValue",
+				"ProcessId": "4584",
+				"TargetObject": "HKU\\S-X-X-XX-XXXXXXXXXX-XXXXXXXXX-XXXXXXXX-XXX_Classes\\exefile\\shell\\open\\command\\(Default)",
+				"Details": "C:\\\\Windows\\\\system32\\\\cmd.exe"
+			}
+		},
+		"reg_value_delegate_execute": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "Writing DelegateExecute key containing payload.",
+			"payload": {
+				"EventType": "SetValue",
+				"ProcessId": "4584",
+				"TargetObject": "HKU\\S-X-X-XX-XXXXXXXXXX-XXXXXXXXX-XXXXXXXX-XXX_Classes\\exefile\\shell\\open\\command\\DelegateExecute",
+				"Details": "(Empty)"
+			}
+		},
+		"slui_call": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Executing slui.",
+			"payload": {
+				"ProcessId": "4944",
+				"Image": "C:\\Windows\\System32\\slui.exe",
+				"Description": "Windows Activation Client",
+				"CommandLine": "\"C:\\Windows\\System32\\slui.exe\" ",
+				"ParentProcessId": "4584"
+			}
+		},
+		"slui_child": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Executing payload process.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\cmd.exe",
+				"ParentProcessId": "4944",
+				"ParentImage": "C:\\Windows\\System32\\slui.exe",
+				"ParentCommandLine": "\"C:\\Windows\\System32\\slui.exe\" "
+			}
+		}
+	}
+}
