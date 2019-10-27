@@ -1,31 +1,31 @@
 {
-  "name": "WinPwnage image_file_execution",
-  "version": "0.1",
-  "author": "n0dec",
-  "description": "Persistence via Image File Execution Options key.",
-  "rules": {
-  "reg_key": {
-      "enabled": true,
-      "source": "Sysmon",
-      "category": "Registry object added or deleted",
-      "description": "Writing registry key.",
-      "payload": {
-        "EventType": "CreateKey",
+	"name": "WinPwnage image_file_execution",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "Persistence via Image File Execution Options key.",
+	"rules": {
+		"reg_key": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry object added or deleted",
+			"description": "Writing registry key.",
+			"payload": {
+				"EventType": "CreateKey",
 				"ProcessId": "4500",
-        "TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\notepad.exe"
-      }
-    },
-  "reg_value": {
-      "enabled": true,
-      "source": "Sysmon",
-      "category": "Registry value set",
-      "description": "Writing registry value.",
-      "payload": {
-        "EventType": "SetValue",
+				"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\notepad.exe"
+			}
+		},
+		"reg_value": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "Writing registry value.",
+			"payload": {
+				"EventType": "SetValue",
 				"ProcessId": "4500",
-        "TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\notepad.exe\\Debugger",
-        "Details": "c:\\windows\\system32\\cmd.exe"
-      }
-    }
-  }
+				"TargetObject": "HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\notepad.exe\\Debugger",
+				"Details": "c:\\windows\\system32\\cmd.exe"
+			}
+		}
+	}
 }
