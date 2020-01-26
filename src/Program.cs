@@ -17,17 +17,17 @@ namespace MalwLess
 		{
 			string file_name = null;
 			string json_file = null;
-			string sysmonpath = Path.GetPathRoot(Environment.SystemDirectory) + "Windows\\Sysmon.exe";
+			string sysmonpath = Utils.getSysmonPath();
 			string exeVersion = null;
 			
 			Utils.printHeader();
 			
-			if(File.Exists(sysmonpath)){
+			if(sysmonpath != null){
 				exeVersion = Utils.getFileVersion(sysmonpath);
 				Console.WriteLine("Sysmon version: " + exeVersion);
 				exeVersion = exeVersion.Substring(0, exeVersion.IndexOf('.'));
 			}else{
-				Console.WriteLine("[!] Error: Sysmon not found at " + sysmonpath);
+				Console.WriteLine("[!] Error: Sysmon not found");
 			}
 
 			if(!Utils.isElevated()){
@@ -46,7 +46,7 @@ namespace MalwLess
 				if(File.Exists(file_name)){
 					json_file = File.ReadAllText(file_name);
 				}else{
-					Console.WriteLine("File not found!");
+					Console.WriteLine($"File {file_name} not found!");
 					Console.WriteLine("Check the MST default rule set on: https://github.com/n0dec/MalwLess/blob/master/rule_test.json");
 					Environment.Exit(-1);
 				}
@@ -86,6 +86,9 @@ namespace MalwLess
 										case "9":
 											SysmonClass_v8.WriteSysmonEvent(properties["category"].ToString(), properties["payload"], sysmon_config);
 											break;
+										case "10":
+											SysmonClass_v10.WriteSysmonEvent(properties["category"].ToString(), properties["payload"], sysmon_config);
+											break;
 										default:
 											Console.WriteLine("[-] Warning: Sysmon version not supported.");
 											break;
@@ -115,7 +118,9 @@ namespace MalwLess
 		}
 		
 		public static JToken getDefaultConfig(string filename){
-			
+			if (!File.Exists(filename)){
+				Console.WriteLine($"[!] Error: File {filename} not found.");
+			}
 			return JToken.Parse(File.ReadAllText(filename));
 		}
 		
