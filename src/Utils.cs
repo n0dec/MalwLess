@@ -6,6 +6,7 @@
  
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Reflection;
@@ -15,6 +16,21 @@ namespace MalwLess
 
 	public static class Utils
 	{
+
+		public static string getSysmonPath()
+		{
+			var rootDir = Path.GetPathRoot(Environment.SystemDirectory) + "Windows\\";
+
+			foreach (var path  in new string[] { "Sysmon64.exe", "Sysmon.exe" })
+			{
+				if(File.Exists(rootDir + path))
+				{
+					return rootDir + path;
+				}
+			}
+
+			return null;
+		}
 		
 		public static void printHeader(){
 			
