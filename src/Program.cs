@@ -46,7 +46,7 @@ namespace MalwLess
 				if(File.Exists(file_name)){
 					json_file = File.ReadAllText(file_name);
 				}else{
-					Console.WriteLine($"File {file_name} not found!");
+					Console.WriteLine("File {0} not found!", file_name);
 					Console.WriteLine("Check the MST default rule set on: https://github.com/n0dec/MalwLess/blob/master/rule_test.json");
 					Environment.Exit(-1);
 				}
@@ -119,7 +119,7 @@ namespace MalwLess
 		
 		public static JToken getDefaultConfig(string filename){
 			if (!File.Exists(filename)){
-				Console.WriteLine($"[!] Error: File {filename} not found.");
+				Console.WriteLine("[!] Error: File {0} not found.", filename);
 			}
 			return JToken.Parse(File.ReadAllText(filename));
 		}
