@@ -129,7 +129,7 @@ namespace MalwLess
 		
 		public static JToken getDefaultConfig(string filename){
 			if (!File.Exists(filename)){
-				Console.WriteLine("File {0} not found!", filename);
+				Console.WriteLine("[!] Error: File {0} not found.", filename);
 			}
 			return JToken.Parse(File.ReadAllText(filename));
 		}
