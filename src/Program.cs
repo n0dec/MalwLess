@@ -1,7 +1,7 @@
-﻿/*
+/*
  * Author:  @n0dec
  * License: GNU General Public License v3.0
- * 
+ *
  */
 
 using System;
@@ -19,9 +19,9 @@ namespace MalwLess
 			string json_file = null;
 			string sysmonpath = Utils.getSysmonPath();
 			string exeVersion = null;
-			
+
 			Utils.printHeader();
-			
+
 			if(sysmonpath != null){
 				exeVersion = Utils.getFileVersion(sysmonpath);
 				Console.WriteLine("Sysmon version: " + exeVersion);
@@ -34,7 +34,7 @@ namespace MalwLess
 				Console.WriteLine("[!] Run it as Administrator.");
 				Environment.Exit(-1);
 			}
-			
+
 			try{
 				if (args.Length == 2 && args[0] == "-r")
 				{
@@ -45,7 +45,7 @@ namespace MalwLess
 				}
 				else
 				{
-					Console.WriteLine($"Usage: {Path.GetFileName(Environment.GetCommandLineArgs()[0])} [-r configfile.json]");
+					Console.WriteLine("Usage: {0} [-r rule_test.json]", Path.GetFileName(Environment.GetCommandLineArgs()[0]));
 					return;
 				}
 
@@ -55,13 +55,13 @@ namespace MalwLess
 					Environment.Exit(-1);
 				}
 
-				Console.WriteLine($" Using file '{file_name}'");
+				Console.WriteLine("Using file '{0}'", file_name);
 				json_file = File.ReadAllText(file_name);
 
 				JObject rule_test = JObject.Parse(json_file);
 				JToken sysmon_config = getDefaultConfig("conf\\Sysmon.json");
 				JToken powershell_config = getDefaultConfig("conf\\PowerShell.json");
-				
+
 				Console.WriteLine("");
 				Console.WriteLine("[Rule test file]: " + file_name);
 				Console.WriteLine("[Rule test name]: " + rule_test["name"]);
@@ -69,12 +69,12 @@ namespace MalwLess
 				Console.WriteLine("[Rule test author]: " + rule_test["author"]);
 				Console.WriteLine("[Rule test description]: " + rule_test["description"]);
 				Console.WriteLine("");
-				
+
 				if(!rule_test["rules"].HasValues){
 					Console.WriteLine("No rules detected. Exiting...");
 					Environment.Exit(-1);
 				}
-				
+
 				foreach(var rule in rule_test["rules"].Children()){
 					Console.WriteLine("[>] Detected rule: " + rule.Path);
 					foreach (var properties in rule.Children()){
@@ -126,13 +126,13 @@ namespace MalwLess
 				Environment.Exit(-1);
 			}
 		}
-		
+
 		public static JToken getDefaultConfig(string filename){
 			if (!File.Exists(filename)){
 				Console.WriteLine("[!] Error: File {0} not found.", filename);
 			}
 			return JToken.Parse(File.ReadAllText(filename));
 		}
-		
+
 	}
 }
