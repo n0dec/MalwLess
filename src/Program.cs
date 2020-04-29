@@ -36,21 +36,28 @@ namespace MalwLess
 			}
 			
 			try{
-				if (args.Length == 0){
-					file_name = "rule_test.json";
-				}else{
-					if(args[0] == "-r"){
-						file_name = args[1];
-					}
+				if (args.Length == 2 && args[0] == "-r")
+				{
+					file_name = args[1];
 				}
-				if(File.Exists(file_name)){
-					json_file = File.ReadAllText(file_name);
-				}else{
-					Console.WriteLine($"File {file_name} not found!");
+				else if(args.Length == 0){
+					file_name = "rule_test.json";
+				}
+				else
+				{
+					Console.WriteLine($"Usage: {Path.GetFileName(Environment.GetCommandLineArgs()[0])} [-r configfile.json]");
+					return;
+				}
+
+				if(!File.Exists(file_name)){
+					Console.WriteLine("File {0} not found!", file_name);
 					Console.WriteLine("Check the MST default rule set on: https://github.com/n0dec/MalwLess/blob/master/rule_test.json");
 					Environment.Exit(-1);
 				}
-				
+
+				Console.WriteLine($" Using file '{file_name}'");
+				json_file = File.ReadAllText(file_name);
+
 				JObject rule_test = JObject.Parse(json_file);
 				JToken sysmon_config = getDefaultConfig("conf\\Sysmon.json");
 				JToken powershell_config = getDefaultConfig("conf\\PowerShell.json");
@@ -89,8 +96,11 @@ namespace MalwLess
 										case "10":
 											SysmonClass_v10.WriteSysmonEvent(properties["category"].ToString(), properties["payload"], sysmon_config);
 											break;
+										case "11":
+											SysmonClass_v11.WriteSysmonEvent(properties["category"].ToString(), properties["payload"], sysmon_config);
+											break;
 										default:
-											Console.WriteLine("[-] Warning: Sysmon version not supported.");
+											Console.WriteLine("[!] Error: Sysmon version not supported.");
 											break;
 									}
 									break;
@@ -119,7 +129,7 @@ namespace MalwLess
 		
 		public static JToken getDefaultConfig(string filename){
 			if (!File.Exists(filename)){
-				Console.WriteLine($"[!] Error: File {filename} not found.");
+				Console.WriteLine("File {0} not found!", filename);
 			}
 			return JToken.Parse(File.ReadAllText(filename));
 		}
