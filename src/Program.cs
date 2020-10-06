@@ -18,14 +18,14 @@ namespace MalwLess
 			string file_name = null;
 			string json_file = null;
 			string sysmonpath = Utils.getSysmonPath();
-			string exeVersion = null;
+			string productVersion = null;
+			
 			
 			Utils.printHeader();
 			
 			if(sysmonpath != null){
-				exeVersion = Utils.getFileVersion(sysmonpath);
-				Console.WriteLine("Sysmon version: " + exeVersion);
-				exeVersion = exeVersion.Substring(0, exeVersion.IndexOf('.'));
+				productVersion = Utils.getFileVersion(sysmonpath);
+				Console.WriteLine("Sysmon version: " + productVersion);
 			}else{
 				Console.WriteLine("[!] Error: Sysmon not found");
 			}
@@ -36,21 +36,28 @@ namespace MalwLess
 			}
 			
 			try{
-				if (args.Length == 0){
-					file_name = "rule_test.json";
-				}else{
-					if(args[0] == "-r"){
-						file_name = args[1];
-					}
+				if (args.Length == 2 && args[0] == "-r")
+				{
+					file_name = args[1];
 				}
-				if(File.Exists(file_name)){
-					json_file = File.ReadAllText(file_name);
-				}else{
-					Console.WriteLine($"File {file_name} not found!");
+				else if(args.Length == 0){
+					file_name = "rule_test.json";
+				}
+				else
+				{
+					Console.WriteLine($"Usage: {Path.GetFileName(Environment.GetCommandLineArgs()[0])} [-r configfile.json]");
+					return;
+				}
+
+				if(!File.Exists(file_name)){
+					Console.WriteLine("File {0} not found!", file_name);
 					Console.WriteLine("Check the MST default rule set on: https://github.com/n0dec/MalwLess/blob/master/rule_test.json");
 					Environment.Exit(-1);
 				}
-				
+
+				Console.WriteLine($" Using file '{file_name}'");
+				json_file = File.ReadAllText(file_name);
+
 				JObject rule_test = JObject.Parse(json_file);
 				JToken sysmon_config = getDefaultConfig("conf\\Sysmon.json");
 				JToken powershell_config = getDefaultConfig("conf\\PowerShell.json");
@@ -78,7 +85,8 @@ namespace MalwLess
 							switch (properties["source"].ToString())
 							{
 								case "Sysmon":
-									switch(exeVersion){
+									string productMajorVersion = productVersion.Substring(0, productVersion.IndexOf('.'));
+									switch (productMajorVersion){
 										case "7":
 											SysmonClass_v7.WriteSysmonEvent(properties["category"].ToString(), properties["payload"], sysmon_config);
 											break;
@@ -89,8 +97,23 @@ namespace MalwLess
 										case "10":
 											SysmonClass_v10.WriteSysmonEvent(properties["category"].ToString(), properties["payload"], sysmon_config);
 											break;
+										case "11":
+											// As of Sysmon 11.10, the FileCreateStreamHash event includes the 'Contents' field.
+											int productMinorVersion = int.Parse(productVersion.Split(new char[] { '.' })[1]);
+											if (productMinorVersion >= 10)
+											{
+												SysmonClass_v11_10.WriteSysmonEvent(properties["category"].ToString(), properties["payload"], sysmon_config);
+											}
+											else
+											{
+												SysmonClass_v11.WriteSysmonEvent(properties["category"].ToString(), properties["payload"], sysmon_config);
+											}
+											break;
+										case "12":
+											SysmonClass_v12.WriteSysmonEvent(properties["category"].ToString(), properties["payload"], sysmon_config);
+											break;
 										default:
-											Console.WriteLine("[-] Warning: Sysmon version not supported.");
+											Console.WriteLine("[!] Error: Sysmon version not supported.");
 											break;
 									}
 									break;
@@ -119,7 +142,7 @@ namespace MalwLess
 		
 		public static JToken getDefaultConfig(string filename){
 			if (!File.Exists(filename)){
-				Console.WriteLine($"[!] Error: File {filename} not found.");
+				Console.WriteLine("[!] Error: File {0} not found.", filename);
 			}
 			return JToken.Parse(File.ReadAllText(filename));
 		}

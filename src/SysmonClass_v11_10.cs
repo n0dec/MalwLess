@@ -10,7 +10,7 @@ using Newtonsoft.Json.Linq;
 namespace MalwLess
 {
 
-	public static class SysmonClass_v10
+	public static class SysmonClass_v11_10
 	{
 		public static void WriteSysmonEvent(string category, JToken payload, JToken config)
 		{
@@ -82,6 +82,9 @@ namespace MalwLess
 				case "WmiEventConsumerToFilter activity detected":
 					writeWmiEventBinding(payload, config);
 					break;
+				case "File Delete":
+					writeFileDelete(payload, config);
+					break;
 				case "Dns query":
 					writeDnsEvent(payload, config);
 					break;
@@ -90,14 +93,14 @@ namespace MalwLess
 					break;
 			}
 		}
-		
+
 		static void writeErrorReport(JToken payload, JToken config){
 			
 			string UtcTime = payload.Value<string>("UtcTime") ?? Utils.getUtcTime(0);
 			string ID = payload.Value<string>("ID") ?? "SysmonError";
 			string Description = payload.Value<string>("Description") ?? "Failed";
 
-			if(!Sysmon_v10.Namespace.SYSMON_PROVIDER_V10.EventWriteErrorreport_V3(UtcTime, ID, Description))
+			if(!Sysmon_v11_10.Namespace.SYSMON_PROVIDER_V11_10.EventWriteSYSMON_ERROR_EVENT(UtcTime, ID, Description))
 				Console.WriteLine("Error: Writing event");
 			
 		}
@@ -127,7 +130,7 @@ namespace MalwLess
 			string ParentImage = payload.Value<string>("ParentImage") ?? config["ParentImage"].ToString();
 			string ParentCommandLine = payload.Value<string>("ParentCommandLine") ?? config["ParentCommandLine"].ToString();
 		
-			if (!Sysmon_v10.Namespace.SYSMON_PROVIDER_V10.EventWriteProcessCreate_rule_ProcessCreate__V5(RuleName, UtcTime, ProcessGuid, ProcessId, Image, FileVersion, Description, Product, Company, OriginalFileName, CommandLine, CurrentDirectory, User, LogonGuid, LogonId, TerminalSessionId, IntegrityLevel, Hashes, ParentProcessGuid, ParentProcessId, ParentImage, ParentCommandLine))
+			if (!Sysmon_v11_10.Namespace.SYSMON_PROVIDER_V11_10.EventWriteSYSMON_CREATE_PROCESS_EVENT(RuleName, UtcTime, ProcessGuid, ProcessId, Image, FileVersion, Description, Product, Company, OriginalFileName, CommandLine, CurrentDirectory, User, LogonGuid, LogonId, TerminalSessionId, IntegrityLevel, Hashes, ParentProcessGuid, ParentProcessId, ParentImage, ParentCommandLine))
 				Console.WriteLine("Error: Writing event");
 		}
 		
@@ -142,7 +145,7 @@ namespace MalwLess
 			string CreationUtcTime = payload.Value<string>("CreationUtcTime") ?? Utils.getUtcTime(-600);
 			string PreviousCreationUtcTime = payload.Value<string>("PreviousCreationUtcTime") ?? Utils.getUtcTime(-600);
 			
-			if(!Sysmon_v10.Namespace.SYSMON_PROVIDER_V10.EventWriteFilecreationtimechanged_rule_FileCreateTime__V4(RuleName, UtcTime, ProcessGuid, ProcessId, Image, TargetFilename, CreationUtcTime, PreviousCreationUtcTime))
+			if(!Sysmon_v11_10.Namespace.SYSMON_PROVIDER_V11_10.EventWriteSYSMON_FILE_TIME_EVENT(RuleName, UtcTime, ProcessGuid, ProcessId, Image, TargetFilename, CreationUtcTime, PreviousCreationUtcTime))
 				Console.WriteLine("Error: Writing event");
 			
 		}
@@ -168,7 +171,7 @@ namespace MalwLess
 			ushort DestinationPort = payload.Value<ushort?>("DestinationPort") ?? (ushort)config["DestinationPort"];
 			string DestinationPortName = payload.Value<string>("DestinationPortName") ?? "";
 			
-			if(!Sysmon_v10.Namespace.SYSMON_PROVIDER_V10.EventWriteNetworkconnectiondetected_rule_NetworkConnect__V5(RuleName, UtcTime, ProcessGuid, ProcessId, Image, User, Protocol, Initiated, SourceIsIpv6, SourceIp, SourceHostname, SourcePort, SourcePortName, DestinationIsIpv6, DestinationIp, DestinationHostname, DestinationPort, DestinationPortName))
+			if(!Sysmon_v11_10.Namespace.SYSMON_PROVIDER_V11_10.EventWriteSYSMON_NETWORK_CONNECT_EVENT(RuleName, UtcTime, ProcessGuid, ProcessId, Image, User, Protocol, Initiated, SourceIsIpv6, SourceIp, SourceHostname, SourcePort, SourcePortName, DestinationIsIpv6, DestinationIp, DestinationHostname, DestinationPort, DestinationPortName))
 				Console.WriteLine("Error: Writing event");
 		}
 		
@@ -179,7 +182,7 @@ namespace MalwLess
 			string Version =  payload.Value<string>("Version") ?? config["Version"].ToString();
 			string SchemaVersion = payload.Value<string>("SchemaVersion") ?? config["SchemaVersion"].ToString();
 			
-			if(!Sysmon_v10.Namespace.SYSMON_PROVIDER_V10.EventWriteSysmonservicestatechanged_V3(UtcTime, State, Version, SchemaVersion))
+			if(!Sysmon_v11_10.Namespace.SYSMON_PROVIDER_V11_10.EventWriteSYSMON_SERVICE_STATE_CHANGE_EVENT(UtcTime, State, Version, SchemaVersion))
 				Console.WriteLine("Error: Writing event");
 		}
 		
@@ -191,7 +194,7 @@ namespace MalwLess
 			uint ProcessId = payload.Value<uint?>("ProcessId") ?? (uint)config["ProcessId"];
 			string Image = payload.Value<string>("Image") ?? config["Image"].ToString();
 			
-			if(!Sysmon_v10.Namespace.SYSMON_PROVIDER_V10.EventWriteProcessterminated_rule_ProcessTerminate__V3(RuleName, UtcTime,ProcessGuid,ProcessId, Image))
+			if(!Sysmon_v11_10.Namespace.SYSMON_PROVIDER_V11_10.EventWriteSYSMON_PROCESS_TERMINATE_EVENT(RuleName, UtcTime,ProcessGuid,ProcessId, Image))
 				Console.WriteLine("Error: Writing event");
 		}
 		
@@ -205,7 +208,7 @@ namespace MalwLess
 			string Signature = payload.Value<string>("Signature") ?? config["Signature"].ToString();
 			string SignatureStatus = payload.Value<string>("SignatureStatus") ?? config["SignatureStatus"].ToString();
 			
-			if(!Sysmon_v10.Namespace.SYSMON_PROVIDER_V10.EventWriteDriverloaded_rule_DriverLoad__V3(RuleName, UtcTime, ImageLoaded,Hashes, Signed, Signature, SignatureStatus))
+			if(!Sysmon_v11_10.Namespace.SYSMON_PROVIDER_V11_10.EventWriteSYSMON_DRIVER_LOAD_EVENT(RuleName, UtcTime, ImageLoaded,Hashes, Signed, Signature, SignatureStatus))
 				Console.WriteLine("Error: Writing event");
 		}
 		
@@ -227,7 +230,7 @@ namespace MalwLess
 			string Signature = payload.Value<string>("Signature") ?? config["Signature"].ToString();
 			string SignatureStatus = payload.Value<string>("SignatureStatus") ?? config["SignatureStatus"].ToString();
 			
-			if(!Sysmon_v10.Namespace.SYSMON_PROVIDER_V10.EventWriteImageloaded_rule_ImageLoad__V3(RuleName, UtcTime, ProcessGuid, ProcessId, Image, ImageLoaded, FileVersion, Description, Product, Company, OriginalFileName, Hashes, Signed, Signature, SignatureStatus))
+			if(!Sysmon_v11_10.Namespace.SYSMON_PROVIDER_V11_10.EventWriteSYSMON_IMAGE_LOAD_EVENT(RuleName, UtcTime, ProcessGuid, ProcessId, Image, ImageLoaded, FileVersion, Description, Product, Company, OriginalFileName, Hashes, Signed, Signature, SignatureStatus))
 				Console.WriteLine("Error: Writing event");
 		}
 		
@@ -246,7 +249,7 @@ namespace MalwLess
 			string StartModule = payload.Value<string>("StartModule") ?? config["StartModule"].ToString();
 			string StartFunction = payload.Value<string>("StartFunction") ?? config["StartFunction"].ToString();
 			
-			if(!Sysmon_v10.Namespace.SYSMON_PROVIDER_V10.EventWriteCreateRemoteThreaddetected_rule_CreateRemoteThread__V2(RuleName, UtcTime, SourceProcessGuid, SourceProcessId, SourceImage, TargetProcessGuid, TargetProcessId, TargetImage, NewThreadId, StartAddress, StartModule, StartFunction))
+			if(!Sysmon_v11_10.Namespace.SYSMON_PROVIDER_V11_10.EventWriteSYSMON_CREATE_REMOTE_THREAD_EVENT(RuleName, UtcTime, SourceProcessGuid, SourceProcessId, SourceImage, TargetProcessGuid, TargetProcessId, TargetImage, NewThreadId, StartAddress, StartModule, StartFunction))
 				Console.WriteLine("Error: Writing event");
 		}
 		
@@ -259,7 +262,7 @@ namespace MalwLess
 			string Image = payload.Value<string>("Image") ?? config["Image"].ToString();
 			string Device = payload.Value<string>("Device") ?? config["Device"].ToString();
 			
-			if(!Sysmon_v10.Namespace.SYSMON_PROVIDER_V10.EventWriteRawAccessReaddetected_rule_RawAccessRead__V2(RuleName, UtcTime, ProcessGuid, ProcessId, Image, Device))
+			if(!Sysmon_v11_10.Namespace.SYSMON_PROVIDER_V11_10.EventWriteSYSMON_RAWACCESS_READ_EVENT(RuleName, UtcTime, ProcessGuid, ProcessId, Image, Device))
 				Console.WriteLine("Error: Writing event");
 		}
 		
@@ -277,7 +280,7 @@ namespace MalwLess
 			int GrantedAccess = Convert.ToInt32(payload.Value<string>("GrantedAccess") ?? config["GrantedAccess"].ToString(), 16);
 			string CallTrace = payload.Value<string>("CallTrace") ?? config["CallTrace"].ToString();
 			
-			if(!Sysmon_v10.Namespace.SYSMON_PROVIDER_V10.EventWriteProcessaccessed_rule_ProcessAccess__V3(RuleName, UtcTime, SourceProcessGUID, SourceProcessId, SourceThreadId, SourceImage, TargetProcessGUID, TargetProcessId, TargetImage, GrantedAccess, CallTrace))
+			if(!Sysmon_v11_10.Namespace.SYSMON_PROVIDER_V11_10.EventWriteSYSMON_ACCESS_PROCESS_EVENT(RuleName, UtcTime, SourceProcessGUID, SourceProcessId, SourceThreadId, SourceImage, TargetProcessGUID, TargetProcessId, TargetImage, GrantedAccess, CallTrace))
 				Console.WriteLine("Error: Writing event");
 		}
 		
@@ -291,7 +294,7 @@ namespace MalwLess
 			string TargetFilename = payload.Value<string>("TargetFilename") ?? config["TargetFilename"].ToString();
 			string CreationUtcTime = payload.Value<string>("CreationUtcTime") ?? Utils.getUtcTime(-600);
 			
-			if(!Sysmon_v10.Namespace.SYSMON_PROVIDER_V10.EventWriteFilecreated_rule_FileCreate__V2(RuleName, UtcTime, ProcessGuid, ProcessId, Image, TargetFilename, CreationUtcTime))
+			if(!Sysmon_v11_10.Namespace.SYSMON_PROVIDER_V11_10.EventWriteSYSMON_FILE_CREATE_EVENT(RuleName, UtcTime, ProcessGuid, ProcessId, Image, TargetFilename, CreationUtcTime))
 				Console.WriteLine("Error: Writing event");
 		}
 		
@@ -305,7 +308,7 @@ namespace MalwLess
 			string Image = payload.Value<string>("Image") ?? config["Image"].ToString();
 			string TargetObject = payload.Value<string>("TargetObject") ?? config["TargetObject"].ToString();
 			
-			if(!Sysmon_v10.Namespace.SYSMON_PROVIDER_V10.EventWriteRegistryobjectaddedordeleted_rule_RegistryEvent__V2(RuleName, EventType, UtcTime, ProcessGuid, ProcessId, Image, TargetObject))
+			if(!Sysmon_v11_10.Namespace.SYSMON_PROVIDER_V11_10.EventWriteSYSMON_REG_KEY_EVENT(RuleName, EventType, UtcTime, ProcessGuid, ProcessId, Image, TargetObject))
 				Console.WriteLine("Error: Writing event");
 		}
 		
@@ -320,7 +323,7 @@ namespace MalwLess
 			string TargetObject = payload.Value<string>("TargetObject") ?? config["TargetObject"].ToString();
 			string Details = payload.Value<string>("Details") ?? config["Details"].ToString();
 			
-			if(!Sysmon_v10.Namespace.SYSMON_PROVIDER_V10.EventWriteRegistryvalueset_rule_RegistryEvent__V2(RuleName, EventType, UtcTime, ProcessGuid, ProcessId, Image, TargetObject, Details))
+			if(!Sysmon_v11_10.Namespace.SYSMON_PROVIDER_V11_10.EventWriteSYSMON_REG_SETVALUE_EVENT(RuleName, EventType, UtcTime, ProcessGuid, ProcessId, Image, TargetObject, Details))
 				Console.WriteLine("Error: Writing event");
 		}
 		
@@ -335,7 +338,7 @@ namespace MalwLess
 			string TargetObject = payload.Value<string>("TargetObject") ?? config["TargetObject"].ToString();
 			string NewName = payload.Value<string>("NewName") ?? config["NewName"].ToString();
 			
-			if(!Sysmon_v10.Namespace.SYSMON_PROVIDER_V10.EventWriteRegistryobjectrenamed_rule_RegistryEvent__V2(RuleName, EventType, UtcTime, ProcessGuid, ProcessId, Image, TargetObject, NewName))
+			if(!Sysmon_v11_10.Namespace.SYSMON_PROVIDER_V11_10.EventWriteSYSMON_REG_NAME_EVENT(RuleName, EventType, UtcTime, ProcessGuid, ProcessId, Image, TargetObject, NewName))
 				Console.WriteLine("Error: Writing event");
 		}
 		
@@ -349,8 +352,9 @@ namespace MalwLess
 			string TargetFilename = payload.Value<string>("TargetFilename") ?? config["TargetFilename"].ToString();
 			string CreationUtcTime = payload.Value<string>("CreationUtcTime") ?? Utils.getUtcTime(-600);
 			string Hash = payload.Value<string>("Hash") ?? config["Hash"].ToString();
+			string Contents = payload.Value<string>("Contents") ?? config["Contents"].ToString();
 			
-			if(!Sysmon_v10.Namespace.SYSMON_PROVIDER_V10.EventWriteFilestreamcreated_rule_FileCreateStreamHash__V2(RuleName, UtcTime, ProcessGuid, ProcessId, Image, TargetFilename, CreationUtcTime, Hash))
+			if (!Sysmon_v11_10.Namespace.SYSMON_PROVIDER_V11_10.EventWriteSYSMON_FILE_CREATE_STREAM_HASH_EVENT(RuleName, UtcTime, ProcessGuid, ProcessId, Image, TargetFilename, CreationUtcTime, Hash, Contents))
 				Console.WriteLine("Error: Writing event");
 		}
 		
@@ -360,7 +364,7 @@ namespace MalwLess
 			string Configuration = payload.Value<string>("Configuration") ?? config["Configuration"].ToString();
 			string ConfigurationFileHash =  payload.Value<string>("ConfigurationFileHash") ?? config["ConfigurationFileHash"].ToString();
 			
-			if(!Sysmon_v10.Namespace.SYSMON_PROVIDER_V10.EventWriteSysmonconfigstatechanged_V3(UtcTime, Configuration, ConfigurationFileHash))
+			if(!Sysmon_v11_10.Namespace.SYSMON_PROVIDER_V11_10.EventWriteSYSMON_SERVICE_CONFIGURATION_CHANGE_EVENT(UtcTime, Configuration, ConfigurationFileHash))
 				Console.WriteLine("Error: Writing event");
 		}
 		
@@ -374,7 +378,7 @@ namespace MalwLess
 			string PipeName = payload.Value<string>("PipeName") ?? config["PipeName"].ToString();
 			string Image = payload.Value<string>("Image") ?? config["Image"].ToString();
 			
-			if(!Sysmon_v10.Namespace.SYSMON_PROVIDER_V10.EventWritePipeCreated_rule_PipeEvent__V1(RuleName, EventType, UtcTime, ProcessGuid, ProcessId, PipeName, Image))
+			if(!Sysmon_v11_10.Namespace.SYSMON_PROVIDER_V11_10.EventWriteSYSMON_CREATE_NAMEDPIPE_EVENT(RuleName, EventType, UtcTime, ProcessGuid, ProcessId, PipeName, Image))
 				Console.WriteLine("Error: Writing event");
 		}
 		
@@ -388,7 +392,7 @@ namespace MalwLess
 			string PipeName = payload.Value<string>("PipeName") ?? config["PipeName"].ToString();
 			string Image = payload.Value<string>("Image") ?? config["Image"].ToString();
 			
-			if(!Sysmon_v10.Namespace.SYSMON_PROVIDER_V10.EventWritePipeConnected_rule_PipeEvent__V1(RuleName, EventType, UtcTime, ProcessGuid, ProcessId, PipeName, Image))
+			if(!Sysmon_v11_10.Namespace.SYSMON_PROVIDER_V11_10.EventWriteSYSMON_CONNECT_NAMEDPIPE_EVENT(RuleName, EventType, UtcTime, ProcessGuid, ProcessId, PipeName, Image))
 				Console.WriteLine("Error: Writing event");
 		}
 		
@@ -403,7 +407,7 @@ namespace MalwLess
 			string Name = payload.Value<string>("Name") ?? config["Name"].ToString();
 			string Query = payload.Value<string>("Query") ?? config["Query"].ToString();
 			
-			if(!Sysmon_v10.Namespace.SYSMON_PROVIDER_V10.EventWriteWmiEventFilteractivitydetected_rule_WmiEvent__V3(RuleName, EventType, UtcTime, Operation, User, EventNamespace, Name, Query))
+			if(!Sysmon_v11_10.Namespace.SYSMON_PROVIDER_V11_10.EventWriteSYSMON_WMI_FILTER_EVENT(RuleName, EventType, UtcTime, Operation, User, EventNamespace, Name, Query))
 				Console.WriteLine("Error: Writing event");
 		}
 		
@@ -418,7 +422,7 @@ namespace MalwLess
 			string Type = payload.Value<string>("Type") ?? config["Type"].ToString();
 			string Destination = payload.Value<string>("Destination") ?? config["Destination"].ToString();
 			
-			if(!Sysmon_v10.Namespace.SYSMON_PROVIDER_V10.EventWriteWmiEventConsumeractivitydetected_rule_WmiEvent__V3(RuleName, EventType, UtcTime, Operation, User, Name, Type, Destination))
+			if(!Sysmon_v11_10.Namespace.SYSMON_PROVIDER_V11_10.EventWriteSYSMON_WMI_CONSUMER_EVENT(RuleName, EventType, UtcTime, Operation, User, Name, Type, Destination))
 				Console.WriteLine("Error: Writing event");
 		}
 		
@@ -432,8 +436,26 @@ namespace MalwLess
 			string Consumer = payload.Value<string>("Consumer") ?? config["Consumer"].ToString();
 			string Filter = payload.Value<string>("Filter") ?? config["Filter"].ToString();
 			
-			if(!Sysmon_v10.Namespace.SYSMON_PROVIDER_V10.EventWriteWmiEventConsumerToFilteractivitydetected_rule_WmiEvent__V3(RuleName, EventType, UtcTime, Operation, User, Consumer, Filter))
+			if(!Sysmon_v11_10.Namespace.SYSMON_PROVIDER_V11_10.EventWriteSYSMON_WMI_BINDING_EVENT(RuleName, EventType, UtcTime, Operation, User, Consumer, Filter))
 				Console.WriteLine("Error: Writing event");
+		}
+
+		private static void writeFileDelete(JToken payload, JToken config)
+		{
+			string RuleName = payload.Value<string>("RuleName") ?? "";
+			string UtcTime = payload.Value<string>("UtcTime") ?? Utils.getUtcTime(0);
+			Guid ProcessGuid = Guid.Parse(payload.Value<string>("ProcessGuid") ?? Guid.NewGuid().ToString());
+			uint ProcessId = payload.Value<uint?>("ProcessId") ?? (uint)config["ProcessId"];
+			string User = payload.Value<string>("User") ?? Utils.getUser();
+			string Image = payload.Value<string>("Image") ?? config["Image"].ToString();
+			string TargetFilename = payload.Value<string>("TargetFilename") ?? config["TargetFilename"].ToString();
+			string Hashes = payload.Value<string>("Hashes") ?? config["Hashes"].ToString();
+			bool IsExecutable = payload.Value<bool?>("IsExecutable") ?? (bool)config["IsExecutable"];
+			string Archived = payload.Value<string>("Archived") ?? config["Archived"].ToString();
+
+			if (!Sysmon_v11_10.Namespace.SYSMON_PROVIDER_V11_10.EventWriteSYSMON_FILE_DELETE_EVENT(RuleName, UtcTime, ProcessGuid, ProcessId, User, Image, TargetFilename, Hashes, IsExecutable, Archived))
+				Console.WriteLine("Error: Writing event");
+
 		}
 
 		static void writeDnsEvent(JToken payload, JToken config)
@@ -447,10 +469,9 @@ namespace MalwLess
 			string QueryResults = payload.Value<string>("QueryResults") ?? "";
 			string Image = payload.Value<string>("Image") ?? config["Image"].ToString();
 
-			if (!Sysmon_v10.Namespace.SYSMON_PROVIDER_V10.EventWriteDnsquery_rule_DnsQuery__V5(RuleName, UtcTime, ProcessGuid, ProcessId, QueryName, QueryStatus, QueryResults, Image))
+			if (!Sysmon_v11_10.Namespace.SYSMON_PROVIDER_V11_10.EventWriteSYSMON_DNS_QUERY_EVENT(RuleName, UtcTime, ProcessGuid, ProcessId, QueryName, QueryStatus, QueryResults, Image))
 				Console.WriteLine("Error: Writing event");
 
 		}
-
 	}
 }
