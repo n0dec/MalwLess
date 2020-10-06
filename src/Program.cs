@@ -19,12 +19,14 @@ namespace MalwLess
 			string json_file = null;
 			string sysmonpath = Utils.getSysmonPath();
 			string productVersion = null;
+			string productMajorVersion = null;
 			
 			
 			Utils.printHeader();
 
 			if(sysmonpath != null){
 				productVersion = Utils.getFileVersion(sysmonpath);
+				productMajorVersion = productVersion.Substring(0, productVersion.IndexOf('.'));
 				Console.WriteLine("Sysmon version: " + productVersion);
 			}else{
 				Console.WriteLine("[!] Error: Sysmon not found");
@@ -85,7 +87,6 @@ namespace MalwLess
 							switch (properties["source"].ToString())
 							{
 								case "Sysmon":
-									string productMajorVersion = productVersion.Substring(0, productVersion.IndexOf('.'));
 									switch (productMajorVersion){
 										case "7":
 											SysmonClass_v7.WriteSysmonEvent(properties["category"].ToString(), properties["payload"], sysmon_config);
