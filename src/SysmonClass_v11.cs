@@ -85,6 +85,9 @@ namespace MalwLess
 				case "File Delete":
 					writeFileDelete(payload, config);
 					break;
+				case "Dns query":
+					writeDnsEvent(payload, config);
+					break;
 				default:
 					Console.WriteLine("Category not supported");
 					break;
@@ -450,6 +453,22 @@ namespace MalwLess
 			string Archived = payload.Value<string>("Archived") ?? config["Archived"].ToString();
 
 			if (!Sysmon_v11.Namespace.SYSMON_PROVIDER_V11.EventWriteSYSMON_FILE_DELETE_EVENT(RuleName, UtcTime, ProcessGuid, ProcessId, User, Image, TargetFilename, Hashes, IsExecutable, Archived))
+				Console.WriteLine("Error: Writing event");
+
+		}
+
+		static void writeDnsEvent(JToken payload, JToken config)
+		{
+			string RuleName = payload.Value<string>("RuleName") ?? "";
+			string UtcTime = payload.Value<string>("UtcTime") ?? Utils.getUtcTime(0);
+			Guid ProcessGuid = Guid.Parse(payload.Value<string>("ProcessGuid") ?? Guid.NewGuid().ToString());
+			uint ProcessId = payload.Value<uint?>("ProcessId") ?? (uint)config["ProcessId"];
+			string QueryName = payload.Value<string>("QueryName") ?? "";
+			string QueryStatus = payload.Value<string>("QueryStatus") ?? "";
+			string QueryResults = payload.Value<string>("QueryResults") ?? "";
+			string Image = payload.Value<string>("Image") ?? config["Image"].ToString();
+
+			if (!Sysmon_v11.Namespace.SYSMON_PROVIDER_V11.EventWriteSYSMON_DNS_QUERY_EVENT(RuleName, UtcTime, ProcessGuid, ProcessId, QueryName, QueryStatus, QueryResults, Image))
 				Console.WriteLine("Error: Writing event");
 
 		}

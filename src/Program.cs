@@ -18,14 +18,14 @@ namespace MalwLess
 			string file_name = null;
 			string json_file = null;
 			string sysmonpath = Utils.getSysmonPath();
-			string exeVersion = null;
-
+			string productVersion = null;
+			
+			
 			Utils.printHeader();
 
 			if(sysmonpath != null){
-				exeVersion = Utils.getFileVersion(sysmonpath);
-				Console.WriteLine("Sysmon version: " + exeVersion);
-				exeVersion = exeVersion.Substring(0, exeVersion.IndexOf('.'));
+				productVersion = Utils.getFileVersion(sysmonpath);
+				Console.WriteLine("Sysmon version: " + productVersion);
 			}else{
 				Console.WriteLine("[!] Error: Sysmon not found");
 			}
@@ -85,7 +85,8 @@ namespace MalwLess
 							switch (properties["source"].ToString())
 							{
 								case "Sysmon":
-									switch(exeVersion){
+									string productMajorVersion = productVersion.Substring(0, productVersion.IndexOf('.'));
+									switch (productMajorVersion){
 										case "7":
 											SysmonClass_v7.WriteSysmonEvent(properties["category"].ToString(), properties["payload"], sysmon_config);
 											break;
@@ -97,7 +98,19 @@ namespace MalwLess
 											SysmonClass_v10.WriteSysmonEvent(properties["category"].ToString(), properties["payload"], sysmon_config);
 											break;
 										case "11":
-											SysmonClass_v11.WriteSysmonEvent(properties["category"].ToString(), properties["payload"], sysmon_config);
+											// As of Sysmon 11.10, the FileCreateStreamHash event includes the 'Contents' field.
+											int productMinorVersion = int.Parse(productVersion.Split(new char[] { '.' })[1]);
+											if (productMinorVersion >= 10)
+											{
+												SysmonClass_v11_10.WriteSysmonEvent(properties["category"].ToString(), properties["payload"], sysmon_config);
+											}
+											else
+											{
+												SysmonClass_v11.WriteSysmonEvent(properties["category"].ToString(), properties["payload"], sysmon_config);
+											}
+											break;
+										case "12":
+											SysmonClass_v12.WriteSysmonEvent(properties["category"].ToString(), properties["payload"], sysmon_config);
 											break;
 										default:
 											Console.WriteLine("[!] Error: Sysmon version not supported.");
