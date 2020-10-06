@@ -7,6 +7,7 @@
 	"Configuration": "C:\\Windows\\sysmon.xml",
 	"ConfigurationFileHash": "SHA1=E45082AEE50F9E89D40E03F54F2B360ECA9493F6",
 	"Consumer": "\"ActiveScriptEventConsumer.Name=\\\"Backdoor\\\"\"",
+	"Contents": "[ZoneTransfer]",
 	"CurrentDirectory": "C:\\Windows\\System32\\",
 	"Description": "Windows Calculator",
 	"Destination": "\"MsgBox(\"Hello, World!\")\"",
