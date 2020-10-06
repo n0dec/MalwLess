@@ -1,5 +1,7 @@
 {
+	"Archived": "true",
 	"CallTrace": "C:\\WINDOWS\\SYSTEM32\\ntdll.dll+a0784|C:\\WINDOWS\\System32\\KERNELBASE.dll+3df6d",
+	"ClientInfo": "user:DESKTOP-ABCDEF\\user",
 	"CommandLine": "calc.exe",
 	"Company": "Microsoft Corporation",
 	"Configuration": "C:\\Windows\\sysmon.xml",
@@ -37,6 +39,10 @@
 	"Product": "Microsoft® Windows® Operating System",
 	"Protocol": "tcp",
 	"Query": "\"SELECT * from Win32_ComputerSystem\"",
+	"QueryName": "contoso.com",
+	"QueryResults": "172.217.10.68",
+	"QueryStatus": "0",
+	"Session": 1,
 	"SchemaVersion": "4.00",
 	"Signature": "Microsoft Windows",
 	"SignatureStatus": "Valid",
