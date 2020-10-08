@@ -1,0 +1,85 @@
+{
+	"name": "WinPwnage wmic persistence",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "Persistence using wmic.exe (SYSTEM privileges).",
+	"rules": {
+		"wmic_call_filter": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Running wmic.exe to create the WMI filter.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\wbem\\WMIC.exe",
+				"Description": "WMI Commandline Utility",
+				"OriginalFileName": "wmic.exe",
+				"CommandLine": "\"C:\\Windows\\System32\\wbem\\WMIC.exe\" /namespace:\"\\\\root\\subscription\" PATH __EventFilter CREATE Name=\"WinPwnage\", EventNameSpace=\"root\\cimv2\", QueryLanguage=\"WQL\", Query=\"SELECT * FROM __InstanceModificationEvent WITHIN 60 WHERE TargetInstance ISA 'Win32_PerfFormattedData_PerfOS_System' AND TargetInstance.SystemUpTime >= 200 AND TargetInstance.SystemUpTime < 360\"",
+				"ParentProcessId": "2100"
+			}
+		},
+		"wmi_filter": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "WmiEventFilter activity detected",
+			"description": "Creating WMI filter.",
+			"payload": {
+				"EventType": "WmiFilterEvent",
+				"Operation": "Created",
+				"EventNamespace": " \"root\\\\cimv2\"",
+				"Name": " \"WinPwnage\"",
+				"Query": " \"SELECT * FROM __InstanceModificationEvent WITHIN 60 WHERE TargetInstance ISA 'Win32_PerfFormattedData_PerfOS_System' AND TargetInstance.SystemUpTime >= 200 AND TargetInstance.SystemUpTime < 360\""
+			}
+		},
+		"wmic_call_consumer": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Running wmic.exe to create the WMI consumer.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\wbem\\WMIC.exe",
+				"Description": "WMI Commandline Utility",
+				"OriginalFileName": "wmic.exe",
+				"CommandLine": "\"C:\\Windows\\System32\\wbem\\WMIC.exe\" /namespace:\"\\\\root\\subscription\" PATH CommandLineEventConsumer CREATE Name=\"WinPwnage\", ExecutablePath=\"c:\\\\windows\\\\system32\\\\cmd.exe\", CommandLineTemplate=\"c:\\\\windows\\\\system32\\\\cmd.exe\"",
+				"ParentProcessId": "2100"
+			}
+		},
+		"wmi_consumer": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "WmiEventConsumer activity detected",
+			"description": "Creating WMI consumer.",
+			"payload": {
+				"EventType": "WmiConsumerEvent",
+				"Operation": "Created",
+				"Name": " \"WinPwnage\"",
+				"Type": "Command Line",
+				"Destination": " \"c:\\\\\\\\windows\\\\\\\\system32\\\\\\\\cmd.exe\""
+			}
+		},
+		"wmic_call_binding": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Running wmic.exe to create the WMI binding.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\wbem\\WMIC.exe",
+				"Description": "WMI Commandline Utility",
+				"OriginalFileName": "wmic.exe",
+				"CommandLine": "\"C:\\Windows\\System32\\wbem\\WMIC.exe\" /namespace:\"\\\\root\\subscription\" PATH __FilterToConsumerBinding CREATE Filter='__EventFilter.Name=\"WinPwnage\"', Consumer='CommandLineEventConsumer.Name=\"WinPwnage\"'",
+				"ParentProcessId": "2100"
+			}
+		},
+		"wmi_binding": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "WmiEventConsumerToFilter activity detected",
+			"description": "Creating WMI binding.",
+			"payload": {
+				"EventType": "WmiBindingEvent",
+				"Operation": "Created",
+				"Consumer": " \"CommandLineEventConsumer.Name=\\\"WinPwnage\\\"\"",
+				"Filter": " \"__EventFilter.Name=\\\"WinPwnage\\\"\""
+			}
+		}
+	}
+}
