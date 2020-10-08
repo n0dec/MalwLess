@@ -1,0 +1,69 @@
+{
+	"name": "WinPwnage mofcomp persistence",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "Persistence using mofcomp.exe (SYSTEM privileges).",
+	"rules": {
+		"file_create": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "File created",
+			"description": "Dropping malicious mof file.",
+			"payload": {
+				"ProcessId": "7016",
+				"TargetFilename": "C:\\Users\\Administrator\\AppData\\Local\\file.mof"
+			}
+		},
+		"mofcomp_call": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Installing mof file using mofcomp.exe utility.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\wbem\\mofcomp.exe",
+				"Description": "The Managed Object Format (MOF) Compiler ",
+				"OriginalFileName": "mofcomp.exe",
+				"CommandLine": "mofcomp  \"C:\\Users\\Administrator\\AppData\\Local\\file.mof\"",
+				"ParentProcessId": "7016"
+			}
+		},
+		"wmi_consumer": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "WmiEventConsumer activity detected",
+			"description": "Creating WMI consumer.",
+			"payload": {
+				"EventType": "WmiConsumerEvent",
+				"Operation": "Created",
+				"Name": " \"WinPwnage\"",
+				"Type": "Command Line",
+				"Destination": " \"payload.exe\""
+			}
+		},
+		"wmi_filter": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "WmiEventFilter activity detected",
+			"description": "Creating WMI filter.",
+			"payload": {
+				"EventType": "WmiFilterEvent",
+				"Operation": "Created",
+				"EventNamespace": " \"root\\\\cimv2\"",
+				"Name": " \"WinPwnage\"",
+				"Query": " \"SELECT * FROM __InstanceModificationEvent WITHIN 60 WHERE TargetInstance ISA 'Win32_PerfFormattedData_PerfOS_System' AND TargetInstance.SystemUpTime >= 200 AND TargetInstance.SystemUpTime < 360\""
+			}
+		},
+		"wmi_binding": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "WmiEventConsumerToFilter activity detected",
+			"description": "Creating WMI binding.",
+			"payload": {
+				"EventType": "WmiBindingEvent",
+				"Operation": "Created",
+				"Consumer": " \"\\\\\\\\.\\\\root\\\\cimv2:CommandLineEventConsumer.Name=\\\"WinPwnage\\\"\"",
+				"Filter": " \"\\\\\\\\.\\\\root\\\\cimv2:__EventFilter.Name=\\\"WinPwnage\\\"\""
+			}
+		}
+	}
+}
