@@ -25,6 +25,17 @@
 				"Description": "Registry Console Tool",
 				"CommandLine": "reg  query HKLM\\SYSTEM\\CurrentControlSet\\Services\\Disk\\Enum"
 			}
+		},
+		"reg_machineguid": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Identify the Windows MachineGUID value for a system.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\reg.exe",
+				"Description": "Registry Console Tool",
+				"CommandLine": "reg  query HKLM\\SOFTWARE\\Microsoft\\Cryptography /v MachineGuid"
+			}
 		}
 	}
 }
