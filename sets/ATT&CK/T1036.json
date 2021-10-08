@@ -1,0 +1,19 @@
+{
+	"name": "T1036 - Masquerading",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "Adversaries may attempt to manipulate features of their artifacts to make them appear legitimate or benign to users and/or security tools.",
+	"rules": {
+		"cmd_nonsystem": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Executing a cmd from a non-system directory.",
+			"payload": {
+				"Image": "C:\\ProgramData\\cmd.exe",
+				"Description": "Windows Command Processor",
+				"OriginalFileName": "Cmd.Exe"
+			}
+		}
+	}
+}
