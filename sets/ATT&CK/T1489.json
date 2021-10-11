@@ -1,0 +1,41 @@
+{
+	"name": "T1489 - Service Stop",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "Adversaries may stop or disable services on a system to render those services unavailable to legitimate users. Stopping critical services or processes can inhibit or stop response to an incident or aid in the adversary's overall objectives to cause damage to the environment.",
+	"rules": {
+		"sc_stop": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Stop service using Service Controller.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\sc.exe",
+				"Description": "Service Control Manager Configuration Tool",
+				"CommandLine": "sc.exe  stop spooler"
+			}
+		},
+		"net_stop": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Stop service using net.exe.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\net.exe",
+				"Description": "Net Command",
+				"CommandLine": "net.exe  stop spooler"
+			}
+		},
+		"taskkill": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "Stop service by killing process.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\taskkill.exe",
+				"Description": "Terminates Processes",
+				"CommandLine": "taskkill.exe  /f /im spoolsv.exe"
+			}
+		}
+	}
+}
