@@ -1,0 +1,30 @@
+{
+	"name": "T1216 - Signed Script Proxy Execution",
+	"version": "0.1",
+	"author": "n0dec",
+	"description": "Adversaries may use scripts signed with trusted certificates to proxy execution of malicious files. Several Microsoft signed scripts that are default on Windows installations can be used to proxy execution of other files.",
+	"rules": {
+		"syncappvpublishingserver": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "SyncAppvPublishingServer Signed Script PowerShell Command Execution.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\wscript.exe",
+				"Description": "Microsoft ® Windows Based Script Host",
+				"CommandLine": "\"C:\\Windows\\System32\\WScript.exe\" \"C:\\windows\\system32\\SyncAppvPublishingServer.vbs\"  \"\\n;Start-Process calc\""
+			}
+		},
+		"syncappvpublishingserver_ps": {
+			"enabled": true,
+			"source": "Sysmon",
+			"category": "Process Create",
+			"description": "SyncAppvPublishingServer Signed Script PowerShell Command Execution.",
+			"payload": {
+				"Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+				"Description": "Windows PowerShell",
+				"CommandLine": "\"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" -NonInteractive -WindowStyle Hidden -ExecutionPolicy RemoteSigned -Command &{$env:psmodulepath = [IO.Directory]::GetCurrentDirectory(); import-module AppvClient; Sync-AppvPublishingServer  \\n;Start-Process calc}"
+			}
+		}
+	}
+}
