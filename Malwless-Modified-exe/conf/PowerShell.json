@@ -1,0 +1,10 @@
+{
+	"ContextInfo": "\tSeverity = Informational\n\tHost Name = ConsoleHost\n\tHost Version = 5.1.16299.431\n\tHost ID = ...\n\t...",
+	"UserData": "",
+	"Payload": "CommandInvocation(Get-ExecutionPolicy): \"Get-ExecutionPolicy\"",
+	"MessageNumber": 1,
+	"MessageTotal": 1,
+	"ScriptBlockText": "Write-Host \"Hello, World!\"",
+	"ScriptBlockId": "eee22606-aaaa-bbbb-cccc-ad5ae03adba7",
+	"Path": "",
+}
