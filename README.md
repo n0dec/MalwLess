@@ -32,8 +32,9 @@ Site: https://github.com/n0dec/MalwLess
 
 ## Download
 You can download the latest release from website https://n0dec.github.io/#malwless
+or from releases section https://github.com/n0dec/MalwLess/releases - This release is however incompatible with the newest Sysmon versions (from Sysmon 13 upwards).
 
-or from releases section https://github.com/n0dec/MalwLess/releases
+Executable version of Malwless working with the newest Sysmon versions can be found in 'Malwless-Modified-exe' directory, inside this repository.
 
 ## Usage
 #### Requirements

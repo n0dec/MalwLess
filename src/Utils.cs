@@ -36,9 +36,11 @@ namespace MalwLess
 			
 			string version = (Assembly.GetEntryAssembly().GetName().Version).ToString();
 			string header = String.Format(@"
-			MalwLess Simulation Tool v{0}
+			MalwLess Simulation Tool v{0}.1
 			Author: @n0dec
-			Site: https://github.com/n0dec/MalwLess
+Modified by: @fusaty
+			Sites: https://github.com/n0dec/MalwLess
+     : https://github.com/fusaty/MalwLess-Modified
 			", version.Substring(0,version.IndexOf('.', version.IndexOf('.') + 1)));
 			
 			Console.WriteLine(header.Replace("\t", ""));

@@ -113,7 +113,12 @@ namespace MalwLess
 										case "12":
 											SysmonClass_v12.WriteSysmonEvent(properties["category"].ToString(), properties["payload"], sysmon_config);
 											break;
-										default:
+                                        default:
+                                            if (int.Parse(productMajorVersion) > 13)
+                                            {
+                                                SysmonClass_vInfinity.WriteSysmonEvent(properties["category"].ToString(), properties["payload"], sysmon_config);
+                                                break;
+                                            }
 											Console.WriteLine("[!] Error: Sysmon version not supported.");
 											break;
 									}

@@ -1,0 +1,39 @@
+{
+  "name": "MalwLess default",
+  "version": "0.3",
+  "author": "n0dec",
+  "description": "MalwLess default test pack.",
+  "rules": {
+    "vssadmin_delete_shadows": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Process Create",
+      "description": "Deleted shadows copies via vssadmin.",
+      "payload": {
+        "Image": "C:\\Windows\\System32\\vssadmin.exe",
+        "CommandLine": "vssadmin.exe delete shadows /all /quiet"
+      }
+    },
+    "certutil_network_activity": {
+      "enabled": true,
+      "source": "Sysmon",
+      "category": "Network connection detected",
+      "description": "Network activity from certutil tool.",
+      "payload": {
+        "Image": "C:\\Windows\\System32\\certutil.exe",
+        "DestinationIp": "151.101.132.133",
+        "DestinationPort": 443
+      }
+    },
+    "powershell_scriptblock": {
+      "enabled": true,
+      "source": "PowerShell",
+      "category": "4104",
+      "description": "Powershell 4104 event for Invoke-Mimikatz.",
+      "payload": {
+        "ScriptBlockText": "function Invoke-Mimikatz\n{\n<#\n.SYNOPSIS\n\nThis script leverages Mimikatz 2.0 and Invoke-ReflectivePEInjection to reflectively load Mimikatz...\nblablabla...",
+        "Path": ""
+      }
+    }
+  }
+}
